@@ -59,6 +59,7 @@
 	var/chestburst = 0 // 0: normal, 1: bursting, 2: bursted.
 	var/first_xeno = FALSE //Are they the first wave of infected?
 	var/in_stasis = FALSE //Is the mob in stasis bag?
+	var/compressed = 0 //Is the mob compressing its bleeding and how many?
 
 	var/list/icon/pipes_shown = list()
 	var/last_played_vent

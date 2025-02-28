@@ -303,6 +303,7 @@
 		var/bled = ""
 		var/robot = ""
 		var/splint = ""
+		var/tourniquet = ""
 		var/internal_bleeding = ""
 		var/lung_ruptured = ""
 
@@ -310,6 +311,8 @@
 
 		for(var/datum/effects/bleeding/internal/I in e.bleeding_effects_list)
 			internal_bleeding = "Internal bleeding<br>"
+		if(e.status & LIMB_COMPRESSED)
+			tourniquet = "Compressed<br>"
 			break
 		if(istype(e, /obj/limb/chest) && occ["lung_ruptured"])
 			lung_ruptured = "Lung ruptured:<br>"

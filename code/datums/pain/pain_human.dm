@@ -28,6 +28,9 @@
 				apply_pain(PAIN_BONE_BREAK)
 		else if((O.status & LIMB_SPLINTED) && !(O.status & LIMB_BROKEN))
 			apply_pain(PAIN_BONE_BREAK_SPLINTED)
+		// Tourniquet
+		if(O.status & LIMB_COMPRESSED)
+			apply_pain(PAIN_LIMB_COMPRESSED)
 
 	//Internal organs
 	for(var/datum/internal_organ/O in H.internal_organs)

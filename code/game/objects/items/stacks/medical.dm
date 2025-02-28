@@ -335,3 +335,61 @@
 		if(affecting.apply_splints(src, user, M, indestructible_splints)) // Referenced in external organ helpers.
 			use(1)
 			playsound(user, 'sound/handling/splint1.ogg', 25, 1, 2)
+
+/obj/item/stack/medical/tourniquet
+	name = "medical tourniquets"
+	singular_name = "medical tourniquet"
+	desc = "A collection of different tourniquets that comes with a variety of colours. At least you can look good AND not bleed to death."
+	icon_state = "tourniquet"
+	item_state = "tourniquet"
+	amount = 5
+	max_amount = 5
+	stack_id = "tourniquet"
+
+/obj/item/stack/medical/tourniquet/attack(mob/living/carbon/M, mob/user)
+	if(..())
+		return 1
+
+	if(user.action_busy)
+		return
+
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		var/obj/limb/affecting = H.get_limb(user.zone_selected)
+		var/limb = affecting.display_name
+
+		if(!(affecting.name in list("l_arm", "r_arm", "l_leg", "r_leg", "r_hand", "l_hand", "r_foot", "l_foot", "head")))
+			to_chat(user, SPAN_WARNING("You can't apply a tourniquet there!"))
+			return
+
+		if(affecting.status & LIMB_DESTROYED)
+			var/message = SPAN_WARNING("[user == M ? "You don't" : "[M] doesn't"] have \a [limb]!")
+			to_chat(user, message)
+			return
+
+		if(affecting.status & LIMB_COMPRESSED)
+			var/message = "[user == M ? "Your" : "[M]'s"]"
+			to_chat(user, SPAN_WARNING("[message] [limb] is already compressed!"))
+			return
+
+		if(M != user)
+			var/possessive = "[user == M ? "your" : "\the [M]'s"]"
+			var/possessive_their = "[user == M ? user.gender == MALE ? "his" : "her" : "\the [M]'s"]"
+			user.affected_message(M,
+				SPAN_HELPFUL("You <b>start compressing</b> [possessive] <b>[affecting.display_name]</b>."),
+				SPAN_HELPFUL("[user] <b>starts compressing</b> your <b>[affecting.display_name]</b>."),
+				SPAN_NOTICE("[user] starts compressing [possessive_their] [affecting.display_name]."))
+		else
+			if((!user.hand && (affecting.name in list("r_arm", "r_hand"))) || (user.hand && (affecting.name in list("l_arm", "l_hand"))))
+				to_chat(user, SPAN_WARNING("You can't apply a tourniquet to the \
+					[affecting.name == "r_hand"||affecting.name == "l_hand" ? "hand":"arm"] you're using!"))
+				return
+			// Self-compression
+			user.affected_message(M,
+				SPAN_HELPFUL("You <b>start compressing</b> your <b>[affecting.display_name]</b>."),
+				,
+				SPAN_NOTICE("[user] starts compressing \his [affecting.display_name]."))
+
+		if(affecting.apply_tourniquets(src, user, M)) // limbs.dm
+			use(1)
+			playsound(user, 'sound/handling/splint1.ogg', 25, 1, 2) // temporary sound file

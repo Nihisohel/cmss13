@@ -37,6 +37,8 @@
 #define LIMB_SPLINTED_INDESTRUCTIBLE (1<<8)
 /// A prosthetic that's been attached to the body but not connected to the brain.
 #define LIMB_UNCALIBRATED_PROSTHETIC (1<<9)
+/// limb is compressed via tourniquet
+#define LIMB_COMPRESSED (1<<10)
 
 ///////////////////WOUND DEFINES///////////////////
 

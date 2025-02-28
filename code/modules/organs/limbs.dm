@@ -1279,6 +1279,29 @@ treat_grafted var tells it to apply to grafted but unsalved wounds, for burn kit
 			. = TRUE
 			owner.update_med_icon()
 
+/obj/limb/proc/apply_tourniquets(obj/item/stack/medical/tourniquet/S, mob/living/user, mob/living/carbon/human/target = FALSE)
+	if(!(status & LIMB_DESTROYED) && !(status & LIMB_COMPRESSED))
+		var/time_to_take = 5 SECONDS
+		if (target == user)
+			user.visible_message(SPAN_WARNING("[user] fumbles with [S]"), SPAN_WARNING("You fumble with [S]..."))
+			time_to_take = 7 SECONDS
+
+		if(do_after(user, time_to_take * user.get_skill_duration_multiplier(SKILL_MEDICAL), INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL))
+			var/possessive = "[user == target ? "your" : "\the [target]'s"]"
+			var/possessive_their = "[user == target ? user.gender == MALE ? "his" : "her" : "\the [target]'s"]"
+			user.affected_message(target,
+				SPAN_HELPFUL("You finish applying <b>[S]</b> to [possessive] [display_name]."),
+				SPAN_HELPFUL("[user] finishes applying <b>[S]</b> to your [display_name]."),
+				SPAN_NOTICE("[user] finishes applying [S] to [possessive_their] [display_name]."))
+			status |= LIMB_COMPRESSED
+
+			if(status & LIMB_BROKEN)
+				owner.pain.apply_pain(-PAIN_BONE_BREAK_SPLINTED)
+			else
+				owner.pain.apply_pain(PAIN_BONE_BREAK_SPLINTED)
+			. = TRUE
+			owner.update_med_icon()
+
 ///called when limb is removed or robotized, any ongoing surgery and related vars are reset unless set otherwise.
 /obj/limb/proc/reset_limb_surgeries()
 	owner.incision_depths[name] = SURGERY_DEPTH_SURFACE

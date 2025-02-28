@@ -101,6 +101,8 @@
 	var/mob/living/carbon/affected_mob = affected_atom
 	if(affected_mob.in_stasis == STASIS_IN_BAG)
 		return FALSE
+	if(affected_mob.compressed == PAIN_LIMB_COMPRESSED)
+		return FALSE
 
 	if(affected_mob.reagents) // Annoying QC check
 		if(affected_mob.reagents.get_reagent_amount("thwei"))
