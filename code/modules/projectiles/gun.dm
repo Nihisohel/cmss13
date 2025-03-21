@@ -254,8 +254,8 @@
 	var/scaled_jam_chance = 0
 	/// chance to unjam after hitting the unique action
 	var/unjam_chance = 0
-	/// Amount of durability loss per shot, 0 by default
-	var/durability_loss = 0
+	/// Amount of durability loss per shot, 0.01 by default, setting it to 0 will disable most calculations otherwise
+	var/durability_loss = GUN_DURABILITY_LOSS_DEFAULT
 	/// Durability of a gun that determines jam chance.
 	var/gun_durability = GUN_DURABILITY_MAX
 	/// chance to misfire when actions allow it
