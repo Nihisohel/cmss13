@@ -254,8 +254,8 @@
 	var/scaled_jam_chance = 0
 	/// chance to unjam after hitting the unique action
 	var/unjam_chance = 0
-	/// Amount of durability loss per shot, 0.01 by default
-	var/durability_loss = GUN_DURABILITY_LOSS_INSUBSTANTIAL
+	/// Amount of durability loss per shot, 0 by default
+	var/durability_loss = 0
 	/// Durability of a gun that determines jam chance.
 	var/gun_durability = GUN_DURABILITY_MAX
 	/// chance to misfire when actions allow it
@@ -627,6 +627,7 @@ As sniper rifles have both and weapon mods can change them as well. ..() deals w
 		jammed = TRUE
 		playsound(src, 'sound/weapons/handling/gun_jam_initial_click.ogg', 35, FALSE)
 		user.visible_message(SPAN_DANGER("[src] makes a noticeable clicking noise!"), SPAN_HIGHDANGER("\The [src] suddenly jams and refuses to fire! Mash Unique-Action to unjam it."))
+		cock_cooldown += 5 SECONDS // we also add a cooldown when jams actually happens
 		balloon_alert(user, "*jammed*")
 		return NONE
 	else
@@ -686,16 +687,17 @@ As sniper rifles have both and weapon mods can change them as well. ..() deals w
 		bullet_duraloss = ammo.bullet_duraloss
 		bullet_duramage = ammo.bullet_duramage
 
+	misfire_chance = bullet_duraloss + durability_loss * (GUN_DURABILITY_MEDIUM - gun_durability) // misfires become a problem at below 50 durability
+
 	if(!can_jam)
 		return
 
-	if(prob(durability_loss + bullet_duraloss)) // probability durability loss dependent on weapon value, 0 disables it obviously, rngesus woe
+	if(prob(durability_loss + bullet_duraloss)) // probability durability loss dependent on weapon value, rngesus woe
 		set_gun_durability(gun_durability - bullet_duramage) // decrement durability based on bullet durability damage each time the gun is fired
 		update_gun_durability()
 		check_worn_out(user)
 
 	scaled_jam_chance = initial_jam_chance * (GUN_DURABILITY_HIGH - gun_durability) // scale jam chance based on durability
-	misfire_chance = bullet_duraloss + durability_loss * (GUN_DURABILITY_MEDIUM - gun_durability) // misfires become a problem at below 50 durability
 
 	if(check_jam(user) == NONE)
 		return NONE
