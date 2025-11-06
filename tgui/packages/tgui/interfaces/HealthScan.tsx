@@ -25,6 +25,7 @@ type LimbData = {
   bleeding: BooleanLike;
   implant: BooleanLike;
   internal_bleeding: BooleanLike;
+  arterial_bleeding: BooleanLike;
   limb_status?: string;
   limb_splint?: string;
   limb_type?: string;
@@ -606,9 +607,15 @@ const ScannerLimbs = (props) => {
                     </Box>
                   ) : null}
                   {limb.internal_bleeding ? (
-                    <Box inline color={'red'} bold>
-                      {ui_mode ? `[IB]` : `[Internal Bleeding]`}
-                    </Box>
+                    limb.arterial_bleeding ? (
+                      <Box inline color={'red'} bold>
+                        [Internal Bleeding]
+                      </Box>
+                    ) : (
+                      <Box inline color={'pink'} bold>
+                        [Arterial Bleeding]
+                      </Box>
+                    )
                   ) : null}
                   {limb.limb_status ? (
                     <Box inline color="white" bold>
