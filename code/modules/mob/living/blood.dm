@@ -374,7 +374,7 @@
 		blood_spraying.color = get_blood_color()
 		blood_spraying.pixel_x = blood_spraying.pixel_x + rand(-1, 1)
 		blood_spraying.pixel_y = blood_spraying.pixel_y + rand(-1, 1)
-		playsound(src, 'sound/effects/blood_squirt.ogg', 40, TRUE) // cjange this to be in its proper dm file later
+		playsound(src, "blood_squirt", 40, TRUE)
 
 
 /obj/effect/decal/cleanable/blood/squirt // move this out
