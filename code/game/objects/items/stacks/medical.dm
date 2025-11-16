@@ -85,9 +85,9 @@
 	switch(treatment_result)
 		if(WOUNDS_TREATED)
 			user.affected_message (target,
-				SPAN_NOTICE("You [success_message] [possessive] <b>[affecting.display_name]</b>[advanced ? " with bioglue" : ""]."),
-				SPAN_NOTICE("[user] [success_message] your <b>[affecting.display_name]</b>[advanced ? " with bioglue" : ""]."),
-				SPAN_NOTICE("[user] [success_message] [possessive_their] [affecting.display_name][advanced ? " with bioglue" : ""]."))
+				SPAN_HELPFUL("You [success_message] [possessive] <b>[affecting.display_name]</b>[advanced ? " with bioglue" : ""]."),
+				SPAN_HELPFUL("[user] [success_message] your <b>[affecting.display_name]</b>[advanced ? " with bioglue" : ""]."),
+				SPAN_NOTICE("[user] [success_message] [possessive_their] wounds [advanced ? " with bioglue" : ""].")) // dont display the limb, that shit can disrupt the chatbar
 
 			if(advanced)
 				if(heal_brute_final > 0)
@@ -343,6 +343,70 @@
 
 /obj/item/stack/medical/splint/nano/research
 	desc = "Advanced technology allows these splints to hold bones in place while being flexible and damage-resistant. Those are made from durable carbon fiber and dont look cheap, better use them sparingly."
+
+/obj/item/stack/medical/tourniquet
+	name = "medical tourniquet"
+	singular_name = "medical tourniquet"
+	desc = "A collection of tourniquets of various colours. We do have to keep the blood in somehow."
+	icon_state = "nanosplint" //"tourniquet"
+	item_state = "nanosplint" //"tourniquet"
+	amount = 5
+	max_amount = 5
+	stack_id = "tourniquet"
+
+/obj/item/stack/medical/tourniquet/attack(mob/living/carbon/person, mob/user)
+	if(..())
+		return TRUE
+
+	if(user.action_busy)
+		return
+
+	if(ishuman(person))
+		var/mob/living/carbon/human/treating = person
+		var/obj/limb/affecting = treating.get_limb(user.zone_selected)
+		tighten_limb(user, treating, affecting)
+
+/obj/item/stack/medical/proc/tighten_limb(mob/user, mob/living/carbon/human/person, obj/limb/affecting, duration) // dreaded copy paste from splints
+
+	if(ishuman(person))
+		var/limb = affecting.display_name
+
+		if(!(affecting.name in list("l_arm", "r_arm", "l_leg", "r_leg", "head"))) // check Abdominal aortic tourniquet on google about chest/groin tourniquets
+			to_chat(user, SPAN_WARNING("You can't apply a [src] there!"))
+			return
+
+		if(affecting.status & LIMB_DESTROYED)
+			var/message = SPAN_WARNING("[user == person ? "You don't" : "[person] doesn't"] have \a [limb]!")
+			to_chat(user, message)
+			return
+
+		if(affecting.status & LIMB_TIGHTENED)
+			var/message = "[user == person ? "Your" : "[person]'s"]"
+			to_chat(user, SPAN_WARNING("[message] [limb] is already tightened!"))
+			return
+
+		if(person != user)
+			var/possessive = "[user == person ? "your" : "\the [person]'s"]"
+			var/possessive_their = "[user == person ? user.p_their() : "\the [person]'s"]"
+			user.affected_message(person,
+				SPAN_HELPFUL("You <b>start tightening the [src] on</b> [possessive] <b>[affecting.display_name]</b>."),
+				SPAN_HELPFUL("[user] <b>starts tightening</b> your <b>[affecting.display_name]</b> with the <b>[src]</b>."),
+				SPAN_NOTICE("[user] starts tightening the [src] on [possessive_their] [affecting.display_name]."))
+		else
+			if((!user.hand && (affecting.name in list("r_arm", "r_hand"))) || (user.hand && (affecting.name in list("l_arm", "l_hand"))))
+				to_chat(user, SPAN_WARNING("You can't apply a tourniquet to the \
+					[affecting.name == "r_hand"||affecting.name == "l_hand" ? "hand":"arm"] you're using!"))
+				return
+
+			// self application
+			user.affected_message(person,
+				SPAN_HELPFUL("You <b>start tightening</b> your <b>[affecting.display_name]</b> with the <b>[src]</b>."),
+				,
+				SPAN_NOTICE("[user] starts tightening \his [affecting.display_name] with the [src]."))
+
+		if(affecting.apply_tourniquet(src, user, person)) // limbs.dm
+			use(1)
+			playsound(user, 'sound/handling/splint1.ogg', 25, 1, 2)
 
 /obj/item/stack/medical/proc/pack_arterial_bleeding(mob/user, mob/living/carbon/human/person, obj/limb/affecting, duration)
 	for(var/datum/effects/bleeding/arterial/art_bleed in affecting.bleeding_effects_list)

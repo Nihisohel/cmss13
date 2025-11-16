@@ -24,19 +24,22 @@
 #define LIMB_SYNTHSKIN (1<<2)
 
 #define LIMB_BROKEN (1<<3)
+#define LIMB_DISLOCATED (1<<4)
 
 /// limb is missing
-#define LIMB_DESTROYED (1<<4)
-#define LIMB_SPLINTED (1<<5)
+#define LIMB_DESTROYED (1<<5)
+#define LIMB_SPLINTED (1<<6)
+/// limb is tightened by tourniquet or similar
+#define LIMB_TIGHTENED (1<<7 )
 
 /// limb is deformed by mutations
-#define LIMB_MUTATED (1<<6)
+#define LIMB_MUTATED (1<<8)
 /// limb was amputated cleanly or destroyed limb was cleaned up, thus causing no pain
-#define LIMB_AMPUTATED (1<<7)
+#define LIMB_AMPUTATED (1<<9)
 /// Splint is indestructible
-#define LIMB_SPLINTED_INDESTRUCTIBLE (1<<8)
+#define LIMB_SPLINTED_INDESTRUCTIBLE (1<<10)
 /// A prosthetic that's been attached to the body but not connected to the brain.
-#define LIMB_UNCALIBRATED_PROSTHETIC (1<<9)
+#define LIMB_UNCALIBRATED_PROSTHETIC (1<<11)
 
 ///////////////////WOUND DEFINES///////////////////
 

@@ -358,6 +358,12 @@
 
 	return FALSE
 
+/mob/living/carbon/human/proc/is_bleeding_arterial()
+	for(var/datum/effects/bleeding/arterial/art_bleed in effects_list)
+		return TRUE
+
+	return FALSE
+
 /mob/living/carbon/human/proc/get_broken_limbs()
 	var/list/BL = list()
 	for(var/obj/limb/L in limbs)

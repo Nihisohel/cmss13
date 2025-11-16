@@ -306,14 +306,23 @@
 			postscript += " <b>(NONFUNCTIONAL)</b>"
 		if(org.status & LIMB_BROKEN)
 			postscript += " <b>(BROKEN)</b>"
+
 		if(org.status & LIMB_SPLINTED_INDESTRUCTIBLE)
-			postscript += " <b>(NANOSPLINTED)</b>"
+			postscript += " <b>(<a href='byond://?src=\ref[src];remove_splint=[org.name]'><span class='corp_label_red'>NANOSPLINTED</a>)</b>"
 		else if(org.status & LIMB_SPLINTED)
-			postscript += " <b>(SPLINTED)</b>"
+			postscript += " <b>(<a href='byond://?src=\ref[src];remove_splint=[org.name]'><span class='corp_label_red'>SPLINTED</a>)</b>"
+
 		for(var/datum/effects/bleeding/arterial/art_bleed in org.bleeding_effects_list)
-			postscript += " <b>It is bleeding profusely.</b> "
-			if(art_bleed.has_been_bandaged)
-				postscript += " <b>(PACKED)</b> "
+			postscript += " <b>It is bleeding profusely.</b>"
+		for(var/datum/effects/bleeding/internal/int_bleed in org.bleeding_effects_list)
+			postscript += " <b>The skin looks to be discolored.</b>"
+
+		if(org.status & LIMB_DISLOCATED)
+			postscript += " <b>(DISLOCATED)</b>"
+		if(org.status & LIMB_TIGHTENED)
+			postscript += " <b>(<a href='byond://?src=\ref[src];remove_tourniquet=[org.name]'><span class='corp_label_red'>TIGHTENED</a>)</b>"
+			postscript = replacetext(postscript, " <b>The skin looks to be discolored.</b>", "")
+			postscript = replacetext(postscript, " <b>It is bleeding profusely.</b>", "")
 
 		if(postscript)
 			limb_message += "\t My [org.display_name] is [SPAN_WARNING("[english_list(status, final_comma_text = ",")].[postscript]")]"

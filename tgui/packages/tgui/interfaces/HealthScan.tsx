@@ -607,15 +607,14 @@ const ScannerLimbs = (props) => {
                     </Box>
                   ) : null}
                   {limb.internal_bleeding ? (
-                    limb.arterial_bleeding ? (
-                      <Box inline color={'red'} bold>
-                        [Internal Bleeding]
-                      </Box>
-                    ) : (
-                      <Box inline color={'pink'} bold>
-                        [Arterial Bleeding]
-                      </Box>
-                    )
+                    <Box inline color={'red'} bold>
+                      {ui_mode ? `[IB]` : `[Internal Bleeding]`}
+                    </Box>
+                  ) : null}
+                  {limb.arterial_bleeding ? (
+                    <Box inline color={'pink'} bold>
+                      {ui_mode ? `[AB]` : `[Arterial Bleeding]`}
+                    </Box>
                   ) : null}
                   {limb.limb_status ? (
                     <Box inline color="white" bold>
