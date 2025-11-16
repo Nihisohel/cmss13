@@ -473,9 +473,9 @@ This function completely restores a damaged organ to perfect condition.
 		if(prob(50))
 			var/datum/wound/internal_bleeding/I = new (0)
 			wounds += I
-		else
-			var/datum/wound/arterial_bleeding/A = new (0)
-			wounds += A
+		//else
+		//	var/datum/wound/arterial_bleeding/A = new (0)
+		//	wounds += A
 		add_bleeding(wounds, TRUE)
 
 		owner.custom_pain("You feel something rip in your [display_name]!", 1)
@@ -1321,7 +1321,7 @@ treat_grafted var tells it to apply to grafted but unsalved wounds, for burn kit
 			if(status & LIMB_BROKEN)
 				owner.pain.apply_pain(PAIN_BONE_BREAK_TIGHTENED)
 			else
-				owner.pain.apply_pain(PAIN_LIMB_TIGTHENED)
+				owner.pain.apply_pain(PAIN_LIMB_TIGHTENED)
 			. = TRUE
 			owner.update_med_icon()
 

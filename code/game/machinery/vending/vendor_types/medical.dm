@@ -498,6 +498,7 @@
 		list("Trauma Kit", floor(scale * 10), /obj/item/stack/medical/advanced/bruise_pack, VENDOR_ITEM_REGULAR),
 		list("Ointment", floor(scale * 10), /obj/item/stack/medical/ointment, VENDOR_ITEM_REGULAR),
 		list("Roll of Gauze", floor(scale * 10), /obj/item/stack/medical/bruise_pack, VENDOR_ITEM_REGULAR),
+		list("Tourniquets", floor(scale * 10), /obj/item/stack/medical/tourniquet, VENDOR_ITEM_REGULAR),
 		list("Splints", floor(scale * 10), /obj/item/stack/medical/splint, VENDOR_ITEM_REGULAR),
 
 		list("AUTOINJECTORS", -1, null, null),
@@ -736,6 +737,7 @@
 		list("Fire Extinguisher (portable)", 5, /obj/item/tool/extinguisher/mini, VENDOR_ITEM_REGULAR),
 		list("Ointment", floor(scale * 8), /obj/item/stack/medical/ointment, VENDOR_ITEM_REGULAR),
 		list("Roll of Gauze", floor(scale * 8), /obj/item/stack/medical/bruise_pack, VENDOR_ITEM_REGULAR),
+		list("Tourniquets", floor(scale * 8), /obj/item/stack/medical/tourniquet, VENDOR_ITEM_REGULAR),
 		list("Splints", floor(scale * 8), /obj/item/stack/medical/splint, VENDOR_ITEM_REGULAR)
 	)
 
@@ -812,6 +814,7 @@
 		list("Pain-Stop Autoinjector", 2, /obj/item/reagent_container/hypospray/autoinjector/skillless/tramadol, VENDOR_ITEM_REGULAR),
 		list("Roll Of Gauze", 4, /obj/item/stack/medical/bruise_pack, VENDOR_ITEM_REGULAR),
 		list("Ointment", 4, /obj/item/stack/medical/ointment, VENDOR_ITEM_REGULAR),
+		list("Tourniquets", 4, /obj/item/stack/medical/tourniquet, VENDOR_ITEM_REGULAR),
 		list("Medical Splints", 4, /obj/item/stack/medical/splint, VENDOR_ITEM_REGULAR),
 
 		list("UTILITY", -1, null, null),
@@ -863,6 +866,7 @@
 		list("Trauma Kit", 8, /obj/item/stack/medical/advanced/bruise_pack, VENDOR_ITEM_REGULAR),
 		list("Ointment", 8, /obj/item/stack/medical/ointment, VENDOR_ITEM_REGULAR),
 		list("Roll of Gauze", 8, /obj/item/stack/medical/bruise_pack, VENDOR_ITEM_REGULAR),
+		list("Tourniquets", 8, /obj/item/stack/medical/tourniquet, VENDOR_ITEM_REGULAR),
 		list("Splints", 8, /obj/item/stack/medical/splint, VENDOR_ITEM_REGULAR)
 	)
 
@@ -884,6 +888,7 @@
 		list("Pain-Stop Autoinjector", 2, /obj/item/reagent_container/hypospray/autoinjector/skillless/tramadol, VENDOR_ITEM_REGULAR),
 		list("Roll Of Gauze", 4, /obj/item/stack/medical/bruise_pack, VENDOR_ITEM_REGULAR),
 		list("Ointment", 4, /obj/item/stack/medical/ointment, VENDOR_ITEM_REGULAR),
+		list("Tourniquets", 4, /obj/item/stack/medical/tourniquet, VENDOR_ITEM_REGULAR),
 		list("Medical Splints", 4, /obj/item/stack/medical/splint, VENDOR_ITEM_REGULAR),
 
 		list("UTILITY", -1, null, null),

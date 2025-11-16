@@ -11,6 +11,13 @@
 	if(species && (species.flags & NO_BREATHE || species.flags & IS_SYNTHETIC))
 		return
 
+	var/obj/limb/head_limb = get_limb("head")
+	if(head_limb && (head_limb.status & LIMB_TIGHTENED))
+		losebreath = 10
+		apply_damage(20, OXY) // this is definitely a bit too much, but humor me for a sec
+		to_chat(src, SPAN_HIGHDANGER("You can't breathe, your neck is too tight!"))
+
+
 	var/list/air_info
 
 	if(losebreath > 0) //Suffocating so do not take a breath

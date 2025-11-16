@@ -345,9 +345,9 @@
 	desc = "Advanced technology allows these splints to hold bones in place while being flexible and damage-resistant. Those are made from durable carbon fiber and dont look cheap, better use them sparingly."
 
 /obj/item/stack/medical/tourniquet
-	name = "medical tourniquet"
+	name = "medical tourniquets"
 	singular_name = "medical tourniquet"
-	desc = "A collection of tourniquets of various colours. We do have to keep the blood in somehow."
+	desc = "A collection of tourniquets of various colours. Whatever you do, do NOT apply to your neck."
 	icon_state = "nanosplint" //"tourniquet"
 	item_state = "nanosplint" //"tourniquet"
 	amount = 5
@@ -368,7 +368,12 @@
 
 /obj/item/stack/medical/proc/tighten_limb(mob/user, mob/living/carbon/human/person, obj/limb/affecting, duration) // dreaded copy paste from splints
 
-	if(ishuman(person))
+	if(ishuman(person)) // make things easier for us, love qol
+		if(affecting.name == "l_hand")
+			affecting = person.get_limb("l_arm")
+		else if(affecting.name == "r_hand")
+			affecting = person.get_limb("r_arm")
+
 		var/limb = affecting.display_name
 
 		if(!(affecting.name in list("l_arm", "r_arm", "l_leg", "r_leg", "head"))) // check Abdominal aortic tourniquet on google about chest/groin tourniquets
@@ -400,9 +405,9 @@
 
 			// self application
 			user.affected_message(person,
-				SPAN_HELPFUL("You <b>start tightening</b> your <b>[affecting.display_name]</b> with the <b>[src]</b>."),
+				SPAN_HELPFUL("You <b>start tightening</b> your <b>[affecting.display_name]</b> with \the <b>[src]</b>."),
 				,
-				SPAN_NOTICE("[user] starts tightening \his [affecting.display_name] with the [src]."))
+				SPAN_NOTICE("[user] starts tightening \his [affecting.display_name] with \the [src]."))
 
 		if(affecting.apply_tourniquet(src, user, person)) // limbs.dm
 			use(1)
@@ -410,23 +415,31 @@
 
 /obj/item/stack/medical/proc/pack_arterial_bleeding(mob/user, mob/living/carbon/human/person, obj/limb/affecting, duration)
 	for(var/datum/effects/bleeding/arterial/art_bleed in affecting.bleeding_effects_list)
-		if(art_bleed.has_been_bandaged)
-			continue
-
 		var/time_to_take = 2.5 SECONDS
 		if(person == user)
 			user.visible_message(SPAN_WARNING("[user] fumbles with [src]"), SPAN_WARNING("You fumble with [src]..."))
 			time_to_take = 5 SECONDS
 
 		if(do_after(user, time_to_take * user.get_skill_duration_multiplier(SKILL_MEDICAL), INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, person, INTERRUPT_MOVED, BUSY_ICON_MEDICAL))
-			var/possessive = "[user == person ? "your" : "\the [person]'s"]"
-			var/possessive_their = "[user == person ? person.p_their() : "\the [person]'s"]"
+			var/possessive = "[user == person ? "your" : "the [person]'s"]"
+			var/possessive_their = "[user == person ? person.p_their() : "the [person]'s"]"
+			var/message_end = "<b>stopping the bleeding.</b>"
+			if(prob(50))
+				affecting.add_bleeding(null, internal = TRUE)
+				message_end = "<b>but you may have caused internal bleeding in the process!</b>"
+
 			user.affected_message(person,
-			SPAN_HELPFUL("You <b>pack</b> the damaged artery in [possessive] <b>[affecting.display_name]</b>, <b>slowing the bleeding.</b>"),
-			SPAN_HELPFUL("[user] <b>packs</b> the damaged artery in your  <b>[affecting.display_name]</b>, <b>slowing the bleeding.</b>"),
-			SPAN_NOTICE("[user] packs the damaged artery in [possessive_their] [affecting.display_name], <b>slowing the bleeding.</b>"))
-			art_bleed.has_been_bandaged = TRUE
+			SPAN_HELPFUL("You <b>pack</b> the damaged artery in [possessive] <b>[affecting.display_name]</b>, [message_end]"),
+			SPAN_HELPFUL("[user] <b>packs</b> the damaged artery in your  <b>[affecting.display_name]</b>, [message_end]"),
+			SPAN_NOTICE("[user] packs the damaged artery in [possessive_their] [affecting.display_name], [message_end]"))
+			qdel(art_bleed)
 			use(1)
+			// decor :)
+			var/obj/item/prop/colony/usedbandage/bloody_bandage = new /obj/item/prop/colony/usedbandage(person.loc)
+			bloody_bandage.dir = pick(1, 4, 5, 6, 9, 10)
+			bloody_bandage.pixel_x = pick(rand(8,18), rand(-8,-18))
+			bloody_bandage.pixel_y = pick(rand(8, 18), rand(-8,-18))
+
 			return TRUE
 
 	return FALSE

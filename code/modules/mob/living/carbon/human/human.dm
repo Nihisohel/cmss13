@@ -1503,7 +1503,7 @@
 		var/msg = "" // Have to use this because there are issues with the to_chat macros and text macros and quotation marks
 		if(is_splint)
 			if(do_after(user, HUMAN_STRIP_DELAY * user.get_skill_duration_multiplier(SKILL_MEDICAL), INTERRUPT_ALL, BUSY_ICON_GENERIC, target, INTERRUPT_MOVED, BUSY_ICON_GENERIC))
-				var/can_reach_splints = TRUE
+				var/can_reach_splints = TRUE // redundant now that the space suit thing is commented out, but i cba to remove it
 				var/amount_removed = 0
 				for(var/bodypart in parts_to_check) // make sure the splints still exist before removing
 					var/obj/limb/target_limb = target.get_limb(bodypart)
