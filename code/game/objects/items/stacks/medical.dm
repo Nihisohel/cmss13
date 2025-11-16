@@ -374,6 +374,12 @@
 		else if(affecting.name == "r_hand")
 			affecting = person.get_limb("r_arm")
 
+		if(affecting.name == "l_foot")
+			affecting = person.get_limb("l_leg")
+		else if(affecting.name == "r_foot")
+			affecting = person.get_limb("r_leg")
+
+
 		var/limb = affecting.display_name
 
 		if(!(affecting.name in list("l_arm", "r_arm", "l_leg", "r_leg", "head"))) // check Abdominal aortic tourniquet on google about chest/groin tourniquets
