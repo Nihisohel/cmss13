@@ -30,7 +30,7 @@
 #define LIMB_DESTROYED (1<<5)
 #define LIMB_SPLINTED (1<<6)
 /// limb is tightened by tourniquet or similar
-#define LIMB_TIGHTENED (1<<7 )
+#define LIMB_CONSTRICTED (1<<7 )
 
 /// limb is deformed by mutations
 #define LIMB_MUTATED (1<<8)

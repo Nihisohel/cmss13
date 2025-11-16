@@ -41,6 +41,9 @@
 		qdel(src)
 		return FALSE
 
+	if(limb.status & LIMB_CONSTRICTED) // think this works
+		return FALSE
+
 	var/mob/living/carbon/human/affected_mob = affected_atom
 	if(affected_mob.status_flags & NO_PERMANENT_DAMAGE)
 		return FALSE

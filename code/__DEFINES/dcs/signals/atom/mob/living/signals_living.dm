@@ -57,4 +57,4 @@
 #define COMSIG_LIVING_LIMB_SPLINTED "living_limb_splinted"
 
 // From /obj/limb/proc/apply_tourniquet() : (mob/living/user)
-#define COMSIG_LIVING_LIMB_TIGHTENED "living_limb_tightened"
+#define COMSIG_LIVING_LIMB_CONSTRICTED "living_limb_constricted"

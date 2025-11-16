@@ -318,9 +318,9 @@
 			postscript += " <b>The skin looks to be discolored.</b>"
 
 		if(org.status & LIMB_DISLOCATED)
-			postscript += " <b>(DISLOCATED)</b>"
-		if(org.status & LIMB_TIGHTENED)
-			postscript += " <b>(<a href='byond://?src=\ref[src];remove_tourniquet=[org.name]'><span class='corp_label_red'>TIGHTENED</a>)</b>"
+			postscript += " <b>(DISLOCATED)</b>" //href this to undislocate obviously with tarkovmed integrity
+		if(org.status & LIMB_CONSTRICTED)
+			postscript += " <b>(<a href='byond://?src=\ref[src];remove_tourniquet=[org.name]'><span class='corp_label_red'>CONSTRICTED</a>)</b>"
 			postscript = replacetext(postscript, " <b>The skin looks to be discolored.</b>", "")
 			postscript = replacetext(postscript, " <b>It is bleeding profusely.</b>", "")
 

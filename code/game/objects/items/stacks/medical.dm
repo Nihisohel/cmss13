@@ -385,9 +385,9 @@
 			to_chat(user, message)
 			return
 
-		if(affecting.status & LIMB_TIGHTENED)
+		if(affecting.status & LIMB_CONSTRICTED)
 			var/message = "[user == person ? "Your" : "[person]'s"]"
-			to_chat(user, SPAN_WARNING("[message] [limb] is already tightened!"))
+			to_chat(user, SPAN_WARNING("[message] [limb] is already constricted!"))
 			return
 
 		if(person != user)

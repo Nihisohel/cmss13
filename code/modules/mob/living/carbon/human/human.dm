@@ -1583,11 +1583,11 @@
 		if(user.get_limb(cur_hand).status & LIMB_DESTROYED)
 			to_chat(user, SPAN_WARNING("You cannot remove tourniquets without a hand."))
 			return
-		var/is_tightened = FALSE
+		var/is_constricted = FALSE
 		var/list/parts_to_check = part ? list(part) : list("l_leg", "r_leg", "l_arm", "r_arm", "head")
 		for(var/bodypart in parts_to_check)
 			var/obj/limb/limbus = target.get_limb(bodypart)
-			if(limbus && (limbus.status & LIMB_TIGHTENED))
+			if(limbus && (limbus.status & LIMB_CONSTRICTED))
 				if(user == target)
 					if((bodypart in list("l_arm", "l_hand")) && (cur_hand == "l_hand"))
 						same_arm_side = TRUE
@@ -1595,16 +1595,16 @@
 					if((bodypart in list("r_arm", "r_hand")) && (cur_hand == "r_hand"))
 						same_arm_side = TRUE
 						continue
-				is_tightened = TRUE
+				is_constricted = TRUE
 				break
 
 		var/msg = ""
-		if(is_tightened)
+		if(is_constricted)
 			if(do_after(user, HUMAN_STRIP_DELAY * user.get_skill_duration_multiplier(SKILL_MEDICAL), INTERRUPT_ALL, BUSY_ICON_GENERIC, target, INTERRUPT_MOVED, BUSY_ICON_GENERIC))
 				var/amount_removed = 0
 				for(var/bodypart in parts_to_check)
 					var/obj/limb/target_limb = target.get_limb(bodypart)
-					if(target_limb && (target_limb.status & LIMB_TIGHTENED))
+					if(target_limb && (target_limb.status & LIMB_CONSTRICTED))
 						if(user == target)
 							if((bodypart in list("l_arm")) && (cur_hand == "l_hand"))
 								same_arm_side = TRUE
@@ -1625,7 +1625,7 @@
 				new_tourniquet.add_fingerprint(user)
 				for(var/obj/limb/cur_limb in to_tighten)
 					amount_removed++
-					cur_limb.status &= ~LIMB_TIGHTENED
+					cur_limb.status &= ~LIMB_CONSTRICTED
 					pain.recalculate_pain()
 					if(!new_tourniquet.add(1))
 						new_tourniquet = new(user.loc)

@@ -1302,7 +1302,7 @@ treat_grafted var tells it to apply to grafted but unsalved wounds, for burn kit
 			owner.update_med_icon()
 
 /obj/limb/proc/apply_tourniquet(obj/item/stack/medical/tourniquet/tourniquet, mob/living/user, mob/living/carbon/human/target, indestructible_splints = FALSE)
-	if(!(status & LIMB_DESTROYED) && !(status & LIMB_TIGHTENED))
+	if(!(status & LIMB_DESTROYED) && !(status & LIMB_CONSTRICTED))
 		var/time_to_take = 5 SECONDS
 		if (target == user)
 			user.visible_message(SPAN_WARNING("[user] fumbles with [tourniquet]"), SPAN_WARNING("You fumble with [tourniquet]..."))
@@ -1315,13 +1315,13 @@ treat_grafted var tells it to apply to grafted but unsalved wounds, for burn kit
 				SPAN_HELPFUL("You finish applying <b>[tourniquet]</b> to [possessive] [display_name]."),
 				SPAN_HELPFUL("[user] finishes applying <b>[tourniquet]</b> to your [display_name]."),
 				SPAN_NOTICE("[user] finishes applying [tourniquet] to [possessive_their] [display_name]."))
-			status |= LIMB_TIGHTENED
-			SEND_SIGNAL(src, COMSIG_LIVING_LIMB_TIGHTENED, user)
+			status |= LIMB_CONSTRICTED
+			SEND_SIGNAL(src, COMSIG_LIVING_LIMB_CONSTRICTED, user)
 
 			if(status & LIMB_BROKEN)
-				owner.pain.apply_pain(PAIN_BONE_BREAK_TIGHTENED)
+				owner.pain.apply_pain(PAIN_BONE_BREAK_CONSTRICTED)
 			else
-				owner.pain.apply_pain(PAIN_LIMB_TIGHTENED)
+				owner.pain.apply_pain(PAIN_LIMB_CONSTRICTED)
 			. = TRUE
 			owner.update_med_icon()
 
