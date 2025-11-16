@@ -310,9 +310,9 @@
 			postscript += " <b>(NANOSPLINTED)</b>"
 		else if(org.status & LIMB_SPLINTED)
 			postscript += " <b>(SPLINTED)</b>"
-		for(var/datum/effects/bleeding/internal/I in org.bleeding_effects_list)
+		for(var/datum/effects/bleeding/arterial/art_bleed in org.bleeding_effects_list)
 			postscript += " <b>It is bleeding profusely.</b> "
-			if(I.has_been_bandaged)
+			if(art_bleed.has_been_bandaged)
 				postscript += " <b>(PACKED)</b> "
 
 		if(postscript)

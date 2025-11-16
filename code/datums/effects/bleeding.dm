@@ -91,15 +91,49 @@
 /datum/effects/bleeding/internal
 	effect_name = "internal bleeding"
 	flags = INF_DURATION | NO_PROCESS_ON_DEATH | DEL_ON_UNDEFIBBABLE
+
+/datum/effects/bleeding/internal/process_mob()
+	. = ..()
+	if(!.)
+		return FALSE
+
+	var/mob/living/carbon/human/affected_mob = affected_atom
+	if(affected_mob.in_stasis == STASIS_IN_BAG)
+		return FALSE
+
+	if(affected_mob.reagents) // Annoying QC check
+		if(affected_mob.reagents.get_reagent_amount("thwei"))
+			blood_loss -= THWEI_BLOOD_REDUCTION
+
+		if(affected_mob.bodytemperature <= BODYTEMP_CRYO_LIQUID_THRESHOLD && (affected_mob.reagents.get_reagent_amount("cryoxadone") || affected_mob.reagents.get_reagent_amount("clonexadone")))
+			blood_loss -= CRYO_BLOOD_REDUCTION
+
+		var/mob/living/carbon/human/affected_human = affected_mob
+		if(istype(affected_human))
+			//CHEM_EFFECT_NO_BLEEDING effect cure bleeding via blood_loss reduction. Preferably this would be modified by the property level
+			if(affected_human.chem_effect_flags & CHEM_EFFECT_NO_BLEEDING)
+				blood_loss -= CRYO_BLOOD_REDUCTION
+				return FALSE
+			if(SEND_SIGNAL(affected_human, COMSIG_BLEEDING_PROCESS, TRUE) & COMPONENT_BLEEDING_CANCEL)
+				return FALSE
+
+	blood_loss = max(blood_loss, 0) // Bleeding shouldn't give extra blood even if its only 1 tick
+	affected_mob.blood_volume = max(affected_mob.blood_volume - blood_loss, 0)
+
+	return TRUE
+
+/datum/effects/bleeding/arterial
+	effect_name = "arterial bleeding"
+	flags = INF_DURATION | NO_PROCESS_ON_DEATH | DEL_ON_UNDEFIBBABLE
 	var/has_been_bandaged = FALSE
 	var/show_spray_immediately = TRUE
 	var/spray_angle_offset = 0
 
-/datum/effects/bleeding/internal/New(atom/A, obj/limb/L = null, damage = 0)
+/datum/effects/bleeding/arterial/New(atom/A, obj/limb/L = null, damage = 0)
 	..()
 	spray_angle_offset = rand(-45,45)
 
-/datum/effects/bleeding/internal/process_mob()
+/datum/effects/bleeding/arterial/process_mob()
 	. = ..()
 	if(!.)
 		return FALSE

@@ -470,9 +470,14 @@ This function completely restores a damaged organ to perfect condition.
 
 	var/damage_ratio = armor_damage_reduction(GLOB.marine_organ_damage, 2*damage/3, armor, 0, 0, 0, max_damage ? (100*(max_damage - brute_dam) / max_damage) : 100)
 	if(prob(100) && damage > 10) //DEBIGGENMIGNASDN
-		var/datum/wound/internal_bleeding/I = new (0)
-		add_bleeding(I, TRUE)
-		wounds += I
+		if(prob(50))
+			var/datum/wound/internal_bleeding/I = new (0)
+			wounds += I
+		else
+			var/datum/wound/arterial_bleeding/A = new (0)
+			wounds += A
+		add_bleeding(wounds, TRUE)
+
 		owner.custom_pain("You feel something rip in your [display_name]!", 1)
 
 /obj/limb/proc/createwound(type = CUT, damage, is_ff = FALSE)
@@ -1043,7 +1048,7 @@ This function completely restores a damaged organ to perfect condition.
 
 		owner.drop_inv_item_on_ground(owner.legcuffed)
 
-/**bandages brute wounds and removes bleeding. Returns WOUNDS_BANDAGED if at least one wound was bandaged. Returns WOUNDS_ALREADY_TREATED
+/**bandages brute wounds and removes bleeding. Returns WOUNDS_TREATED if at least one wound was bandaged. Returns WOUNDS_ALREADY_TREATED
 if a relevant wound exists but none were treated. Skips wounds that are already bandaged.
 treat_sutured var tells it to apply to sutured but unbandaged wounds, for trauma kits that heal damage directly.**/
 /obj/limb/proc/bandage(treat_sutured)
@@ -1064,7 +1069,7 @@ treat_sutured var tells it to apply to sutured but unbandaged wounds, for trauma
 		W.bandaged |= WOUND_BANDAGED
 	owner.update_med_icon()
 	if(applied_bandage)
-		return WOUNDS_BANDAGED
+		return WOUNDS_TREATED
 	else if(wounds_exist)
 		return WOUNDS_ALREADY_TREATED
 
@@ -1078,7 +1083,7 @@ treat_sutured var tells it to apply to sutured but unbandaged wounds, for trauma
 		else
 			return FALSE
 
-/**salves burn wounds. Returns WOUNDS_BANDAGED if at least one wound was salved. Returns WOUNDS_ALREADY_TREATED if a relevant wound exists but none were treated.
+/**salves burn wounds. Returns WOUNDS_TREATED if at least one wound was salved. Returns WOUNDS_ALREADY_TREATED if a relevant wound exists but none were treated.
 Skips wounds that are already salved.
 treat_grafted var tells it to apply to grafted but unsalved wounds, for burn kits that heal damage directly.**/
 /obj/limb/proc/salve(treat_grafted)
@@ -1097,7 +1102,7 @@ treat_grafted var tells it to apply to grafted but unsalved wounds, for burn kit
 		applied_salve = TRUE
 		W.salved |= WOUND_BANDAGED
 	if(applied_salve)
-		return WOUNDS_BANDAGED
+		return WOUNDS_TREATED
 	else if(burns_exist)
 		return WOUNDS_ALREADY_TREATED
 

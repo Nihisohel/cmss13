@@ -243,6 +243,10 @@
 	internal = 1
 	stages = list("bruised artery" = 0)
 
+/* INTERNAL BLEEDING **/
+/datum/wound/arterial_bleeding
+	stages = list("ruptured artery" = 0)
+
 /* EXTERNAL ORGAN LOSS **/
 /datum/wound/lost_limb
 	damage_type = CUT

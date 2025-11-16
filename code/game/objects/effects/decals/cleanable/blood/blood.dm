@@ -17,6 +17,7 @@
 	var/amount = 3
 	var/drying_time = 30 SECONDS
 	var/dry_start_time // If this dries, track the dry start time for footstep drying
+	allow_this_to_overlap = TRUE
 	garbage = FALSE // Keep for atmosphere
 
 /obj/effect/decal/cleanable/blood/Destroy()
@@ -165,6 +166,8 @@
 /obj/effect/decal/cleanable/blood/gibs/core
 	random_icon_states = list("gibmid1", "gibmid2", "gibmid3")
 
+/obj/effect/decal/cleanable/blood/squirt
+	allow_this_to_overlap = TRUE
 
 /obj/effect/decal/cleanable/blood/gibs/proc/streak(list/directions)
 	var/direction = pick(directions)

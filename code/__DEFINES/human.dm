@@ -51,7 +51,7 @@
 //return values for bandaging/salving.
 
 /// Relevant wounds exist, bandaged them.
-#define WOUNDS_BANDAGED (1<<0)
+#define WOUNDS_TREATED (1<<0)
 /// Relevant wounds exist, but they're already bandaged.
 #define WOUNDS_ALREADY_TREATED (1<<1)
 

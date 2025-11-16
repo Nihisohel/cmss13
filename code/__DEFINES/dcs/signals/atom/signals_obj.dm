@@ -2,7 +2,7 @@
 // Sent after the limb has taken damage
 #define COMSIG_LIMB_TAKEN_DAMAGE "limb_taken_damage"
 
-// From /datum/effects/bleeding/internal/process_mob() and /datum/effects/bleeding/external/process_mob()
+// From /datum/effects/bleeding/internal/process_mob(), arterial/process_mob() and /datum/effects/bleeding/external/process_mob()
 #define COMSIG_BLEEDING_PROCESS "bleeding_process"
 	#define COMPONENT_BLEEDING_CANCEL (1<<0)
 

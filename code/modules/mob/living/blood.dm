@@ -299,6 +299,7 @@
 		XB = new(T)
 		XB.color = get_blood_color()
 
+// originally made by the32bitguy from pve
 /mob/living/carbon/human/proc/spray_blood(spray_angle_offset, limb)
 	var/angle = 0
 	var/obj/limb/O = limb
@@ -375,7 +376,4 @@
 		blood_spraying.pixel_x = blood_spraying.pixel_x + rand(-1, 1)
 		blood_spraying.pixel_y = blood_spraying.pixel_y + rand(-1, 1)
 		playsound(src, "blood_squirt", 40, TRUE)
-
-
-/obj/effect/decal/cleanable/blood/squirt // move this out
-	//allow_this_to_overlap = TRUE
+		balloon_alert(limb, "Blood sprays from your [O.display_name]!", text_color = "#94121280")
