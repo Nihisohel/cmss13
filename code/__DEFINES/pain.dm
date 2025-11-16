@@ -19,7 +19,7 @@
 // Pain amount supplied by the action
 #define PAIN_BONE_BREAK 25
 #define PAIN_BONE_BREAK_SPLINTED 15
-#define PAIN_BONE_BREAK_TIGHTENED 25 // obviously this type of shit would hurt
+#define PAIN_BONE_BREAK_CONSTRICTED 25 // obviously this type of shit would hurt
 #define PAIN_LIMB_CONSTRICTED 10
 #define PAIN_DELIMB 40
 #define PAIN_ORGAN_DAMAGE_MULTIPLIER 2
