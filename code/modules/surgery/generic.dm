@@ -186,7 +186,7 @@
 				surface_modifier = surface.surgery_duration_multiplier
 
 	if(surface_modifier == SURGERY_SURFACE_MULT_IDEAL)
-		surgery.affected_limb.remove_all_bleeding(TRUE, FALSE)
+		surgery.affected_limb.remove_all_bleeding(TRUE, FALSE, FALSE)
 		return
 
 	var/bleeding_multiplier_bad_surface = surface_modifier - 1
@@ -374,7 +374,7 @@
 			target.overlays -= image('icons/mob/humans/dam_human.dmi', "chest_surgery_open")
 
 	target.incision_depths[target_zone] = SURGERY_DEPTH_SURFACE
-	surgery.affected_limb.remove_all_bleeding(TRUE, FALSE)
+	surgery.affected_limb.remove_all_bleeding(TRUE, FALSE, FALSE)
 	target.pain.recalculate_pain()
 	log_interact(user, target, "[key_name(user)] cauterized an incision in [key_name(target)]'s [surgery.affected_limb.display_name], ending [surgery].")
 

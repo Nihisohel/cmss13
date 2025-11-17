@@ -376,4 +376,4 @@
 		blood_spraying.pixel_x = blood_spraying.pixel_x + rand(-1, 1)
 		blood_spraying.pixel_y = blood_spraying.pixel_y + rand(-1, 1)
 		playsound(src, "blood_squirt", 40, TRUE)
-		balloon_alert(limb, "Blood sprays from your [O.display_name]!", text_color = "#94121280")
+		balloon_alert(src, "Blood sprays from your [O.display_name]!", text_color = "#94121280")

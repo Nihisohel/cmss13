@@ -468,7 +468,7 @@
 							if(wound.internal)
 								sleep(FIXVEIN_MIN_DURATION-30)
 								current_surgery.limb_ref.wounds -= wound
-								current_surgery.limb_ref.remove_all_bleeding(FALSE, TRUE)
+								current_surgery.limb_ref.remove_all_bleeding(FALSE, TRUE, TRUE)
 								qdel(wound)
 						if(!surgery)
 							break

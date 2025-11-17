@@ -53,7 +53,7 @@
 /// from /proc/vendor_successful_vend() : (obj/structure/machinery/cm_vending/vendor, list/itemspec, mob/living/carbon/human/user)
 #define COMSIG_VENDOR_SUCCESSFUL_VEND "vendor_successful_vend"
 
-/// from /obj/limb/proc/remove_all_bleeding() : (external, internal)
+/// from /obj/limb/proc/remove_all_bleeding() : (external, internal, arterial)
 #define COMSIG_LIMB_STOP_BLEEDING "limb_stop_bleeding"
 
 #define COMSIG_DROPSHIP_ADD_EQUIPMENT "dropship_add_equipment"

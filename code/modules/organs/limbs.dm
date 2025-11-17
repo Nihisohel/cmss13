@@ -451,7 +451,7 @@ This function completely restores a damaged organ to perfect condition.
 			if(is_sharp(implanted_object) || istype(implanted_object, /obj/item/shard/shrapnel))
 				owner.embedded_items -= implanted_object
 
-	remove_all_bleeding(TRUE, TRUE)
+	remove_all_bleeding(TRUE, TRUE, TRUE)
 	owner.pain.recalculate_pain()
 	owner.updatehealth()
 	owner.update_body()
@@ -469,14 +469,18 @@ This function completely restores a damaged organ to perfect condition.
 		armor += owner.skills.get_skill_level(SKILL_ENDURANCE)*5
 
 	var/damage_ratio = armor_damage_reduction(GLOB.marine_organ_damage, 2*damage/3, armor, 0, 0, 0, max_damage ? (100*(max_damage - brute_dam) / max_damage) : 100)
+	var/internal = FALSE
+	var/arterial = FALSE
 	if(prob(100) && damage > 10) //DEBIGGENMIGNASDN
-		if(prob(50))
-			var/datum/wound/internal_bleeding/I = new (0)
-			wounds += I
+		if(prob(50)) // change this to a more damage relative check with a cut/stab bonus/malus, bruising would likely only prefer IB though
+		//	var/datum/wound/internal_bleeding/I = new (0)
+		//	wounds += I
+		//	internal = TRUE
 		//else
-		//	var/datum/wound/arterial_bleeding/A = new (0)
-		//	wounds += A
-		add_bleeding(wounds, TRUE)
+			var/datum/wound/arterial_bleeding/A = new (0)
+			wounds += A
+			arterial = TRUE
+		add_bleeding(wounds, internal, arterial, damage)
 
 		owner.custom_pain("You feel something rip in your [display_name]!", 1)
 
@@ -538,39 +542,44 @@ This function completely restores a damaged organ to perfect condition.
 			wounds += W
 
 ///Adds bleeding to the limb. Damage_amount lets you apply an amount worth of bleeding, otherwise it uses the given wound's damage.
-/obj/limb/proc/add_bleeding(datum/wound/W, internal = FALSE, damage_amount)
+/obj/limb/proc/add_bleeding(datum/wound/W, internal = FALSE, arterial = FALSE, damage_amount)
 	if(!(SSticker.current_state >= GAME_STATE_PLAYING)) //If the game hasnt started, don't add bleed. Hacky fix to avoid having 100 bleed effect from roundstart.
 		return
 
 	if(status & (LIMB_ROBOT|LIMB_SYNTHSKIN))
 		return
 
-	if(internal && !can_bleed_internally)
-		internal = FALSE
-	if(internal && MODE_HAS_MODIFIER(/datum/gamemode_modifier/disable_ib))
-		internal = FALSE
-
+	if(internal || arterial)
+		if(!can_bleed_internally || MODE_HAS_MODIFIER(/datum/gamemode_modifier/disable_ib))
+			internal = FALSE
+			arterial = FALSE
 
 	if(length(bleeding_effects_list))
-		if(!internal)
-			for(var/datum/effects/bleeding/external/B in bleeding_effects_list)
+		if(arterial)
+			for(var/datum/effects/bleeding/arterial/B in bleeding_effects_list)
 				B.add_on(damage_amount ? damage_amount : W.damage)
 				return
-		else
+		else if(internal)
 			for(var/datum/effects/bleeding/internal/B in bleeding_effects_list)
 				B.add_on(30)
 				return
+		else
+			for(var/datum/effects/bleeding/external/B in bleeding_effects_list)
+				B.add_on(damage_amount ? damage_amount : W.damage)
+				return
 
 	var/datum/effects/bleeding/bleeding_status
-	if(internal)
+	if(arterial)
+		bleeding_status = new /datum/effects/bleeding/arterial(owner, src, damage_amount ? damage_amount : W.damage)
+	else if(internal)
 		bleeding_status = new /datum/effects/bleeding/internal(owner, src, 40)
 	else
 		bleeding_status = new /datum/effects/bleeding/external(owner, src, damage_amount ? damage_amount : W.damage)
 	bleeding_effects_list += bleeding_status
 
 
-/obj/limb/proc/remove_all_bleeding(external = FALSE, internal = FALSE)
-	SEND_SIGNAL(src, COMSIG_LIMB_STOP_BLEEDING, external, internal)
+/obj/limb/proc/remove_all_bleeding(external = FALSE, internal = FALSE, arterial = FALSE)
+	SEND_SIGNAL(src, COMSIG_LIMB_STOP_BLEEDING, external, internal, arterial)
 	if(external)
 		for(var/datum/effects/bleeding/external/B in bleeding_effects_list)
 			qdel(B)
@@ -578,6 +587,10 @@ This function completely restores a damaged organ to perfect condition.
 	if(internal)
 		for(var/datum/effects/bleeding/internal/I in bleeding_effects_list)
 			qdel(I)
+
+	if(arterial)
+		for(var/datum/effects/bleeding/arterial/AB in bleeding_effects_list)
+			qdel(AB)
 
 
 ///Checks if there's any external limb wounds, removes bleeding if there isn't.
@@ -648,14 +661,14 @@ This function completely restores a damaged organ to perfect condition.
 		if(W.internal)
 			if(owner.bodytemperature < T0C && (owner.reagents.get_reagent_amount("cryoxadone") || owner.reagents.get_reagent_amount("clonexadone"))) // IB is healed in cryotubes
 				if(W.created + 2 MINUTES <= world.time) // sped up healing due to cryo magics
-					remove_all_bleeding(FALSE, TRUE)
+					remove_all_bleeding(FALSE, TRUE, FALSE)
 					wounds -= W
 					wound_disappeared = TRUE
 					if(istype(owner.loc, /obj/structure/machinery/cryo_cell)) // check in case they cheesed the location
 						var/obj/structure/machinery/cryo_cell/cell = owner.loc
 						cell.display_message("internal bleeding is")
 			if(owner.reagents.get_reagent_amount("thwei") >= 0.05)
-				remove_all_bleeding(FALSE, TRUE)
+				remove_all_bleeding(FALSE, TRUE, FALSE)
 
 		// slow healing
 		var/heal_amt = 0
@@ -875,7 +888,7 @@ This function completely restores a damaged organ to perfect condition.
 				owner.embedded_items -= i
 			qdel(i)
 
-		remove_all_bleeding(TRUE, TRUE)
+		remove_all_bleeding(TRUE, TRUE, TRUE)
 
 		if(hidden)
 			hidden.forceMove(owner.loc)

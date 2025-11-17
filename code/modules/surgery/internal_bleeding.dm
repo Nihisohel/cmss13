@@ -50,7 +50,7 @@
 	for(var/datum/wound/W as anything in surgery.affected_limb.wounds)
 		if(W.internal)
 			surgery.affected_limb.wounds -= W
-			surgery.affected_limb.remove_all_bleeding(FALSE, TRUE)
+			surgery.affected_limb.remove_all_bleeding(FALSE, TRUE, FALSE)
 			surgery.affected_limb.update_damages()
 
 	if(prob(40))

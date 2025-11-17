@@ -328,4 +328,5 @@
 			limb_message += "\t My [org.display_name] is [SPAN_WARNING("[english_list(status, final_comma_text = ",")].[postscript]")]"
 		else
 			limb_message += "\t My [org.display_name] is [status[1] == "OK" ? SPAN_NOTICE("OK.") : SPAN_WARNING("[english_list(status, final_comma_text = ",")].")]"
-	to_chat(src, boxed_message(limb_message.Join("\n")))
+	limb_message += "\t \n<span class = 'deptradio'>Medical actions: <a href='byond://?src=\ref[src];check_status=1'>\[Check Status\]</a>\n"
+	to_chat(src, boxed_message(limb_message.Join("<br>")))

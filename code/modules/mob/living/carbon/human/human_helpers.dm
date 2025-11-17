@@ -358,7 +358,7 @@
 
 	return FALSE
 
-/mob/living/carbon/human/proc/is_bleeding_arterial()
+/mob/living/carbon/human/proc/is_bleeding_arterial() // unused for now
 	for(var/datum/effects/bleeding/arterial/art_bleed in effects_list)
 		return TRUE
 
