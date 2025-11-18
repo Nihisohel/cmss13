@@ -53,12 +53,31 @@
 		to_chat(user, SPAN_NOTICE("[target]'s [affecting.display_name] is cut open, you'll need more than a bandage!"))
 		return FALSE
 
+	var/possessive = "[user == target ? "your" : "\the [target]'s"]"
+	var/treatment_check
+	switch(treatment_type) // in limbs.dm, also rewrote it a little so i dunno if it breaks something
+		if("bandaging")
+			treatment_check = affecting.bandage(advanced, TRUE)
+		if("salving")
+			treatment_check = affecting.salve(advanced, TRUE)
+
+	switch(treatment_check)
+		if(WOUNDS_ALREADY_TREATED)
+			to_chat(user, SPAN_WARNING("[wound_treated_message] [possessive] [affecting.display_name] have already been treated."))
+			return FALSE
+		if(WOUNDS_NOT_FOUND)
+			to_chat(user, SPAN_WARNING("[no_wound_message] [possessive] [affecting.display_name]."))
+			return FALSE
+		if(!WOUNDS_TREATED) // Something else went wrong, or no wounds to treat.
+			to_chat(user, SPAN_WARNING("[no_wound_message] [possessive] [affecting.display_name]."))
+			return FALSE
+
 	// i guess, you never really know if people want to add functionality for medical items for both brute and burn
 	var/heal_brute_final = heal_brute_amount
 	var/heal_burn_final = heal_burn_amount
 
 	var/do_after_result
-	var/time_to_take = 7 SECONDS
+	var/time_to_take = 5 SECONDS
 
 	if(user.skills && skillcheck(user, SKILL_MEDICAL, SKILL_MEDICAL_TRAINED))
 		time_to_take = time_to_take - user.skills.get_skill_level(SKILL_MEDICAL) //medical levels reduce healaing time by a single second per level
@@ -92,23 +111,23 @@
 			if("salving")
 				heal_burn_final += 2
 
-	else // not advanced therefore remove 1.5 seconds
-		time_to_take -= 1.5 SECONDS
+	else
 		if(user.skills && !skillcheck(user, SKILL_MEDICAL, SKILL_MEDICAL_TRAINED))
 			to_chat(user, SPAN_WARNING("You start applying \the [src]..."))
 		else
 			to_chat(user, SPAN_HELPFUL("You start expertly applying \the [src]..."))
 
 			if(target == user && (affecting.name in list("l_leg", "r_leg", "r_foot", "l_foot")))
-				do_after_result = do_after(user, time_to_take, INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL)
+				do_after_result = do_after(user, time_to_take, INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL, status_effect = SUPERSLOW)
+				time_to_take -= 2.5 SECONDS
 			else if(target == user)
 				do_after_result = do_after(user, time_to_take, (INTERRUPT_NO_NEEDHAND & (~INTERRUPT_MOVED)), BUSY_ICON_FRIENDLY, target, (INTERRUPT_NONE & (~INTERRUPT_MOVED)), BUSY_ICON_MEDICAL, status_effect = SLOW)
+				time_to_take -= 2.5 SECONDS
 			else
-				time_to_take -= 2.5 SECONDS // pretty much instant for expert and master
+				time_to_take -= 3.5 SECONDS // pretty much instant for expert and master
 				do_after_result = do_after(user, time_to_take, INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL)
 
 	if(do_after_result)
-		var/possessive = "[user == target ? "your" : "\the [target]'s"]"
 		var/possessive_their = "[user == target ? target.p_their() : "\the [target]'s"]"
 
 		var/treatment_result
@@ -140,14 +159,6 @@
 				if(success_sound)
 					playsound(user, success_sound, 25, 1, 2)
 				return TRUE
-
-			if(WOUNDS_ALREADY_TREATED)
-				to_chat(user, SPAN_WARNING("[wound_treated_message] [possessive] [affecting.display_name] have already been treated."))
-				return FALSE
-
-			else
-				to_chat(user, SPAN_WARNING("[no_wound_message] [possessive] [affecting.display_name]."))
-				return FALSE
 
 /obj/item/stack/medical/bruise_pack
 	name = "roll of gauze"
@@ -193,7 +204,7 @@
 	var/mob/living/carbon/human/treating = person
 	var/obj/limb/affecting = treating.get_limb(user.zone_selected)
 
-	apply_treatment(treating, user, affecting, "salving", 0, heal_burn, 'sound/handling/ointment_spreading.ogg',
+	apply_treatment(treating, user, affecting, "salving", 0, heal_burn, FALSE, 'sound/handling/ointment_spreading.ogg',
 		SPAN_HELPFUL("<b>salve the burns</b> on"),
 		SPAN_WARNING("There are no burns on"),
 		SPAN_WARNING("The burns on"))
@@ -266,7 +277,7 @@
 	var/mob/living/carbon/human/treating = person
 	var/obj/limb/affecting = treating.get_limb(user.zone_selected)
 
-	apply_treatment(treating, user, affecting, "salving", 0, heal_burn, 'sound/handling/ointment_spreading.ogg',
+	apply_treatment(treating, user, affecting, "salving", 0, heal_burn, FALSE, 'sound/handling/ointment_spreading.ogg',
 		SPAN_HELPFUL("<b>cover the burns</b> on"),
 		SPAN_WARNING("There are no burns on"),
 		SPAN_WARNING("The burns on"))

@@ -57,6 +57,8 @@
 #define WOUNDS_TREATED (1<<0)
 /// Relevant wounds exist, but they're already bandaged.
 #define WOUNDS_ALREADY_TREATED (1<<1)
+/// No relevant wounds exist.
+#define WOUNDS_NOT_FOUND (1<<2)
 
 ///////////////OLD SURGERY DEFINES, USED BY AUTODOC///////////////
 #define HEMOSTAT_MIN_DURATION 20

@@ -1066,10 +1066,16 @@ This function completely restores a damaged organ to perfect condition.
 /**bandages brute wounds and removes bleeding. Returns WOUNDS_TREATED if at least one wound was bandaged. Returns WOUNDS_ALREADY_TREATED
 if a relevant wound exists but none were treated. Skips wounds that are already bandaged.
 treat_sutured var tells it to apply to sutured but unbandaged wounds, for trauma kits that heal damage directly.**/
-/obj/limb/proc/bandage(treat_sutured)
-	remove_all_bleeding(TRUE)
+/obj/limb/proc/bandage(treat_sutured, brute_check = FALSE)
 	var/wounds_exist = FALSE
 	var/applied_bandage = FALSE
+	for(var/datum/wound/W as anything in wounds)
+		if(W.internal || W.damage_type == BURN)
+			continue
+		wounds_exist = TRUE
+
+	if(!wounds_exist)
+		return WOUNDS_NOT_FOUND
 	for(var/datum/wound/W as anything in wounds)
 		if(W.internal || W.damage_type == BURN)
 			continue
@@ -1081,8 +1087,13 @@ treat_sutured var tells it to apply to sutured but unbandaged wounds, for trauma
 				if(!treat_sutured)
 					continue
 		applied_bandage = TRUE
+		if(brute_check)
+			break
+
 		W.bandaged |= WOUND_BANDAGED
-	owner.update_med_icon()
+	if(!brute_check)
+		remove_all_bleeding(TRUE)
+		owner.update_med_icon()
 	if(applied_bandage)
 		return WOUNDS_TREATED
 	else if(wounds_exist)
@@ -1101,9 +1112,16 @@ treat_sutured var tells it to apply to sutured but unbandaged wounds, for trauma
 /**salves burn wounds. Returns WOUNDS_TREATED if at least one wound was salved. Returns WOUNDS_ALREADY_TREATED if a relevant wound exists but none were treated.
 Skips wounds that are already salved.
 treat_grafted var tells it to apply to grafted but unsalved wounds, for burn kits that heal damage directly.**/
-/obj/limb/proc/salve(treat_grafted)
+/obj/limb/proc/salve(treat_grafted, burn_check = FALSE)
 	var/burns_exist = FALSE
 	var/applied_salve = FALSE
+	for(var/datum/wound/W as anything in wounds)
+		if(W.internal || W.damage_type != BURN)
+			continue
+		burns_exist = TRUE
+
+	if(!burns_exist)
+		return WOUNDS_NOT_FOUND
 	for(var/datum/wound/W as anything in wounds)
 		if(W.internal || W.damage_type != BURN)
 			continue
@@ -1115,6 +1133,9 @@ treat_grafted var tells it to apply to grafted but unsalved wounds, for burn kit
 				if(!treat_grafted)
 					continue
 		applied_salve = TRUE
+		if(burn_check)
+			break
+
 		W.salved |= WOUND_BANDAGED
 	if(applied_salve)
 		return WOUNDS_TREATED
@@ -1310,13 +1331,14 @@ treat_grafted var tells it to apply to grafted but unsalved wounds, for burn kit
 	if(!(status & LIMB_DESTROYED) && !(status & LIMB_SPLINTED))
 		var/time_to_take
 		var/do_after_result
-		if(target == user)
+		if (target == user)
 			user.visible_message(SPAN_WARNING("[user] fumbles with [splint]"), SPAN_WARNING("You fumble with [splint]..."))
 			time_to_take = 15 SECONDS
 			if(body_part & (BODY_FLAG_LEGS | BODY_FLAG_FEET))
 				do_after_result = do_after(user, time_to_take * user.get_skill_duration_multiplier(SKILL_MEDICAL), INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL, status_effect = SUPERSLOW)
 			else
 				do_after_result = do_after(user, time_to_take * user.get_skill_duration_multiplier(SKILL_MEDICAL), (INTERRUPT_NO_NEEDHAND & (~INTERRUPT_MOVED)), BUSY_ICON_FRIENDLY, target, (INTERRUPT_NONE & (~INTERRUPT_MOVED)), BUSY_ICON_MEDICAL, status_effect = SLOW)
+		else
 			time_to_take = 5 SECONDS
 			do_after_result = do_after(user, time_to_take * user.get_skill_duration_multiplier(SKILL_MEDICAL), INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL)
 		if(do_after_result)
@@ -1342,7 +1364,7 @@ treat_grafted var tells it to apply to grafted but unsalved wounds, for burn kit
 	if(!(status & LIMB_DESTROYED) && !(status & LIMB_CONSTRICTED))
 		var/time_to_take
 		var/do_after_result
-		if(target == user)
+		if (target == user)
 			user.visible_message(SPAN_WARNING("[user] fumbles with [tourniquet]"), SPAN_WARNING("You fumble with [tourniquet]..."))
 			time_to_take = 15 SECONDS
 			if(body_part & (BODY_FLAG_LEGS | BODY_FLAG_FEET))
