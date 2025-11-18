@@ -27,6 +27,8 @@
 				. += MOVE_REDUCTION_LIMB_DESTROYED
 			if(E.status & LIMB_SPLINTED)
 				. += MOVE_REDUCTION_LIMB_SPLINTED
+			if(E.status & LIMB_CONSTRICTED)
+				. += MOVE_REDUCTION_LIMB_SPLINTED // i guess
 			else if(E.status & LIMB_BROKEN)
 				. += MOVE_REDUCTION_LIMB_BROKEN
 	else
@@ -43,6 +45,11 @@
 			else if(E.status & LIMB_BROKEN)
 				. += MOVE_REDUCTION_LIMB_BROKEN
 
+		// specifically for leg tourniquets
+		for(var/organ_name in list("l_leg","r_leg"))
+			var/obj/limb/E = get_limb(organ_name)
+			if(E.status & LIMB_CONSTRICTED)
+				. += MOVE_REDUCTION_LEG_CONSTRICTED
 
 	var/hungry = (500 - nutrition)/5 // So overeat would be 100 and default level would be 80
 	if(hungry >= 50) //Level where a yellow food pip shows up, aka hunger level 3 at 250 nutrition and under

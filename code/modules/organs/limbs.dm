@@ -471,12 +471,12 @@ This function completely restores a damaged organ to perfect condition.
 	var/damage_ratio = armor_damage_reduction(GLOB.marine_organ_damage, 2*damage/3, armor, 0, 0, 0, max_damage ? (100*(max_damage - brute_dam) / max_damage) : 100)
 	var/internal = FALSE
 	var/arterial = FALSE
-	if(prob(100) && damage > 10) //DEBIGGENMIGNASDN
-		if(prob(50)) // change this to a more damage relative check with a cut/stab bonus/malus, bruising would likely only prefer IB though
-		//	var/datum/wound/internal_bleeding/I = new (0)
-		//	wounds += I
-		//	internal = TRUE
-		//else
+	if(prob(damage_ratio) && damage > 10) //
+		if(prob(25 + (damage_ratio / 4))) // internal bleeds are rarer but scale slightly with how hard the hit was, change this to include a cut/stab bonus/malus, bruising would likely only prefer IB though
+			var/datum/wound/internal_bleeding/I = new (0)
+			wounds += I
+			internal = TRUE
+		else
 			var/datum/wound/arterial_bleeding/A = new (0)
 			wounds += A
 			arterial = TRUE
@@ -610,6 +610,8 @@ This function completely restores a damaged organ to perfect condition.
 	if(status & LIMB_DESTROYED) //Missing limb is missing
 		return FALSE
 	if(status & LIMB_BROKEN) // Causes things to drop and may be healed by bonemending chem.
+		return TRUE
+	if(status & LIMB_CONSTRICTED) // ditto for above
 		return TRUE
 
 	if(brute_dam || burn_dam)
@@ -1241,6 +1243,9 @@ treat_grafted var tells it to apply to grafted but unsalved wounds, for burn kit
 /obj/limb/proc/is_broken()
 	return ((status & LIMB_BROKEN) && !(status & LIMB_SPLINTED))
 
+/obj/limb/proc/is_constricted()
+	return (status & LIMB_CONSTRICTED)
+
 /obj/limb/proc/is_malfunctioning()
 	if(status & LIMB_ROBOT)
 		return prob(brute_dam + burn_dam)
@@ -1248,15 +1253,24 @@ treat_grafted var tells it to apply to grafted but unsalved wounds, for burn kit
 		return prob(brute_dam + burn_dam)
 
 //for arms and hands
-/obj/limb/proc/process_grasp(obj/item/c_hand, hand_name)
+/obj/limb/proc/process_grasp(obj/item/c_hand, hand_name) // insert dratheks fix for double rng issue
 	if (!c_hand)
 		return
+
+	var/result
+	if(is_constricted())
+		if(prob(35))
+			owner.drop_inv_item_on_ground(c_hand)
+			owner.emote("me", 1, "releases their grip due to their constricted [hand_name]!")
+			result = "constriction"
 
 	if(is_broken())
 		if(prob(15))
 			owner.drop_inv_item_on_ground(c_hand)
 			var/emote_scream = pick("screams in pain and", "lets out a sharp cry and", "cries out and")
 			owner.emote("me", 1, "[(!owner.pain.feels_pain) ? "" : emote_scream ] drops what they were holding in their [hand_name]!")
+			result = "fracture pain"
+
 	if(is_malfunctioning())
 		if(prob(10))
 			owner.drop_inv_item_on_ground(c_hand)
@@ -1266,6 +1280,10 @@ treat_grafted var tells it to apply to grafted but unsalved wounds, for burn kit
 			spark_system.attach(owner)
 			spark_system.start()
 			QDEL_IN(spark_system, 1 SECONDS)
+			result = "malfunction"
+
+	if(result) // spams this shit otherwise
+		balloon_alert(owner, "Dropped [hand_name] item from [result]!")
 
 /obj/limb/proc/embed(obj/item/W, silent = 0)
 	if(!W || QDELETED(W) || (W.flags_item & (NODROP|DELONDROP)) || W.embeddable == FALSE)
@@ -1290,12 +1308,18 @@ treat_grafted var tells it to apply to grafted but unsalved wounds, for burn kit
 
 /obj/limb/proc/apply_splints(obj/item/stack/medical/splint/splint, mob/living/user, mob/living/carbon/human/target, indestructible_splints = FALSE)
 	if(!(status & LIMB_DESTROYED) && !(status & LIMB_SPLINTED))
-		var/time_to_take = 5 SECONDS
-		if (target == user)
+		var/time_to_take
+		var/do_after_result
+		if(target == user)
 			user.visible_message(SPAN_WARNING("[user] fumbles with [splint]"), SPAN_WARNING("You fumble with [splint]..."))
 			time_to_take = 15 SECONDS
-
-		if(do_after(user, time_to_take * user.get_skill_duration_multiplier(SKILL_MEDICAL), INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL))
+			if(body_part & (BODY_FLAG_LEGS | BODY_FLAG_FEET))
+				do_after_result = do_after(user, time_to_take * user.get_skill_duration_multiplier(SKILL_MEDICAL), INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL, status_effect = SUPERSLOW)
+			else
+				do_after_result = do_after(user, time_to_take * user.get_skill_duration_multiplier(SKILL_MEDICAL), (INTERRUPT_NO_NEEDHAND & (~INTERRUPT_MOVED)), BUSY_ICON_FRIENDLY, target, (INTERRUPT_NONE & (~INTERRUPT_MOVED)), BUSY_ICON_MEDICAL, status_effect = SLOW)
+			time_to_take = 5 SECONDS
+			do_after_result = do_after(user, time_to_take * user.get_skill_duration_multiplier(SKILL_MEDICAL), INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL)
+		if(do_after_result)
 			var/possessive = "[user == target ? "your" : "\the [target]'s"]"
 			var/possessive_their = "[user == target ? user.gender == MALE ? "his" : "her" : "\the [target]'s"]"
 			user.affected_message(target,
@@ -1316,12 +1340,19 @@ treat_grafted var tells it to apply to grafted but unsalved wounds, for burn kit
 
 /obj/limb/proc/apply_tourniquet(obj/item/stack/medical/tourniquet/tourniquet, mob/living/user, mob/living/carbon/human/target, indestructible_splints = FALSE)
 	if(!(status & LIMB_DESTROYED) && !(status & LIMB_CONSTRICTED))
-		var/time_to_take = 5 SECONDS
-		if (target == user)
+		var/time_to_take
+		var/do_after_result
+		if(target == user)
 			user.visible_message(SPAN_WARNING("[user] fumbles with [tourniquet]"), SPAN_WARNING("You fumble with [tourniquet]..."))
 			time_to_take = 15 SECONDS
-
-		if(do_after(user, time_to_take * user.get_skill_duration_multiplier(SKILL_MEDICAL), INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL))
+			if(body_part & (BODY_FLAG_LEGS | BODY_FLAG_FEET))
+				do_after_result = do_after(user, time_to_take * user.get_skill_duration_multiplier(SKILL_MEDICAL), INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL, status_effect = SUPERSLOW)
+			else
+				do_after_result = do_after(user, time_to_take * user.get_skill_duration_multiplier(SKILL_MEDICAL), (INTERRUPT_NO_NEEDHAND & (~INTERRUPT_MOVED)), BUSY_ICON_FRIENDLY, target, (INTERRUPT_NONE & (~INTERRUPT_MOVED)), BUSY_ICON_MEDICAL, status_effect = SLOW)
+		else
+			time_to_take = 5 SECONDS
+			do_after_result = do_after(user, time_to_take * user.get_skill_duration_multiplier(SKILL_MEDICAL), INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL)
+		if(do_after_result)
 			var/possessive = "[user == target ? "your" : "\the [target]'s"]"
 			var/possessive_their = "[user == target ? user.gender == MALE ? "his" : "her" : "\the [target]'s"]"
 			user.affected_message(target,

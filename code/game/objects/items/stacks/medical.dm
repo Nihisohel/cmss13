@@ -57,61 +57,97 @@
 	var/heal_brute_final = heal_brute_amount
 	var/heal_burn_final = heal_burn_amount
 
+	var/do_after_result
+	var/time_to_take = 7 SECONDS
+
+	if(user.skills && skillcheck(user, SKILL_MEDICAL, SKILL_MEDICAL_TRAINED))
+		time_to_take = time_to_take - user.skills.get_skill_level(SKILL_MEDICAL) //medical levels reduce healaing time by a single second per level
+
+		// medical levels also increase healing by a single point per level
+		switch(treatment_type)
+			if("bandaging")
+				heal_brute_final += user.skills.get_skill_level(SKILL_MEDICAL)
+			if("salving")
+				heal_burn_final += user.skills.get_skill_level(SKILL_MEDICAL)
+
 	if(advanced)
 		if(user.skills && !skillcheck(user, SKILL_MEDICAL, SKILL_MEDICAL_MEDIC))
-			to_chat(user, SPAN_WARNING("You start fumbling with [src]."))
-			if(!do_after(user, 30, INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL))
-				return FALSE
-			switch(treatment_type)
-				if("bandaging")
-					heal_brute_final += 3
-				if("salving")
-					heal_burn_final += 3
-	else
-		if(user.skills && !skillcheck(user, SKILL_MEDICAL, SKILL_MEDICAL_MEDIC))
-			if(!do_after(user, 10, INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL))
-				return FALSE
-
-	var/possessive = "[user == target ? "your" : "\the [target]'s"]"
-	var/possessive_their = "[user == target ? target.p_their() : "\the [target]'s"]"
-
-	var/treatment_result
-	switch(treatment_type)
-		if("bandaging")
-			treatment_result = affecting.bandage(advanced)
-		if("salving")
-			treatment_result = affecting.salve(advanced)
-
-	switch(treatment_result)
-		if(WOUNDS_TREATED)
-			user.affected_message (target,
-				SPAN_HELPFUL("You [success_message] [possessive] <b>[affecting.display_name]</b>[advanced ? " with bioglue" : ""]."),
-				SPAN_HELPFUL("[user] [success_message] your <b>[affecting.display_name]</b>[advanced ? " with bioglue" : ""]."),
-				SPAN_NOTICE("[user] [success_message] [possessive_their] wounds [advanced ? " with bioglue" : ""].")) // dont display the limb, that shit can disrupt the chatbar
-
-			if(advanced)
-				if(heal_brute_final > 0)
-					if(SEND_SIGNAL(affecting, COMSIG_LIMB_ADD_SUTURES, TRUE, FALSE, heal_brute_final * 0.5))
-						heal_brute_final *= 0.5
-				if(heal_burn_final > 0)
-					if(SEND_SIGNAL(affecting, COMSIG_LIMB_ADD_SUTURES, FALSE, TRUE, heal_burn_final * 0.5))
-						heal_burn_final *= 0.5
-
-			if(heal_brute_final > 0 || heal_burn_final > 0)
-				affecting.heal_damage(brute = heal_brute_final, burn = heal_burn_final)
-
-			use(1)
-			if(success_sound)
-				playsound(user, success_sound, 25, 1, 2)
-			return TRUE
-
-		if(WOUNDS_ALREADY_TREATED)
-			to_chat(user, SPAN_WARNING("[wound_treated_message] [possessive] [affecting.display_name] have already been treated."))
-			return FALSE
-
+			to_chat(user, SPAN_WARNING("You start fumbling with \the [src]..."))
+			time_to_take += 1.5 SECONDS
 		else
-			to_chat(user, SPAN_WARNING("[no_wound_message] [possessive] [affecting.display_name]."))
-			return FALSE
+			to_chat(user, SPAN_HELPFUL("You start expertly applying \the [src]..."))
+
+		if(target == user && (affecting.name in list("l_leg", "r_leg", "r_foot", "l_foot")))
+			do_after_result = do_after(user, time_to_take, INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL, status_effect = SUPERSLOW)
+		else if(target == user) // we can mooooooove while treating ourselves yippee
+			do_after_result = do_after(user, time_to_take, (INTERRUPT_NO_NEEDHAND & (~INTERRUPT_MOVED)), BUSY_ICON_FRIENDLY, target, (INTERRUPT_NONE & (~INTERRUPT_MOVED)), BUSY_ICON_MEDICAL, status_effect = SLOW)
+		else
+			time_to_take -= 2.5 SECONDS // slightly faster healing someone else
+			do_after_result = do_after(user, time_to_take, INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL)
+
+		// since its advanced, we append some extra healing if the skills pass
+		switch(treatment_type)
+			if("bandaging")
+				heal_brute_final += 2
+			if("salving")
+				heal_burn_final += 2
+
+	else // not advanced therefore remove 1.5 seconds
+		time_to_take -= 1.5 SECONDS
+		if(user.skills && !skillcheck(user, SKILL_MEDICAL, SKILL_MEDICAL_TRAINED))
+			to_chat(user, SPAN_WARNING("You start applying \the [src]..."))
+		else
+			to_chat(user, SPAN_HELPFUL("You start expertly applying \the [src]..."))
+
+			if(target == user && (affecting.name in list("l_leg", "r_leg", "r_foot", "l_foot")))
+				do_after_result = do_after(user, time_to_take, INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL)
+			else if(target == user)
+				do_after_result = do_after(user, time_to_take, (INTERRUPT_NO_NEEDHAND & (~INTERRUPT_MOVED)), BUSY_ICON_FRIENDLY, target, (INTERRUPT_NONE & (~INTERRUPT_MOVED)), BUSY_ICON_MEDICAL, status_effect = SLOW)
+			else
+				time_to_take -= 2.5 SECONDS // pretty much instant for expert and master
+				do_after_result = do_after(user, time_to_take, INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL)
+
+	if(do_after_result)
+		var/possessive = "[user == target ? "your" : "\the [target]'s"]"
+		var/possessive_their = "[user == target ? target.p_their() : "\the [target]'s"]"
+
+		var/treatment_result
+		switch(treatment_type)
+			if("bandaging")
+				treatment_result = affecting.bandage(advanced)
+			if("salving")
+				treatment_result = affecting.salve(advanced)
+
+		switch(treatment_result)
+			if(WOUNDS_TREATED)
+				user.affected_message (target,
+					SPAN_HELPFUL("You [success_message] [possessive] <b>[affecting.display_name]</b>[advanced ? " with bioglue" : ""]."),
+					SPAN_HELPFUL("[user] [success_message] your <b>[affecting.display_name]</b>[advanced ? " with bioglue" : ""]."),
+					SPAN_NOTICE("[user] [success_message] [possessive_their] wounds [advanced ? " with bioglue" : ""].")) // dont display the limb, that shit can disrupt the chatbar
+
+				if(advanced)
+					if(heal_brute_final > 0)
+						if(SEND_SIGNAL(affecting, COMSIG_LIMB_ADD_SUTURES, TRUE, FALSE, heal_brute_final * 0.5))
+							heal_brute_final *= 0.5
+					if(heal_burn_final > 0)
+						if(SEND_SIGNAL(affecting, COMSIG_LIMB_ADD_SUTURES, FALSE, TRUE, heal_burn_final * 0.5))
+							heal_burn_final *= 0.5
+
+				if(heal_brute_final > 0 || heal_burn_final > 0)
+					affecting.heal_damage(brute = heal_brute_final, burn = heal_burn_final)
+
+				use(1)
+				if(success_sound)
+					playsound(user, success_sound, 25, 1, 2)
+				return TRUE
+
+			if(WOUNDS_ALREADY_TREATED)
+				to_chat(user, SPAN_WARNING("[wound_treated_message] [possessive] [affecting.display_name] have already been treated."))
+				return FALSE
+
+			else
+				to_chat(user, SPAN_WARNING("[no_wound_message] [possessive] [affecting.display_name]."))
+				return FALSE
 
 /obj/item/stack/medical/bruise_pack
 	name = "roll of gauze"
@@ -350,8 +386,8 @@
 	desc = "A collection of tourniquets of various colours. Whatever you do, do NOT apply to your neck."
 	icon_state = "nanosplint" //"tourniquet"
 	item_state = "nanosplint" //"tourniquet"
-	amount = 5
-	max_amount = 5
+	amount = 3
+	max_amount = 3
 	stack_id = "tourniquet"
 
 /obj/item/stack/medical/tourniquet/attack(mob/living/carbon/person, mob/user)
@@ -421,18 +457,45 @@
 
 /obj/item/stack/medical/proc/pack_arterial_bleeding(mob/user, mob/living/carbon/human/person, obj/limb/affecting, duration)
 	for(var/datum/effects/bleeding/arterial/art_bleed in affecting.bleeding_effects_list)
-		var/time_to_take = 2.5 SECONDS
-		if(person == user)
-			user.visible_message(SPAN_WARNING("[user] fumbles with [src]"), SPAN_WARNING("You fumble with [src]..."))
-			time_to_take = 5 SECONDS
+		var/time_to_take
+		var/do_after_result
 
-		if(do_after(user, time_to_take * user.get_skill_duration_multiplier(SKILL_MEDICAL), INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, person, INTERRUPT_MOVED, BUSY_ICON_MEDICAL))
+
+		if(person == user)
+			user.visible_message(SPAN_WARNING("[user] fumbles with [src]..."), SPAN_WARNING("You fumble with [src]..."))
+			time_to_take += 8 SECONDS
+			if(affecting.name in list("l_leg", "r_leg", "r_foot", "l_foot"))
+				do_after_result = do_after(user, time_to_take * user.get_skill_duration_multiplier(SKILL_MEDICAL), INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, person, INTERRUPT_MOVED, BUSY_ICON_MEDICAL, status_effect = SUPERSLOW)
+			else
+				do_after_result = do_after(user, time_to_take * user.get_skill_duration_multiplier(SKILL_MEDICAL), (INTERRUPT_NO_NEEDHAND & (~INTERRUPT_MOVED)), BUSY_ICON_FRIENDLY, person, (INTERRUPT_NONE & (~INTERRUPT_MOVED)), BUSY_ICON_MEDICAL, status_effect = SLOW)
+		else
+			time_to_take += 5 SECONDS
+			user.visible_message(SPAN_WARNING("[user] fumbles with \the [src], wrapping it around [person]..."), SPAN_WARNING("You fumble with \the [src], wrapping it around [person]..."))
+			do_after_result = do_after(user, time_to_take * user.get_skill_duration_multiplier(SKILL_MEDICAL), INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, person, INTERRUPT_MOVED, BUSY_ICON_MEDICAL)
+
+		if(user.skills && skillcheck(user, SKILL_MEDICAL, SKILL_MEDICAL_TRAINED))
+			time_to_take -= user.skills.get_skill_level(SKILL_MEDICAL)
+
+		if(do_after_result)
 			var/possessive = "[user == person ? "your" : "the [person]'s"]"
 			var/possessive_their = "[user == person ? person.p_their() : "the [person]'s"]"
+
+			var/internal_bleed_chance = 50
+			if(user.skills)
+				switch(user.skills.get_skill_level(SKILL_MEDICAL))
+					if(SKILL_MEDICAL_MASTER)
+						internal_bleed_chance = 5
+					if(SKILL_MEDICAL_DOCTOR)
+						internal_bleed_chance = 15
+					if(SKILL_MEDICAL_MEDIC)
+						internal_bleed_chance = 25
+					if(SKILL_MEDICAL_TRAINED)
+						internal_bleed_chance = 35
+
 			var/message_end = "<b>stopping the bleeding.</b>"
-			if(prob(50))
+			if(prob(internal_bleed_chance))
 				affecting.add_bleeding(null, internal = TRUE)
-				message_end = "<b>but you may have caused internal bleeding in the process!</b>"
+				message_end = SPAN_RED("<b>but you may have caused internal bleeding in the process!</b>")
 
 			user.affected_message(person,
 			SPAN_HELPFUL("You <b>pack</b> the damaged artery in [possessive] <b>[affecting.display_name]</b>, [message_end]"),
@@ -445,6 +508,7 @@
 			bloody_bandage.dir = pick(1, 4, 5, 6, 9, 10)
 			bloody_bandage.pixel_x = pick(rand(8,18), rand(-8,-18))
 			bloody_bandage.pixel_y = pick(rand(8, 18), rand(-8,-18))
+			bloody_bandage.garbage = TRUE // dont want to clutter the colony with like thousands of these
 
 			return TRUE
 

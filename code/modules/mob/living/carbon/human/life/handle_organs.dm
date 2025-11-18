@@ -40,22 +40,22 @@
 		var/obj/limb/right_foot = get_limb("r_foot")
 		if(!right_leg || !right_foot)
 			right_leg_crippled = TRUE
-		else if(!right_leg.is_usable() || right_leg.is_malfunctioning() || (right_leg.is_broken() && !(right_leg.status & LIMB_SPLINTED)))
+		else if(!right_leg.is_usable() || right_leg.is_malfunctioning() || right_leg.is_constricted() ||(right_leg.is_broken() && !(right_leg.status & LIMB_SPLINTED)))
 			right_leg_crippled = TRUE
-		else if(!right_foot.is_usable() || right_foot.is_malfunctioning() || (right_foot.is_broken() && !(right_foot.status & LIMB_SPLINTED)))
+		else if(!right_foot.is_usable() || right_foot.is_malfunctioning() || right_foot.is_constricted() ||(right_foot.is_broken() && !(right_foot.status & LIMB_SPLINTED)))
 			right_leg_crippled = TRUE
 
 		var/obj/limb/left_leg = get_limb("l_leg")
 		var/obj/limb/left_foot = get_limb("l_foot")
 		if(!left_leg || !left_foot)
 			left_leg_crippled = TRUE
-		else if(!left_leg.is_usable() || left_leg.is_malfunctioning() || (left_leg.is_broken() && !(left_leg.status & LIMB_SPLINTED)))
+		else if(!left_leg.is_usable() || left_leg.is_malfunctioning() || left_leg.is_constricted() || (left_leg.is_broken() && !(left_leg.status & LIMB_SPLINTED)))
 			left_leg_crippled = TRUE
-		else if(!left_foot.is_usable() || left_foot.is_malfunctioning() || (left_foot.is_broken() && !(left_foot.status & LIMB_SPLINTED)))
+		else if(!left_foot.is_usable() || left_foot.is_malfunctioning() || left_foot.is_constricted() || (left_foot.is_broken() && !(left_foot.status & LIMB_SPLINTED)))
 			left_leg_crippled = TRUE
 
 		if(left_leg_crippled && right_leg_crippled)
 			if(pain.feels_pain)
 				emote("pain")
-			custom_pain("You can't stand on broken legs!", 1)
+			custom_pain("You can't stand with your damaged legs!", 1)
 			apply_effect(5, WEAKEN)
