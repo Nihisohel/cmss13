@@ -1331,15 +1331,15 @@ treat_grafted var tells it to apply to grafted but unsalved wounds, for burn kit
 	if(!(status & LIMB_DESTROYED) && !(status & LIMB_SPLINTED))
 		var/time_to_take
 		var/do_after_result
-		if (target == user)
+		if(target == user)
 			user.visible_message(SPAN_WARNING("[user] fumbles with [splint]"), SPAN_WARNING("You fumble with [splint]..."))
-			time_to_take = 15 SECONDS
+			time_to_take = 12 SECONDS
 			if(body_part & (BODY_FLAG_LEGS | BODY_FLAG_FEET))
 				do_after_result = do_after(user, time_to_take * user.get_skill_duration_multiplier(SKILL_MEDICAL), INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL, status_effect = SUPERSLOW)
 			else
 				do_after_result = do_after(user, time_to_take * user.get_skill_duration_multiplier(SKILL_MEDICAL), (INTERRUPT_NO_NEEDHAND & (~INTERRUPT_MOVED)), BUSY_ICON_FRIENDLY, target, (INTERRUPT_NONE & (~INTERRUPT_MOVED)), BUSY_ICON_MEDICAL, status_effect = SLOW)
 		else
-			time_to_take = 5 SECONDS
+			time_to_take = 6 SECONDS
 			do_after_result = do_after(user, time_to_take * user.get_skill_duration_multiplier(SKILL_MEDICAL), INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL)
 		if(do_after_result)
 			var/possessive = "[user == target ? "your" : "\the [target]'s"]"
@@ -1364,15 +1364,15 @@ treat_grafted var tells it to apply to grafted but unsalved wounds, for burn kit
 	if(!(status & LIMB_DESTROYED) && !(status & LIMB_CONSTRICTED))
 		var/time_to_take
 		var/do_after_result
-		if (target == user)
+		if(target == user)
 			user.visible_message(SPAN_WARNING("[user] fumbles with [tourniquet]"), SPAN_WARNING("You fumble with [tourniquet]..."))
-			time_to_take = 15 SECONDS
+			time_to_take = 8 SECONDS
 			if(body_part & (BODY_FLAG_LEGS | BODY_FLAG_FEET))
 				do_after_result = do_after(user, time_to_take * user.get_skill_duration_multiplier(SKILL_MEDICAL), INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL, status_effect = SUPERSLOW)
 			else
 				do_after_result = do_after(user, time_to_take * user.get_skill_duration_multiplier(SKILL_MEDICAL), (INTERRUPT_NO_NEEDHAND & (~INTERRUPT_MOVED)), BUSY_ICON_FRIENDLY, target, (INTERRUPT_NONE & (~INTERRUPT_MOVED)), BUSY_ICON_MEDICAL, status_effect = SLOW)
 		else
-			time_to_take = 5 SECONDS
+			time_to_take = 4 SECONDS
 			do_after_result = do_after(user, time_to_take * user.get_skill_duration_multiplier(SKILL_MEDICAL), INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL)
 		if(do_after_result)
 			var/possessive = "[user == target ? "your" : "\the [target]'s"]"

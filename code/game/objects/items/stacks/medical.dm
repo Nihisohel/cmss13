@@ -117,15 +117,15 @@
 		else
 			to_chat(user, SPAN_HELPFUL("You start expertly applying \the [src]..."))
 
-			if(target == user && (affecting.name in list("l_leg", "r_leg", "r_foot", "l_foot")))
-				do_after_result = do_after(user, time_to_take, INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL, status_effect = SUPERSLOW)
-				time_to_take -= 2.5 SECONDS
-			else if(target == user)
-				do_after_result = do_after(user, time_to_take, (INTERRUPT_NO_NEEDHAND & (~INTERRUPT_MOVED)), BUSY_ICON_FRIENDLY, target, (INTERRUPT_NONE & (~INTERRUPT_MOVED)), BUSY_ICON_MEDICAL, status_effect = SLOW)
-				time_to_take -= 2.5 SECONDS
-			else
-				time_to_take -= 3.5 SECONDS // pretty much instant for expert and master
-				do_after_result = do_after(user, time_to_take, INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL)
+		if(target == user && (affecting.name in list("l_leg", "r_leg", "r_foot", "l_foot")))
+			do_after_result = do_after(user, time_to_take, INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL, status_effect = SUPERSLOW)
+			time_to_take -= 2.5 SECONDS
+		else if(target == user)
+			do_after_result = do_after(user, time_to_take, (INTERRUPT_NO_NEEDHAND & (~INTERRUPT_MOVED)), BUSY_ICON_FRIENDLY, target, (INTERRUPT_NONE & (~INTERRUPT_MOVED)), BUSY_ICON_MEDICAL, status_effect = SLOW)
+			time_to_take -= 2.5 SECONDS
+		else
+			time_to_take -= 3.5 SECONDS // pretty much instant for expert and master
+			do_after_result = do_after(user, time_to_take, INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL)
 
 	if(do_after_result)
 		var/possessive_their = "[user == target ? target.p_their() : "\the [target]'s"]"
@@ -166,7 +166,7 @@
 	desc = "Some sterile gauze to wrap around bloody stumps and lacerations."
 	icon_state = "brutepack"
 	item_state_slots = list(WEAR_AS_GARB = "brutepack (bandages)")
-	heal_brute = 5 // apparently gauzes never had a heal_brute modifier for the longest time, gee
+	heal_brute = 4 // apparently gauzes never had a heal_brute modifier for the longest time, gee
 	stack_id = "bruise pack"
 
 /obj/item/stack/medical/bruise_pack/attack(mob/living/carbon/person as mob, mob/user as mob)
@@ -194,7 +194,7 @@
 	singular_name = "ointment"
 	icon_state = "ointment"
 	item_state_slots = list(WEAR_AS_GARB = "ointment")
-	heal_burn = 5
+	heal_burn = 4
 	stack_id = "ointment"
 
 /obj/item/stack/medical/ointment/attack(mob/living/carbon/person as mob, mob/user as mob)
@@ -215,7 +215,7 @@
 	desc = "A trauma kit for severe injuries."
 	icon_state = "traumakit"
 	item_state = "brutekit"
-	heal_brute = 12
+	heal_brute = 8
 
 	stack_id = "advanced bruise pack"
 
@@ -247,7 +247,7 @@
 
 /obj/item/stack/medical/advanced/bruise_pack/upgraded/Initialize(mapload, ...)
 	. = ..()
-	heal_brute = initial(heal_brute) * 3 // 3x stronger
+	heal_brute = initial(heal_brute) * 2 // 2x stronger
 
 /obj/item/stack/medical/advanced/bruise_pack/predator
 	name = "mending herbs"
@@ -256,7 +256,7 @@
 	icon = 'icons/obj/items/hunter/pred_gear.dmi'
 	icon_state = "brute_herbs"
 	item_state = "brute_herbs"
-	heal_brute = 15
+	heal_brute = 12
 	stack_id = "mending herbs"
 	alien = TRUE
 
@@ -266,7 +266,7 @@
 	desc = "A treatment kit for severe burns."
 	icon_state = "burnkit"
 	item_state = "burnkit"
-	heal_burn = 12
+	heal_burn = 8
 
 	stack_id = "burn kit"
 
@@ -295,7 +295,7 @@
 
 /obj/item/stack/medical/advanced/ointment/upgraded/Initialize(mapload, ...)
 	. = ..()
-	heal_burn = initial(heal_burn) * 3 // 3x stronger
+	heal_burn = initial(heal_burn) * 2 // 2x stronger
 
 /obj/item/stack/medical/advanced/ointment/predator
 	name = "soothing herbs"
@@ -304,7 +304,7 @@
 	icon = 'icons/obj/items/hunter/pred_gear.dmi'
 	icon_state = "burn_herbs"
 	item_state = "burn_herbs"
-	heal_burn = 15
+	heal_burn = 12
 	stack_id = "soothing herbs"
 	alien = TRUE
 
