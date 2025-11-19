@@ -767,10 +767,10 @@ GLOBAL_DATUM(action_purple_power_up, /image)
  */
 /proc/do_after(mob/user, delay, user_flags = INTERRUPT_ALL, show_busy_icon, atom/movable/target, target_flags = INTERRUPT_MOVED, show_target_icon, max_dist = 1, status_effect = null, \
 		show_remaining_time = FALSE, numticks = DA_DEFAULT_NUM_TICKS) // These args should primarily be named args, since you only modify them in niche situations
-	if(!istype(user) || delay < 0)
+	if(!(user)) // "|| delay < 0)" was here before, dunno why though
 		return FALSE
 
-	if(delay == 0) // Nothing to wait for, so action passes
+	if(delay <= 0) // Nothing to wait for, so action passes
 		return TRUE
 
 	// Check if there is even a target

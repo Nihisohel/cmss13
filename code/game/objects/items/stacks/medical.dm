@@ -69,7 +69,7 @@
 			to_chat(user, SPAN_WARNING("[no_wound_message] [possessive] [affecting.display_name]."))
 			return FALSE
 		if(!WOUNDS_TREATED) // Something else went wrong, or no wounds to treat.
-			to_chat(user, SPAN_WARNING("[no_wound_message] [possessive] [affecting.display_name]."))
+			to_chat(user, SPAN_WARNING("[no_wound_message] [possessive] [affecting.display_name] ERROR."))
 			return FALSE
 
 	// i guess, you never really know if people want to add functionality for medical items for both brute and burn
@@ -77,10 +77,13 @@
 	var/heal_burn_final = heal_burn_amount
 
 	var/do_after_result
-	var/time_to_take = 5 SECONDS
+	var/time_to_take = 6 SECONDS
 
 	if(user.skills && skillcheck(user, SKILL_MEDICAL, SKILL_MEDICAL_TRAINED))
-		time_to_take = time_to_take - user.skills.get_skill_level(SKILL_MEDICAL) //medical levels reduce healaing time by a single second per level
+		time_to_take -= user.skills.get_skill_level(SKILL_MEDICAL) SECONDS //medical levels reduce healaing time by a single second per level
+
+	if(target != user) // if the target is not the user, reduce the time it takes
+		time_to_take -= 1 SECONDS
 
 		// medical levels also increase healing by a single point per level
 		switch(treatment_type)
@@ -95,37 +98,31 @@
 			time_to_take += 1.5 SECONDS
 		else
 			to_chat(user, SPAN_HELPFUL("You start expertly applying \the [src]..."))
+			time_to_take -= 1 SECONDS
 
 		if(target == user && (affecting.name in list("l_leg", "r_leg", "r_foot", "l_foot")))
 			do_after_result = do_after(user, time_to_take, INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL, status_effect = SUPERSLOW)
 		else if(target == user) // we can mooooooove while treating ourselves yippee
 			do_after_result = do_after(user, time_to_take, (INTERRUPT_NO_NEEDHAND & (~INTERRUPT_MOVED)), BUSY_ICON_FRIENDLY, target, (INTERRUPT_NONE & (~INTERRUPT_MOVED)), BUSY_ICON_MEDICAL, status_effect = SLOW)
 		else
-			time_to_take -= 2.5 SECONDS // slightly faster healing someone else
 			do_after_result = do_after(user, time_to_take, INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL)
 
-		// since its advanced, we append some extra healing if the skills pass
-		switch(treatment_type)
-			if("bandaging")
-				heal_brute_final += 2
-			if("salving")
-				heal_burn_final += 2
-
 	else
+		time_to_take -= 3 SECONDS
 		if(user.skills && !skillcheck(user, SKILL_MEDICAL, SKILL_MEDICAL_TRAINED))
-			to_chat(user, SPAN_WARNING("You start applying \the [src]..."))
+			to_chat(user, SPAN_HELPFUL("You start applying \the [src]..."))
 		else
 			to_chat(user, SPAN_HELPFUL("You start expertly applying \the [src]..."))
+			time_to_take -= 0.5 SECONDS
 
 		if(target == user && (affecting.name in list("l_leg", "r_leg", "r_foot", "l_foot")))
 			do_after_result = do_after(user, time_to_take, INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL, status_effect = SUPERSLOW)
-			time_to_take -= 2.5 SECONDS
 		else if(target == user)
 			do_after_result = do_after(user, time_to_take, (INTERRUPT_NO_NEEDHAND & (~INTERRUPT_MOVED)), BUSY_ICON_FRIENDLY, target, (INTERRUPT_NONE & (~INTERRUPT_MOVED)), BUSY_ICON_MEDICAL, status_effect = SLOW)
-			time_to_take -= 2.5 SECONDS
 		else
-			time_to_take -= 3.5 SECONDS // pretty much instant for expert and master
 			do_after_result = do_after(user, time_to_take, INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL)
+
+	to_chat(user, "time_to_take: [time_to_take] ") //debug
 
 	if(do_after_result)
 		var/possessive_their = "[user == target ? target.p_their() : "\the [target]'s"]"
@@ -147,10 +144,10 @@
 				if(advanced)
 					if(heal_brute_final > 0)
 						if(SEND_SIGNAL(affecting, COMSIG_LIMB_ADD_SUTURES, TRUE, FALSE, heal_brute_final * 0.5))
-							heal_brute_final *= 0.5
+							heal_brute_final *= 0.75
 					if(heal_burn_final > 0)
 						if(SEND_SIGNAL(affecting, COMSIG_LIMB_ADD_SUTURES, FALSE, TRUE, heal_burn_final * 0.5))
-							heal_burn_final *= 0.5
+							heal_burn_final *= 0.75
 
 				if(heal_brute_final > 0 || heal_burn_final > 0)
 					affecting.heal_damage(brute = heal_brute_final, burn = heal_burn_final)
@@ -229,7 +226,7 @@
 	if(pack_arterial_bleeding(user, treating, affecting))
 		return
 
-	apply_treatment(treating, user, affecting, "bandaging", heal_brute, 0, FALSE, 'sound/handling/bandage.ogg',
+	apply_treatment(treating, user, affecting, "bandaging", heal_brute, 0, TRUE, 'sound/handling/bandage.ogg',
 		SPAN_HELPFUL("<b>clean and seal</b> the wounds on"),
 		SPAN_WARNING("There are no wounds on"),
 		SPAN_WARNING("The wounds on"))
@@ -277,7 +274,7 @@
 	var/mob/living/carbon/human/treating = person
 	var/obj/limb/affecting = treating.get_limb(user.zone_selected)
 
-	apply_treatment(treating, user, affecting, "salving", 0, heal_burn, FALSE, 'sound/handling/ointment_spreading.ogg',
+	apply_treatment(treating, user, affecting, "salving", 0, heal_burn, TRUE, 'sound/handling/ointment_spreading.ogg',
 		SPAN_HELPFUL("<b>cover the burns</b> on"),
 		SPAN_WARNING("There are no burns on"),
 		SPAN_WARNING("The burns on"))
