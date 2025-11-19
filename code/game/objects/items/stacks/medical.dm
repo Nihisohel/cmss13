@@ -100,6 +100,8 @@
 			to_chat(user, SPAN_HELPFUL("You start expertly applying \the [src]..."))
 			time_to_take -= 1 SECONDS
 
+		time_to_take = max(time_to_take, 0.5 SECONDS) // clamp it so its not instant at least
+
 		if(target == user && (affecting.name in list("l_leg", "r_leg", "r_foot", "l_foot")))
 			do_after_result = do_after(user, time_to_take, INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL, status_effect = SUPERSLOW)
 		else if(target == user) // we can mooooooove while treating ourselves yippee
@@ -114,6 +116,8 @@
 		else
 			to_chat(user, SPAN_HELPFUL("You start expertly applying \the [src]..."))
 			time_to_take -= 0.25 SECONDS
+
+		time_to_take = max(time_to_take, 0.5 SECONDS) // clamp it so its not instant at least
 
 		if(target == user && (affecting.name in list("l_leg", "r_leg", "r_foot", "l_foot")))
 			do_after_result = do_after(user, time_to_take, INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL, status_effect = SUPERSLOW)
