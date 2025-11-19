@@ -108,12 +108,12 @@
 			do_after_result = do_after(user, time_to_take, INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL)
 
 	else
-		time_to_take -= 3 SECONDS
+		time_to_take -= 3.5 SECONDS
 		if(user.skills && !skillcheck(user, SKILL_MEDICAL, SKILL_MEDICAL_TRAINED))
 			to_chat(user, SPAN_HELPFUL("You start applying \the [src]..."))
 		else
 			to_chat(user, SPAN_HELPFUL("You start expertly applying \the [src]..."))
-			time_to_take -= 0.5 SECONDS
+			time_to_take -= 0.25 SECONDS
 
 		if(target == user && (affecting.name in list("l_leg", "r_leg", "r_foot", "l_foot")))
 			do_after_result = do_after(user, time_to_take, INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL, status_effect = SUPERSLOW)
@@ -122,7 +122,7 @@
 		else
 			do_after_result = do_after(user, time_to_take, INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL)
 
-	to_chat(user, "time_to_take: [time_to_take] ") //debug
+// i wont lie, i made this more complicated than it should be
 
 	if(do_after_result)
 		var/possessive_their = "[user == target ? target.p_their() : "\the [target]'s"]"
