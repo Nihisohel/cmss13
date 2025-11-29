@@ -277,12 +277,21 @@
 
 
 //Blood levels
-#define BLOOD_VOLUME_MAXIMUM 600
-#define BLOOD_VOLUME_NORMAL 560
-#define BLOOD_VOLUME_SAFE 501
-#define BLOOD_VOLUME_OKAY 336
-#define BLOOD_VOLUME_BAD 224
-#define BLOOD_VOLUME_SURVIVE 122
+#define BLOOD_VOLUME_MAXIMUM 999 // you explode at the maximum
+#define BLOOD_VOLUME_ELEVATED 600 // past this threshold kills you from hypovolemia
+#define BLOOD_VOLUME_NORMAL 550 // typical human blood capacity is 560 cL
+#define BLOOD_VOLUME_SAFE 475 // past this threshold is hypovolemia
+#define BLOOD_VOLUME_OKAY 350
+#define BLOOD_VOLUME_BAD 250
+#define BLOOD_VOLUME_SURVIVE 125
+
+//Blood Pressure (in systolic pressure of mmHg)
+#define BLOOD_PRESSURE_EXPLODE 200
+#define BLOOD_PRESSURE_HYPERTENSION 140
+#define BLOOD_PRESSURE_ELEVATED 120
+#define BLOOD_PRESSURE_NORMAL 90
+#define BLOOD_PRESSURE_HYPOTENSION 80
+#define BLOOD_PRESSURE_SHOCK 70
 
 
 //diseases
