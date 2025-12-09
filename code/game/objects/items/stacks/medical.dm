@@ -140,6 +140,8 @@
 
 		switch(treatment_result)
 			if(WOUNDS_TREATED)
+				if(treatment_type == "salving")
+					affecting.status &= ~LIMB_THIRD_DEGREE_BURNS
 				user.affected_message (target,
 					SPAN_HELPFUL("You [success_message] [possessive] <b>[affecting.display_name]</b>[advanced ? " with bioglue" : ""]."),
 					SPAN_HELPFUL("[user] [success_message] your <b>[affecting.display_name]</b>[advanced ? " with bioglue" : ""]."),
