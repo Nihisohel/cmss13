@@ -9,7 +9,7 @@
 
 	SEND_SIGNAL(attacking_mob, COMSIG_LIVING_ATTACKHAND_HUMAN, src)
 
-	if((attacking_mob != src) && check_shields(0, attacking_mob.name))
+	if((attacking_mob != src) && check_shields(attacking_mob.name, get_dir(src, attacking_mob), custom_response = TRUE))
 		visible_message(SPAN_DANGER("<B>[attacking_mob] attempted to touch [src]!</B>"), null, null, 5)
 		return FALSE
 
@@ -323,6 +323,11 @@
 			postscript += " <b>(<a href='byond://?src=\ref[src];remove_tourniquet=[org.name]'><span class='corp_label_red'>CONSTRICTED</a>)</b>"
 			postscript = replacetext(postscript, " <b>The skin looks to be discolored.</b>", "")
 			postscript = replacetext(postscript, " <b>It is bleeding profusely.</b>", "")
+		if(org.status & LIMB_THIRD_DEGREE_BURNS)
+			postscript += "<b>(SEVERE BURN)</b>"
+		if(org.status & LIMB_ESCHAR)
+			postscript += " <b>(ESCHAR)</b>"
+
 
 		if(postscript)
 			limb_message += "\t My [org.display_name] is [SPAN_WARNING("[english_list(status, final_comma_text = ",")].[postscript]")]"

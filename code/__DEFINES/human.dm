@@ -40,6 +40,12 @@
 #define LIMB_SPLINTED_INDESTRUCTIBLE (1<<10)
 /// A prosthetic that's been attached to the body but not connected to the brain.
 #define LIMB_UNCALIBRATED_PROSTHETIC (1<<11)
+/// Limb has third degree burns
+#define LIMB_THIRD_DEGREE_BURNS (1<<12)
+/// Limb has eschar
+#define LIMB_ESCHAR (1<<13)
+
+
 
 ///////////////////WOUND DEFINES///////////////////
 
