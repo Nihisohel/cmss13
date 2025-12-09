@@ -720,9 +720,9 @@ This function completely restores a damaged organ to perfect condition.
 
 		// if damage >= 50 AFTER treatment then it's probably too severe to heal within the timeframe of a round.
 		if(wound.can_autoheal() && owner.health >= 0 && !wound.is_treated() && owner.bodytemperature > owner.species.cold_level_1)
-			heal_amt += 0.3 * 0.35 //They can't autoheal if in critical
+			heal_amt = 0.375 //They can't autoheal if in critical
 		else if(wound.is_treated())
-			heal_amt += 0.5 * 0.75 //Treated wounds heal faster
+			heal_amt = 0.125 + 0.375 //Treated wounds heal faster, "stacking" ontop of the base regen rate, while also ignoring natural autoheal checks
 
 		if(heal_amt)
 			//we only update wounds once in [wound_update_accuracy] ticks so have to emulate realtime
@@ -731,7 +731,7 @@ This function completely restores a damaged organ to perfect condition.
 			heal_amt = heal_amt * CONFIG_GET(number/organ_regeneration_multiplier)
 			// amount of healing is spread over all the wounds
 			heal_amt = heal_amt / (length(wounds) + 1)
-			// making it look prettier on scanners
+			// making it look prettier on scanners, 2025 NOTE, make sure that the initial heal_amt calculation above is not too low otherwise rounding to 0.1 will make it 0 - nihi :/
 			heal_amt = round(heal_amt,0.1)
 
 			//unsalved burns do not heal below a certain threshold
