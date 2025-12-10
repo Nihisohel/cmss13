@@ -1562,6 +1562,7 @@
 					target.visible_message(SPAN_NOTICE("[user] removes [msg] [part ? "splint on their [target.get_limb(part).display_name]" : (amount_removed > 1 ? "splints" : "splint")]."),
 						SPAN_NOTICE("Your [part ? "splint on your [target.get_limb(part).display_name] is" : (amount_removed > 1 ? "splints are" : "splint is")] removed."))
 					target.update_med_icon()
+					user.put_in_hands(new_splint)
 			else
 				msg = "[user == target ? "your":"\proper [target]'s"]"
 				to_chat(user, SPAN_NOTICE("You stop trying to remove [msg] [part ? "splint on your [target.get_limb(part).display_name]" : "splints"]."))
@@ -1650,6 +1651,7 @@
 				target.visible_message(SPAN_NOTICE("[user] removes [msg] [part ? "tourniquet on their [target.get_limb(part).display_name]" : (amount_removed > 1 ? "tourniquets" : "tourniquet")]."),
 					SPAN_NOTICE("Your [part ? "tourniquet on your [target.get_limb(part).display_name] is" : (amount_removed > 1 ? "tourniquets are" : "tourniquet is")] removed."))
 				target.update_med_icon()
+				user.put_in_hands(new_tourniquet)
 			else
 				msg = "[user == target ? "your":"\proper [target]'s"]"
 				to_chat(user, SPAN_NOTICE("You stop trying to remove [msg] [part ? "tourniquet on your [target.get_limb(part).display_name]" : "tourniquets"]."))

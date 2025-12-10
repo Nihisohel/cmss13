@@ -69,11 +69,17 @@
 #define BURN "fire"
 #define TOX "tox"
 #define OXY "oxy"
+
 #define CLONE "clone"
-#define CUT "cut"
-#define BRUISE "bruise"
+
 #define HALLOSS "halloss"
 #define BRAIN "brain"
+
+// BRUTE-specific damage types
+
+#define CUT "cut"
+#define PIERCE "pierce"
+#define BRUISE "bruise"
 
 //=================================================
 

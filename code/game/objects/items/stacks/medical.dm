@@ -61,23 +61,44 @@
 		if("salving")
 			treatment_check = affecting.salve(advanced, TRUE)
 
+	var/time_to_take = 6 SECONDS
+
 	switch(treatment_check)
 		if(WOUNDS_ALREADY_TREATED)
 			to_chat(user, SPAN_WARNING("[wound_treated_message] [possessive] [affecting.display_name] have already been treated."))
-			return FALSE
 		if(WOUNDS_NOT_FOUND)
 			to_chat(user, SPAN_WARNING("[no_wound_message] [possessive] [affecting.display_name]."))
+
+	// find another limb to treat if the targeted limb is fine, carlarc was here
+	if(treatment_check == WOUNDS_ALREADY_TREATED || treatment_check == WOUNDS_NOT_FOUND)
+		var/list/obj/limb/possible_limbs = list()
+		for(var/obj/limb/limbus in target.limbs)
+			if(limbus == affecting || (limbus.status & (LIMB_ROBOT|LIMB_SYNTHSKIN|LIMB_DESTROYED)) || !length(limbus.wounds))
+				continue
+
+			var/limb_needs_treatment = FALSE
+			switch(treatment_type)
+				if("bandaging")
+					limb_needs_treatment = limbus.bandage(advanced, TRUE) == WOUNDS_TREATED
+				if("salving")
+					limb_needs_treatment = limbus.salve(advanced, TRUE) == WOUNDS_TREATED
+			if(limb_needs_treatment)
+				possible_limbs += limbus
+
+		if(length(possible_limbs))
+			var/obj/limb/new_affecting = pick(possible_limbs)
+			to_chat(user, SPAN_NOTICE("...but you notice [possessive] [new_affecting.display_name] is wounded and decide to treat it instead."))
+			affecting = new_affecting
+			time_to_take += 2 SECONDS // penalty for finding another limb, so numpad dancing for selecting limbs isnt super optimal
+		else
 			return FALSE
-		if(!WOUNDS_TREATED) // Something else went wrong, or no wounds to treat.
-			to_chat(user, SPAN_WARNING("[no_wound_message] [possessive] [affecting.display_name] ERROR."))
-			return FALSE
+	// if nothing is found, we return
 
 	// i guess, you never really know if people want to add functionality for medical items for both brute and burn
 	var/heal_brute_final = heal_brute_amount
 	var/heal_burn_final = heal_burn_amount
 
 	var/do_after_result
-	var/time_to_take = 6 SECONDS
 
 	if(user.skills && skillcheck(user, SKILL_MEDICAL, SKILL_MEDICAL_TRAINED))
 		time_to_take -= user.skills.get_skill_level(SKILL_MEDICAL) SECONDS //medical levels reduce healaing time by a single second per level
@@ -476,7 +497,7 @@
 
 
 		if(person == user)
-			user.visible_message(SPAN_WARNING("[user] fumbles with [src]..."), SPAN_WARNING("You fumble with [src]..."))
+			user.visible_message(SPAN_HELPFUL("[user] fumbles with [src], wrapping around their [affecting.display_name]..."), SPAN_HELPFUL("You fumble with [src], wrapping around your [affecting.display_name]..."))
 			time_to_take += 8 SECONDS
 			if(affecting.name in list("l_leg", "r_leg", "r_foot", "l_foot"))
 				do_after_result = do_after(user, time_to_take * user.get_skill_duration_multiplier(SKILL_MEDICAL), INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, person, INTERRUPT_MOVED, BUSY_ICON_MEDICAL, status_effect = SUPERSLOW)
@@ -484,7 +505,7 @@
 				do_after_result = do_after(user, time_to_take * user.get_skill_duration_multiplier(SKILL_MEDICAL), (INTERRUPT_NO_NEEDHAND & (~INTERRUPT_MOVED)), BUSY_ICON_FRIENDLY, person, (INTERRUPT_NONE & (~INTERRUPT_MOVED)), BUSY_ICON_MEDICAL, status_effect = SLOW)
 		else
 			time_to_take += 5 SECONDS
-			user.visible_message(SPAN_WARNING("[user] fumbles with \the [src], wrapping it around [person]..."), SPAN_WARNING("You fumble with \the [src], wrapping it around [person]..."))
+			user.visible_message(SPAN_HELPFUL("[user] fumbles with \the [src], wrapping it around [person]'s [affecting.display_name]..."), SPAN_HELPFUL("You fumble with \the [src], wrapping it around [person]'s [affecting.display_name]..."))
 			do_after_result = do_after(user, time_to_take * user.get_skill_duration_multiplier(SKILL_MEDICAL), INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, person, INTERRUPT_MOVED, BUSY_ICON_MEDICAL)
 
 		if(user.skills && skillcheck(user, SKILL_MEDICAL, SKILL_MEDICAL_TRAINED))

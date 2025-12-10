@@ -28,11 +28,11 @@
 	var/list/stages
 	// internal wounds can only be fixed through surgery
 	var/internal = 0
-	// one of CUT, BRUISE, BURN
+	// one of CUT, BRUISE, BURN, or PIERCE
 	var/damage_type = CUT
 	// whether this wound needs a bandage/salve to heal at all
-	// the maximum amount of damage that this wound can have and still autoheal
-	var/autoheal_cutoff = 15
+	// the maximum amount of damage that this wound can have and still naturally regenerate
+	var/regeneration_cutoff = 0 //default, 0 basically the wound cant regenerate
 
 	var/icon/bandaged_icon = null // Icon for gauze over a wound
 
@@ -68,8 +68,8 @@
 /datum/wound/proc/wound_damage()
 	return src.damage / src.amount
 
-/datum/wound/proc/can_autoheal()
-	if(src.wound_damage() <= autoheal_cutoff)
+/datum/wound/proc/can_regenerate()
+	if(src.wound_damage() <= regeneration_cutoff)
 		return 1
 
 	return is_treated()
@@ -86,7 +86,7 @@
 	if (other.type != src.type) return 0
 	if (other.current_stage != src.current_stage) return 0
 	if (other.damage_type != src.damage_type) return 0
-	if (!(other.can_autoheal()) != !(src.can_autoheal())) return 0
+	if (!(other.can_regenerate()) != !(src.can_regenerate())) return 0
 	if (!(other.bandaged) != !(src.bandaged)) return 0
 	if (!(other.salved) != !(src.salved)) return 0
 	return 1
@@ -152,85 +152,119 @@
 //the damage amount for the stage with the same name as the wound.
 //e.g. /datum/wound/cut/deep should only be applied for 15 damage and up,
 //because in it's stages list, "deep cut" = 15.
+
+// 2025 note, the above isnt exactly necessary anymore, since existing wounds can worsen - nihi
 /proc/get_wound_type(type = CUT, damage)
 	switch(type)
 		if(CUT)
 			switch(damage)
 				if(70 to INFINITY)
 					return /datum/wound/cut/massive
-				if(60 to 70)
-					return /datum/wound/cut/gaping_big
-				if(50 to 60)
-					return /datum/wound/cut/gaping
-				if(25 to 50)
-					return /datum/wound/cut/flesh
-				if(15 to 25)
+				if(50 to 70)
 					return /datum/wound/cut/deep
-				if(0 to 15)
+				if(15 to 25)
+					return /datum/wound/cut/large
+				if(0 to 10)
 					return /datum/wound/cut/small
+
+		if(PIERCE)
+			switch(damage)
+				if(50 to INFINITY)
+					return /datum/wound/pierce/perforating
+				if(35 to 50)
+					return /datum/wound/pierce/gaping
+				if(15 to 35)
+					return /datum/wound/pierce/deep
+				if(0 to 10)
+					return /datum/wound/pierce/shallow
 		if(BRUISE)
-			return /datum/wound/bruise
+			switch(damage)
+				if(50 to INFINITY)
+					return /datum/wound/pierce/perforating
+				if(35 to 50)
+					return /datum/wound/pierce/gaping
+				if(15 to 35)
+					return /datum/wound/pierce/deep
+				if(0 to 10)
+					return /datum/wound/pierce/shallow
+
 		if(BURN)
 			switch(damage)
 				if(50 to INFINITY)
 					return /datum/wound/burn/carbonised
-				if(40 to 50)
-					return /datum/wound/burn/deep
-				if(30 to 40)
-					return /datum/wound/burn/severe
-				if(15 to 30)
-					return /datum/wound/burn/large
-				if(0 to 15)
-					return /datum/wound/burn/moderate
+				if(35 to 50)
+					return /datum/wound/burn/heavy
+				if(10 to 35)
+					return /datum/wound/burn/thick
+				if(0 to 10)
+					return /datum/wound/burn/light
 	return null //no wound
 
 /* CUTS **/
 /datum/wound/cut/small
 	// link wound descriptions to amounts of damage
-	stages = list("ugly ripped cut" = 20, "ripped cut" = 10, "cut" = 5, "healing cut" = 2, "small scab" = 0)
+	stages = list("ugly ripped cut" = 20, "ripped cut" = 15, "cut" = 10, "healing cut" = 5, "small scab" = 0)
 	damage_type = CUT
+	regeneration_cutoff = 20
+
+/datum/wound/cut/large
+	stages = list("ugly ripped flesh wound" = 35, "ugly flesh wound" = 30, "flesh wound" = 25, "deep cut" = 15, "clotted cut" = 10, "scab" = 5, "fresh skin" = 0)
+	damage_type = CUT
+	regeneration_cutoff = 15
 
 /datum/wound/cut/deep
-	stages = list("ugly deep ripped cut" = 25, "deep ripped cut" = 20, "deep cut" = 15, "clotted cut" = 8, "scab" = 2, "fresh skin" = 0)
+	stages = list("big gaping wound" = 60, "gaping wound" = 50, "large blood soaked clot" = 25, "large clot" = 15, "large angry scar" = 10, "large straight scar" = 0)
 	damage_type = CUT
-
-/datum/wound/cut/flesh
-	stages = list("ugly ripped flesh wound" = 35, "ugly flesh wound" = 30, "flesh wound" = 25, "blood soaked clot" = 15, "large scab" = 5, "fresh skin" = 0)
-	damage_type = CUT
-
-/datum/wound/cut/gaping
-	stages = list("gaping wound" = 50, "large blood soaked clot" = 25, "large clot" = 15, "small angry scar" = 5, "small straight scar" = 0)
-	damage_type = CUT
-
-/datum/wound/cut/gaping_big
-	stages = list("big gaping wound" = 60, "healing gaping wound" = 40, "large angry scar" = 10, "large straight scar" = 0)
-	damage_type = CUT
+	regeneration_cutoff = 5
 
 /datum/wound/cut/massive
-	stages = list("massive wound" = 70, "massive healing wound" = 50, "massive angry scar" = 10,  "massive jagged scar" = 0)
+	stages = list("massive wound" = 70, "massive healing wound" = 50, "healing gaping wound" = 25, "massive angry scar" = 10,  "massive jagged scar" = 0)
 	damage_type = CUT
 
-/* BRUISES **/
-/datum/wound/bruise
+/* PIERCES **/
+/datum/wound/pierce/shallow
+	stages = list("nasty puncture" = 15, "puncture" = 10, "small hole" = 5, "healing hole" = 2, "small scab" = 0)
+	damage_type = PIERCE
+	regeneration_cutoff = 15
+
+/datum/wound/pierce/deep
+	stages = list("deep puncture" = 35, "bleeding hole" = 25, "hole" = 15, "clotted hole" = 10, "scab" = 5, "fresh skin" = 0)
+	damage_type = PIERCE
+	regeneration_cutoff = 10
+
+/datum/wound/pierce/gaping
+	stages = list("large bleeding hole" = 50, "large hole" = 35, "large clotted hole" = 20, "large scab" = 10, "scar" = 0)
+	damage_type = PIERCE
+	regeneration_cutoff = 5
+
+/datum/wound/pierce/perforating
+	stages = list("gaping hole" = 70, "large bleeding hole" = 50, "large clotted hole" = 25, "massive angry scar" = 10, "massive jagged scar" = 0)
+	damage_type = PIERCE
+
+
+/* BRUISES... and also avulsion and contusion **/
+/datum/wound/bruise/superficial
 	stages = list("monumental bruise" = 80, "huge bruise" = 50, "large bruise" = 30,\
 				  "moderate bruise" = 20, "small bruise" = 10, "tiny bruise" = 5)
-	autoheal_cutoff = 30
+	regeneration_cutoff = 30
 	damage_type = BRUISE
 
+/datum/wound/bruise/contusion
+
+/datum/wound/bruise/avulsion // tissue loss + internal damage enough to cause hematomas etc
+
 /* BURNS **/
-/datum/wound/burn/moderate
+/datum/wound/burn/light
 	stages = list("ripped burn" = 10, "moderate burn" = 5, "healing moderate burn" = 2, "fresh skin" = 0)
 	damage_type = BURN
+	regeneration_cutoff = 10
 
-/datum/wound/burn/large
-	stages = list("ripped large burn" = 20, "large burn" = 15, "healing large burn" = 5, "fresh skin" = 0)
+/datum/wound/burn/thick
+	stages = list("severe burn" = 30, "large burn" = 15, "healing severe burn" = 10, "healing large burn" = 5, "burn scar" = 0)
 	damage_type = BURN
+	regeneration_cutoff = 5
 
-/datum/wound/burn/severe
-	stages = list("ripped severe burn" = 35, "severe burn" = 30, "healing severe burn" = 10, "burn scar" = 0)
-	damage_type = BURN
-
-/datum/wound/burn/deep
+/datum/wound/burn/heavy
 	stages = list("ripped deep burn" = 45, "deep burn" = 40, "healing deep burn" = 15,  "large burn scar" = 0)
 	damage_type = BURN
 

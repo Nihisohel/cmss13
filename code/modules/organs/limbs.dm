@@ -719,10 +719,12 @@ This function completely restores a damaged organ to perfect condition.
 		var/heal_amt = 0
 
 		// if damage >= 50 AFTER treatment then it's probably too severe to heal within the timeframe of a round.
-		if(wound.can_autoheal() && owner.health >= 0 && !wound.is_treated() && owner.bodytemperature > owner.species.cold_level_1)
-			heal_amt = 0.375 //They can't autoheal if in critical
+		if(wound.can_regenerate())
+			if(owner.health >= 0 && !wound.is_treated() && owner.bodytemperature > owner.species.cold_level_1)
+				heal_amt = 0.375 //They can't natural regenerate if in critical
 		else if(wound.is_treated())
-			heal_amt = 0.125 + 0.375 //Treated wounds heal faster, "stacking" ontop of the base regen rate, while also ignoring natural autoheal checks
+			heal_amt = 0.125 + 0.375 //Treated wounds heal faster, "stacking" ontop of the base regen rate, while also ignoring natural regeneration checks
+			to_chat(owner, SPAN_NOTICE("DEBUG You feel better. [heal_amt] damage UNTREATED healed on your [src.display_name]."))
 
 		if(heal_amt)
 			//we only update wounds once in [wound_update_accuracy] ticks so have to emulate realtime
