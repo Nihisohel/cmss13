@@ -96,30 +96,52 @@ K9 SCANNER
 	QDEL_NULL(last_health_display)
 	return ..()
 
+/obj/item/device/healthanalyzer/unique_action(mob/user)
+	scanswitch(user)
+
+/obj/item/device/healthanalyzer/proc/scanswitch(mob/user)
+	switch(popup_window)
+		if(TRUE)
+			popup_window = FALSE
+			to_chat(user, SPAN_INFO("\The [src] will now display the results on your chat window."))
+			playsound(loc, 'sound/weapons/handling/safety_toggle.ogg', 25, 1, 6)
+
+		if(FALSE)
+			popup_window = TRUE
+			to_chat(user, SPAN_INFO("\The [src] will now display the results on a seperate HUD."))
+			playsound(loc, 'sound/weapons/handling/safety_toggle.ogg', 25, 1, 6)
+
+	last_scan = null // reset so we don't get undefined tgui data from using the legacy mode
+	to_chat(user, SPAN_INFO("Previous scanning data has been reset."))
+
 /obj/item/device/healthanalyzer/attack(mob/living/target_mob, mob/living/user)
-	if(!istype(target_mob, /mob/living/carbon) || isxeno(target_mob))
-		to_chat(user, SPAN_WARNING("[src] can't make sense of this creature."))
-		return
-	if(!popup_window)
-		last_scan = target_mob.health_scan(user, FALSE, TRUE, popup_window, alien)
+	if(!popup_window) // note to self, this is specifically a check for non-ui mode :/
+		var/scanned = target_mob.health_scan(user, FALSE, TRUE, popup_window, alien)
+		if(scanned)
+			last_scan = scanned
+			to_chat(user, SPAN_NOTICE("[user] has analyzed [target_mob]'s vitals."))
+			playsound(src.loc, 'sound/items/healthanalyzer.ogg', 50)
+			src.add_fingerprint(user)
 	else
 		if (!last_health_display)
 			last_health_display = new(target_mob)
 		else
 			last_health_display.target_mob = target_mob
 		SStgui.close_user_uis(user, src)
-		last_scan = last_health_display.ui_data(user, DETAIL_LEVEL_HEALTHANALYSER)
-		last_health_display.look_at(user, DETAIL_LEVEL_HEALTHANALYSER, bypass_checks = FALSE, ignore_delay = FALSE, alien = alien)
-	to_chat(user, SPAN_NOTICE("[user] has analyzed [target_mob]'s vitals."))
-	playsound(src.loc, 'sound/items/healthanalyzer.ogg', 50)
-	src.add_fingerprint(user)
+		if(last_health_display.look_at(user, DETAIL_LEVEL_HEALTHANALYSER, bypass_checks = FALSE, ignore_delay = FALSE, alien = alien))
+			last_scan = last_health_display.ui_data(user, DETAIL_LEVEL_HEALTHANALYSER)
+			to_chat(user, SPAN_NOTICE("[user] has analyzed [target_mob]'s vitals."))
+			playsound(src.loc, 'sound/items/healthanalyzer.ogg', 50)
+			src.add_fingerprint(user)
+		else
+			last_health_display = null
 	return
 
 /obj/item/device/healthanalyzer/attack_self(mob/user)
 	..()
 
 	if(!last_scan)
-		user.show_message("No previous scan found.")
+		to_chat(user, SPAN_INFO("Previous scanning data not found or was reset."))
 		return
 
 	if(popup_window)

@@ -21,6 +21,14 @@
 	if(SSticker?.mode?.hardcore)
 		hardcore = TRUE //For WO disposing of corpses
 
+/mob/living/carbon/human/clicked(mob/user, list/mods)
+	if(..())
+		return TRUE
+	if(mods[ALT_CLICK] && ishuman(user))
+		check_for_injuries(user)
+		return TRUE
+	return FALSE
+
 /mob/living/carbon/human/initialize_pass_flags(datum/pass_flags_container/PF)
 	..()
 	if (PF)
@@ -807,14 +815,12 @@
 		stethoscope.attack(src, user)
 
 	if(href_list["remove_splint"])
-		if(usr == src) // cant be arsed to do the same for other players
-			var/part_to_remove = href_list["remove_splint"]
-			remove_splints(user = src, part = part_to_remove)
+		var/part_to_remove = href_list["remove_splint"]
+		remove_splints(user = usr, part = part_to_remove)
 
 	if(href_list["remove_tourniquet"])
-		if(usr == src) // cant be arsed to do the same for other players
-			var/part_to_remove = href_list["remove_tourniquet"]
-			remove_tourniquets(user = src, part = part_to_remove)
+		var/part_to_remove = href_list["remove_tourniquet"]
+		remove_tourniquets(user = usr, part = part_to_remove)
 
 	..()
 	return
@@ -1514,6 +1520,12 @@
 
 		var/msg = "" // Have to use this because there are issues with the to_chat macros and text macros and quotation marks
 		if(is_splint)
+			if(user == target)
+				user.visible_message(SPAN_NOTICE("[user] starts to remove the [part ? "splint on their [target.get_limb(part).display_name]" : "splints"]."),
+					SPAN_NOTICE("You start to remove the [part ? "splint on your [target.get_limb(part).display_name]" : "splints"]."))
+			else
+				user.visible_message(SPAN_NOTICE("[user] starts to remove \the [target]'s [part ? "splint on their [target.get_limb(part).display_name]" : "splints"]."),
+					SPAN_NOTICE("You start to remove \the [target]'s [part ? "splint on their [target.get_limb(part).display_name]" : "splints"]."))
 			if(do_after(user, HUMAN_STRIP_DELAY * user.get_skill_duration_multiplier(SKILL_MEDICAL), INTERRUPT_ALL, BUSY_ICON_GENERIC, target, INTERRUPT_MOVED, BUSY_ICON_GENERIC))
 				var/can_reach_splints = TRUE // redundant now that the space suit thing is commented out, but i cba to remove it
 				var/amount_removed = 0
@@ -1563,9 +1575,10 @@
 						SPAN_NOTICE("Your [part ? "splint on your [target.get_limb(part).display_name] is" : (amount_removed > 1 ? "splints are" : "splint is")] removed."))
 					target.update_med_icon()
 					user.put_in_hands(new_splint)
+			else if(user == target)
+				to_chat(user, SPAN_NOTICE("You stop trying to remove your [part ? "splint on your [target.get_limb(part).display_name]" : "splints"]."))
 			else
-				msg = "[user == target ? "your":"\proper [target]'s"]"
-				to_chat(user, SPAN_NOTICE("You stop trying to remove [msg] [part ? "splint on your [target.get_limb(part).display_name]" : "splints"]."))
+				to_chat(user, SPAN_NOTICE("You stop trying to remove \the [target]'s [part ? "splint on their [target.get_limb(part).display_name]" : "splints"]."))
 		else
 			if(same_arm_side)
 				to_chat(user, SPAN_WARNING("You need to use the opposite hand to remove the splints on your arm and hand!"))
@@ -1613,6 +1626,12 @@
 
 		var/msg = ""
 		if(is_constricted)
+			if(user == target) // actual hell on earth with these messages man
+				user.visible_message(SPAN_NOTICE("[user] starts to remove the [part ? "tourniquet on their [target.get_limb(part).display_name]" : "tourniquets"]."),
+					SPAN_NOTICE("You start to remove the [part ? "tourniquet on your [target.get_limb(part).display_name]" : "tourniquets"]."))
+			else
+				user.visible_message(SPAN_NOTICE("[user] starts to remove \the [target]'s [part ? "tourniquet on their [target.get_limb(part).display_name]" : "tourniquets"]."),
+					SPAN_NOTICE("You start to remove \the [target]'s [part ? "tourniquet on their [target.get_limb(part).display_name]" : "tourniquets"]."))
 			if(do_after(user, HUMAN_STRIP_DELAY * user.get_skill_duration_multiplier(SKILL_MEDICAL), INTERRUPT_ALL, BUSY_ICON_GENERIC, target, INTERRUPT_MOVED, BUSY_ICON_GENERIC))
 				var/amount_removed = 0
 				for(var/bodypart in parts_to_check)
@@ -1652,9 +1671,10 @@
 					SPAN_NOTICE("Your [part ? "tourniquet on your [target.get_limb(part).display_name] is" : (amount_removed > 1 ? "tourniquets are" : "tourniquet is")] removed."))
 				target.update_med_icon()
 				user.put_in_hands(new_tourniquet)
+			else if(user == target)
+				to_chat(user, SPAN_NOTICE("You stop trying to remove your [part ? "tourniquet on your [target.get_limb(part).display_name]" : "tourniquets"]."))
 			else
-				msg = "[user == target ? "your":"\proper [target]'s"]"
-				to_chat(user, SPAN_NOTICE("You stop trying to remove [msg] [part ? "tourniquet on your [target.get_limb(part).display_name]" : "tourniquets"]."))
+				to_chat(user, SPAN_NOTICE("You stop trying to remove \the [target]'s [part ? "tourniquet on their [target.get_limb(part).display_name]" : "tourniquets"]."))
 		else
 			if(same_arm_side)
 				to_chat(user, SPAN_WARNING("You need to use the opposite hand to remove the tourniquets on your arm!"))

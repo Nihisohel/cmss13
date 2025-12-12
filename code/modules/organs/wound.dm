@@ -154,70 +154,53 @@
 //because in it's stages list, "deep cut" = 15.
 
 // 2025 note, the above isnt exactly necessary anymore, since existing wounds can worsen - nihi
+
+// list of wound types in ordered from most severe to least severe, explicitly have to be ordered from most to least severe
+// that also means that wound datums SHOULD have unique min_damage values, as the first in the list will always be chosen over the next if they are the same numerical value
+// if you are trying to add a wound type that would ordinarily overlap with another, it would probably be better to add another wound type as to keep things legible - nihi
+var/global/list/wound_type_list = list(
+	CUT = list(/datum/wound/cut/massive, /datum/wound/cut/deep, /datum/wound/cut/large, /datum/wound/cut/small),
+	PIERCE = list(/datum/wound/pierce/perforating, /datum/wound/pierce/gaping, /datum/wound/pierce/deep, /datum/wound/pierce/shallow),
+	BRUISE = list(/datum/wound/bruise/crush, /datum/wound/bruise/hematoma, /datum/wound/bruise/contusion, /datum/wound/bruise/superficial),
+	BURN = list(/datum/wound/burn/carbonised, /datum/wound/burn/heavy, /datum/wound/burn/thick, /datum/wound/burn/light)
+)
+
 /proc/get_wound_type(type = CUT, damage)
-	switch(type)
-		if(CUT)
-			switch(damage)
-				if(70 to INFINITY)
-					return /datum/wound/cut/massive
-				if(50 to 70)
-					return /datum/wound/cut/deep
-				if(15 to 25)
-					return /datum/wound/cut/large
-				if(0 to 10)
-					return /datum/wound/cut/small
+	var/list/wound_types = wound_type_list[type]
+	if(!wound_types) // just in case
+		return null
 
-		if(PIERCE)
-			switch(damage)
-				if(50 to INFINITY)
-					return /datum/wound/pierce/perforating
-				if(35 to 50)
-					return /datum/wound/pierce/gaping
-				if(15 to 35)
-					return /datum/wound/pierce/deep
-				if(0 to 10)
-					return /datum/wound/pierce/shallow
-		if(BRUISE)
-			switch(damage)
-				if(50 to INFINITY)
-					return /datum/wound/pierce/perforating
-				if(35 to 50)
-					return /datum/wound/pierce/gaping
-				if(15 to 35)
-					return /datum/wound/pierce/deep
-				if(0 to 10)
-					return /datum/wound/pierce/shallow
+	for(var/wound_datum in wound_types)
+		var/datum/wound/wound = wound_datum
+		if(damage >= initial(wound.min_damage))
+			return wound_datum
 
-		if(BURN)
-			switch(damage)
-				if(50 to INFINITY)
-					return /datum/wound/burn/carbonised
-				if(35 to 50)
-					return /datum/wound/burn/heavy
-				if(10 to 35)
-					return /datum/wound/burn/thick
-				if(0 to 10)
-					return /datum/wound/burn/light
-	return null //no wound
+	return null
+
+//note, ensure that regeneration_cutoff values are set to reasonable descriptions, such as 'healing' descriptors in each wound type below
 
 /* CUTS **/
 /datum/wound/cut/small
 	// link wound descriptions to amounts of damage
 	stages = list("ugly ripped cut" = 20, "ripped cut" = 15, "cut" = 10, "healing cut" = 5, "small scab" = 0)
 	damage_type = CUT
-	regeneration_cutoff = 20
+	min_damage = 0
+	regeneration_cutoff = 10
 
 /datum/wound/cut/large
 	stages = list("ugly ripped flesh wound" = 35, "ugly flesh wound" = 30, "flesh wound" = 25, "deep cut" = 15, "clotted cut" = 10, "scab" = 5, "fresh skin" = 0)
 	damage_type = CUT
+	min_damage = 25
 	regeneration_cutoff = 15
 
 /datum/wound/cut/deep
+	min_damage = 50
 	stages = list("big gaping wound" = 60, "gaping wound" = 50, "large blood soaked clot" = 25, "large clot" = 15, "large angry scar" = 10, "large straight scar" = 0)
 	damage_type = CUT
 	regeneration_cutoff = 5
 
 /datum/wound/cut/massive
+	min_damage = 75
 	stages = list("massive wound" = 70, "massive healing wound" = 50, "healing gaping wound" = 25, "massive angry scar" = 10,  "massive jagged scar" = 0)
 	damage_type = CUT
 
@@ -225,60 +208,86 @@
 /datum/wound/pierce/shallow
 	stages = list("nasty puncture" = 15, "puncture" = 10, "small hole" = 5, "healing hole" = 2, "small scab" = 0)
 	damage_type = PIERCE
+	min_damage = 0
 	regeneration_cutoff = 15
 
 /datum/wound/pierce/deep
 	stages = list("deep puncture" = 35, "bleeding hole" = 25, "hole" = 15, "clotted hole" = 10, "scab" = 5, "fresh skin" = 0)
 	damage_type = PIERCE
+	min_damage = 25
 	regeneration_cutoff = 10
 
 /datum/wound/pierce/gaping
 	stages = list("large bleeding hole" = 50, "large hole" = 35, "large clotted hole" = 20, "large scab" = 10, "scar" = 0)
 	damage_type = PIERCE
+	min_damage = 50
 	regeneration_cutoff = 5
 
 /datum/wound/pierce/perforating
 	stages = list("gaping hole" = 70, "large bleeding hole" = 50, "large clotted hole" = 25, "massive angry scar" = 10, "massive jagged scar" = 0)
 	damage_type = PIERCE
+	min_damage = 75
 
 
 /* BRUISES... and also avulsion and contusion **/
 /datum/wound/bruise/superficial
+	min_damage = 0
 	stages = list("monumental bruise" = 80, "huge bruise" = 50, "large bruise" = 30,\
 				  "moderate bruise" = 20, "small bruise" = 10, "tiny bruise" = 5)
 	regeneration_cutoff = 30
 	damage_type = BRUISE
 
 /datum/wound/bruise/contusion
+	stages = list("monumental bruise" = 80, "huge bruise" = 50, "large bruise" = 30,\
+				  "moderate bruise" = 20, "small bruise" = 10, "tiny bruise" = 5)
+	min_damage = 25
 
-/datum/wound/bruise/avulsion // tissue loss + internal damage enough to cause hematomas etc
+/datum/wound/bruise/hematoma
+	stages = list("monumental bruise" = 80, "huge bruise" = 50, "large bruise" = 30,\
+					"moderate bruise" = 20, "small bruise" = 10, "tiny bruise" = 5)
+	min_damage = 50
+
+/datum/wound/bruise/crush // how the hell would someone even survive this irl
+	stages = list("monumental bruise" = 80, "huge bruise" = 50, "large bruise" = 30,\
+				  "moderate bruise" = 20, "small bruise" = 10, "tiny bruise" = 5)
+	min_damage = 75
 
 /* BURNS **/
 /datum/wound/burn/light
 	stages = list("ripped burn" = 10, "moderate burn" = 5, "healing moderate burn" = 2, "fresh skin" = 0)
 	damage_type = BURN
+	min_damage = 0
 	regeneration_cutoff = 10
 
 /datum/wound/burn/thick
 	stages = list("severe burn" = 30, "large burn" = 15, "healing severe burn" = 10, "healing large burn" = 5, "burn scar" = 0)
 	damage_type = BURN
+	min_damage = 25
 	regeneration_cutoff = 5
 
 /datum/wound/burn/heavy
 	stages = list("ripped deep burn" = 45, "deep burn" = 40, "healing deep burn" = 15,  "large burn scar" = 0)
 	damage_type = BURN
+	min_damage = 50
 
 /datum/wound/burn/carbonised
 	stages = list("carbonised area" = 50, "healing carbonised area" = 20, "massive burn scar" = 0)
 	damage_type = BURN
+	min_damage = 75
+
+/* INTERNAL BLEEDING **/
+/datum/wound/eschar
+	internal = 1
+	stages = list("crusty decaying tissue" = 0)
 
 /* INTERNAL BLEEDING **/
 /datum/wound/internal_bleeding
 	internal = 1
-	stages = list("bruised artery" = 0)
+	stages = list("hemorrhaged artery" = 0) // bruised artery was the prior term...??
 
-/* INTERNAL BLEEDING **/
+/* ARTERIAL BLEEDING **/
 /datum/wound/arterial_bleeding
+	internal = 1
 	stages = list("ruptured artery" = 0)
 
 /* EXTERNAL ORGAN LOSS **/

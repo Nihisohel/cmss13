@@ -27,20 +27,21 @@ GLOBAL_LIST_INIT(known_implants, subtypesof(/obj/item/implant))
 	if(!bypass_checks)
 		if(HAS_TRAIT(target_mob, TRAIT_FOREIGN_BIO) && !alien)
 			to_chat(user, SPAN_WARNING("ERROR: Unknown biology detected."))
-			return
+			return FALSE
 		if(!(ishuman(user) || SSticker?.mode.name == "monkey"))
 			to_chat(usr, SPAN_WARNING("You don't have the dexterity to do this!"))
-			return
+			return FALSE
 		if(!ignore_delay && !skillcheck(user, SKILL_MEDICAL, SKILL_MEDICAL_MEDIC))
 			to_chat(user, SPAN_WARNING("You start fumbling around with the scanner..."))
-			var/fduration = 60
-			if(skillcheck(user, SKILL_MEDICAL, SKILL_MEDICAL_DEFAULT))
-				fduration = 30
-			if(!do_after(user, fduration, INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY) || !user.Adjacent(target_mob))
-				return
+			var/scan_duration = 5 SECONDS
+			if(skillcheck(user, SKILL_MEDICAL, SKILL_MEDICAL_TRAINED))
+				scan_duration = 2 SECONDS
+			if(!do_after(user, scan_duration, (INTERRUPT_NO_NEEDHAND & (~INTERRUPT_MOVED)), BUSY_ICON_FRIENDLY, status_effect = SLOW) || !user.Adjacent(target_mob))
+				return FALSE
 
 	detail_level = detail
 	tgui_interact(user, ui)
+	return TRUE
 
 /datum/health_scan/ui_state(mob/user)
 	if(isobserver(user))
@@ -531,11 +532,11 @@ GLOBAL_LIST_INIT(known_implants, subtypesof(/obj/item/implant))
 			return
 		if(!ignore_delay && !skillcheck(user, SKILL_MEDICAL, SKILL_MEDICAL_MEDIC))
 			to_chat(user, SPAN_WARNING("You start fumbling around with [src]..."))
-			var/fduration = 60
-			if(skillcheck(user, SKILL_MEDICAL, SKILL_MEDICAL_DEFAULT))
-				fduration = 30
-			if(!do_after(user, fduration, INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY) || !user.Adjacent(src))
-				return
+			var/scan_duration = 5 SECONDS
+			if(skillcheck(user, SKILL_MEDICAL, SKILL_MEDICAL_TRAINED))
+				scan_duration = 2 SECONDS
+			if(!do_after(user, scan_duration, (INTERRUPT_NO_NEEDHAND & (~INTERRUPT_MOVED)), BUSY_ICON_FRIENDLY, status_effect = SLOW) || !user.Adjacent(src))
+				return FALSE
 		// Doesn't work on non-humans
 		if(!istype(src, /mob/living/carbon))
 			user.show_message("\nHealth Analyzer results for ERROR:\n\t Overall Status: ERROR")

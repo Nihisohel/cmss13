@@ -471,7 +471,7 @@
 			var/possessive = "[user == person ? "your" : "\the [person]'s"]"
 			var/possessive_their = "[user == person ? user.p_their() : "\the [person]'s"]"
 			user.affected_message(person,
-				SPAN_HELPFUL("You <b>start tightening the [src] on</b> [possessive] <b>[affecting.display_name]</b>."),
+				SPAN_HELPFUL("You <b>start tightening the [src]</b> on [possessive] <b>[affecting.display_name]</b>."),
 				SPAN_HELPFUL("[user] <b>starts tightening</b> your <b>[affecting.display_name]</b> with the <b>[src]</b>."),
 				SPAN_NOTICE("[user] starts tightening the [src] on [possessive_their] [affecting.display_name]."))
 		else
