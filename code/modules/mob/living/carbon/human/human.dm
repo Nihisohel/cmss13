@@ -1743,7 +1743,7 @@
 		return
 
 	visible_message(SPAN_DANGER("[src] has successfully extinguished themselves!"),
-			SPAN_NOTICE("You extinguish yourself."), null, 5)
+			SPAN_NOTICE("You extinguished the fire on yourself, phew."), null, 5)
 
 /mob/living/carbon/human/resist_acid()
 	var/sleep_amount = 1
@@ -1765,7 +1765,7 @@
 				SPAN_NOTICE("You get rid of the acid."), max_distance = 5)
 	else
 		visible_message(SPAN_DANGER("[src] has managed to get rid of some of the acid!"),
-				SPAN_NOTICE("You manage to get rid of some of the acid... but it's still melting you!"), max_distance = 5)
+				SPAN_DANGER("You manage to get rid of some of the acid... but it's still melting you!"), max_distance = 5)
 
 	return
 

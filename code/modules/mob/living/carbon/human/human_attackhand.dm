@@ -16,15 +16,32 @@
 	switch(attacking_mob.a_intent)
 		if(INTENT_HELP)
 
-			if(on_fire && attacking_mob != src)
-				adjust_fire_stacks(-10, min_stacks = 0)
-				playsound(src.loc, 'sound/weapons/thudswoosh.ogg', 25, 1, 7)
-				attacking_mob.visible_message(SPAN_DANGER("[attacking_mob] tries to put out the fire on [src]!"),
-					SPAN_WARNING("You try to put out the fire on [src]!"), null, 5)
-				if(fire_stacks <= 0)
-					attacking_mob.visible_message(SPAN_DANGER("[attacking_mob] has successfully extinguished the fire on [src]!"),
-						SPAN_NOTICE("You extinguished the fire on [src]."), null, 5)
-				return 1
+			if(on_fire && attacking_mob)
+				if(attacking_mob == src)
+					adjust_fire_stacks(-2, min_stacks = 0)
+					playsound(src.loc, 'sound/weapons/thudswoosh.ogg', 25, 1, 7)
+					attacking_mob.visible_message(SPAN_DANGER("[attacking_mob] tries to put out the fire on themselves!"),
+						SPAN_WARNING("You try to put out the fire on yourself!"), null, 5)
+					if(fire_stacks <= 0)
+						attacking_mob.visible_message(SPAN_DANGER("[attacking_mob] has successfully extinguished the fire on themselves!"),
+							SPAN_NOTICE("You extinguished the fire on yourself, phew."), null, 5)
+				else
+					adjust_fire_stacks(-4, min_stacks = 0) // reduced since literally having someone pat you out is better than actually rolling
+					playsound(src.loc, 'sound/weapons/thudswoosh.ogg', 25, 1, 7)
+					attacking_mob.visible_message(SPAN_DANGER("[attacking_mob] tries to put out the fire on [src]!"),
+						SPAN_WARNING("You try to put out the fire on [src]!"), null, 5)
+
+					if(fire_stacks <= 0)
+						attacking_mob.visible_message(SPAN_DANGER("[attacking_mob] has successfully extinguished the fire on [src]!"),
+							SPAN_NOTICE("You extinguished the fire on [src]."), null, 5)
+
+				var/hand_to_burn = attacking_mob.get_active_hand()
+				var/damage_dealt = attacking_mob.apply_armoured_damage(rand(3, 10), ARMOR_BIO, BURN, hand_to_burn) // probably better to calculate the damage based on flame intensity but this may work for now
+				var/hand_string = attacking_mob.hand ? "left hand" : "right hand"
+				if(damage_dealt > 0)
+					to_chat(attacking_mob, SPAN_WARNING("You burn your [hand_string] trying to put out the flames!"))
+
+				return TRUE
 
 			// If unconscious with oxygen damage, do CPR. If dead, we do CPR
 			if(!(stat == UNCONSCIOUS && getOxyLoss() > 0) && !(stat == DEAD))
