@@ -13,6 +13,14 @@
 		visible_message(SPAN_DANGER("<B>[attacking_mob] attempted to touch [src]!</B>"), null, null, 5)
 		return FALSE
 
+	var/obj/limb/targetted_limb = get_limb(attacking_mob.zone_selected)
+	var/is_bleeding = FALSE
+	if(targetted_limb)
+		for(var/datum/effects/bleeding/blood in targetted_limb.bleeding_effects_list)
+			if(istype(blood, /datum/effects/bleeding/external) || istype(blood, /datum/effects/bleeding/arterial))
+				is_bleeding = TRUE
+				break
+
 	switch(attacking_mob.a_intent)
 		if(INTENT_HELP)
 
@@ -41,6 +49,54 @@
 				if(damage_dealt > 0)
 					to_chat(attacking_mob, SPAN_WARNING("You burn your [hand_string] trying to put out the flames!"))
 
+				return TRUE
+
+			if(targetted_limb && stat == CONSCIOUS && is_bleeding)
+				if(attacking_mob.action_busy)
+					return FALSE
+
+				var/self = (attacking_mob == src)
+				attacking_mob.visible_message(SPAN_NOTICE("[attacking_mob] starts applying pressure to [self ? "their" : "[src]'s"] [targetted_limb.display_name]."),
+					SPAN_HELPFUL("You start applying pressure to [self ? "your" : "[src]'s"] [targetted_limb.display_name]..."))
+
+				var/do_after_result = FALSE
+				if(self)
+					do_after_result = do_after(src, 3 SECONDS, (INTERRUPT_ALL & (~INTERRUPT_MOVED)), BUSY_ICON_MEDICAL, status_effect = SLOW)
+				else
+					do_after_result = do_after(src, 3 SECONDS, (INTERRUPT_ALL & (~INTERRUPT_MOVED)), BUSY_ICON_FRIENDLY, attacking_mob, INTERRUPT_ALL, BUSY_ICON_MEDICAL)
+
+				if(do_after_result)
+
+					var/stopped_bleeding = FALSE
+					var/severe_bleeding = FALSE
+					var/cannot_reduce_further = FALSE
+					for(var/datum/effects/bleeding/blood in targetted_limb.bleeding_effects_list)
+						if(blood.blood_loss >= 1)
+							if(blood.blood_loss == 1)
+								cannot_reduce_further = TRUE
+							else
+								blood.blood_loss = max(1, blood.blood_loss - 0.05)
+								severe_bleeding = TRUE
+						else
+							blood.blood_loss = max(0, blood.blood_loss - 0.05)
+							if(blood.blood_loss == 0)
+								stopped_bleeding = TRUE
+
+					if(stopped_bleeding)
+						attacking_mob.visible_message(SPAN_NOTICE("[attacking_mob] applies pressure to [self ? "their" : "[src]'s"] [targetted_limb.display_name], stopping the bleeding."),
+							SPAN_HELPFUL("You apply pressure to [self ? "your" : "[src]'s"] [targetted_limb.display_name], stopping the bleeding!"))
+					else if(cannot_reduce_further)
+						attacking_mob.visible_message(SPAN_NOTICE("[attacking_mob] applies pressure to [self ? "their" : "[src]'s"] [targetted_limb.display_name], trying to stop the bleeding."),
+							SPAN_HELPFUL("You continue to apply pressure to [self ? "your" : "[src]'s"] [targetted_limb.display_name], but can't reduce the bleeding any further by hand."))
+					else if(targetted_limb && severe_bleeding)
+						attacking_mob.visible_message(SPAN_NOTICE("[attacking_mob] applies pressure to [self ? "their" : "[src]'s"] [targetted_limb.display_name], trying to stop the bleeding."),
+							SPAN_HELPFUL("You apply pressure to [self ? "your" : "[src]'s"] [targetted_limb.display_name], although you slow the bleeding, it is too severe to stop by hand!"))
+					else
+						attacking_mob.visible_message(SPAN_NOTICE("[attacking_mob] applies pressure to [self ? "their" : "[src]'s"] [targetted_limb.display_name], slowing the bleeding."),
+							SPAN_HELPFUL("You apply pressure to [self ? "your" : "[src]'s"] [targetted_limb.display_name], slowing the bleeding."))
+
+					playsound(src.loc, 'sound/weapons/thudswoosh.ogg', 25, 1, 5)
+					attacking_mob.add_blood(get_blood_color(), BLOOD_HANDS)
 				return TRUE
 
 			// If unconscious with oxygen damage, do CPR. If dead, we do CPR
@@ -84,8 +140,8 @@
 							SPAN_HELPFUL("You <b>fail</b> to perform <b>CPR</b> on <b>[src]</b>. Incorrect rhythm. Do it <b>slower</b>."))
 						balloon_alert(attacking_mob, "incorrect rhythm, do it slower")
 					cpr_cooldown = world.time + 7 SECONDS
-			cpr_attempt_timer = 0
-			return 1
+				cpr_attempt_timer = 0
+				return 1
 
 		if(INTENT_GRAB)
 			if(attacking_mob == src)

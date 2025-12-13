@@ -48,6 +48,7 @@
 	if(affected_mob.status_flags & NO_PERMANENT_DAMAGE)
 		return FALSE
 
+	to_chat(affected_mob, SPAN_DANGER("DEBUG You are bleeding from your [limb.name] with [blood_loss]!"))
 	return TRUE
 
 /datum/effects/bleeding/proc/add_on(damage)
