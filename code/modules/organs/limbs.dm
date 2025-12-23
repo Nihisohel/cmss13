@@ -12,6 +12,7 @@
 	var/damage_state = "=="
 	var/brute_dam = 0
 	var/burn_dam = 0
+	/// max amount of damage that the limb can have
 	var/max_damage = 0
 	var/max_size = 0
 	var/last_dam = -1
@@ -25,7 +26,8 @@
 
 	var/tmp/perma_injury = 0
 
-	var/min_broken_damage = 30
+
+	var/limb_integrity = 100
 
 	var/min_eschar_damage = 30
 
@@ -55,8 +57,8 @@
 	var/wound_update_accuracy = 1
 
 	var/mob/living/carbon/human/owner = null
-	var/vital //Lose a vital limb, die immediately.
-
+	///Lose a vital limb, die immediately and also determines if the limb can be dislocated or not.
+	var/vital
 	var/has_stump_icon = FALSE
 	var/image/wound_overlay //Used to save time redefining it every wound update. Doesn't remember anything but the most recently used icon state.
 	var/image/burn_overlay //Ditto but for burns.
@@ -223,8 +225,14 @@
 
 	var/damage = armor_damage_reduction(GLOB.marine_bone_break, brute*3, armor, 0, 0, 0, max_damage ? (100*(max_damage-brute_dam) / max_damage) : 100)
 
-	if(brute_dam > min_broken_damage * CONFIG_GET(number/organ_health_multiplier) && prob(damage*2))
-		fracture()
+	if(!(status & (LIMB_BROKEN|LIMB_DISLOCATED|LIMB_DESTROYED|LIMB_UNCALIBRATED_PROSTHETIC|LIMB_SYNTHSKIN)) && !vital)
+		if(prob(damage / 2))
+			dislocate()
+			return
+
+	limb_integrity -= damage
+	if(limb_integrity <= 0)
+		fracture(100)
 
 /obj/limb/proc/take_damage_eschar(burn)
 	if(!owner)
@@ -468,6 +476,7 @@ This function completely restores a damaged organ to perfect condition.
 	perma_injury = 0
 	brute_dam = 0
 	burn_dam = 0
+	limb_integrity = initial(limb_integrity)
 	wounds.Cut()
 	number_wounds = 0
 
@@ -651,6 +660,8 @@ This function completely restores a damaged organ to perfect condition.
 		return TRUE
 	if(status & LIMB_CONSTRICTED) // ditto for above
 		return TRUE
+	if(status & LIMB_DISLOCATED)
+		return TRUE
 
 	if(brute_dam || burn_dam)
 		return TRUE
@@ -680,8 +691,9 @@ This function completely restores a damaged organ to perfect condition.
 			owner.pain.apply_pain(-PAIN_BONE_BREAK)
 			status &= ~LIMB_BROKEN //Let it be known that this code never unbroke the limb.
 			knitting_time = -1
+			limb_integrity = initial(limb_integrity)
 
-///Updating wounds. Handles wound natural I had some free spachealing, internal bleedings and infections
+///Updating wounds. Handles wound natural spachealing, internal bleedings and infections (eventually)
 /obj/limb/proc/update_wounds()
 	if((status & (LIMB_ROBOT|LIMB_SYNTHSKIN))) //Robotic limbs don't heal or get worse.
 		return
@@ -1207,7 +1219,7 @@ treat_grafted var tells it to apply to grafted but unsalved wounds, for burn kit
 			return FALSE
 
 /obj/limb/proc/fracture(bonebreak_probability)
-	if(status & (LIMB_BROKEN|LIMB_DESTROYED|LIMB_UNCALIBRATED_PROSTHETIC|LIMB_SYNTHSKIN))
+	if(status & (LIMB_BROKEN|LIMB_DISLOCATED|LIMB_DESTROYED|LIMB_UNCALIBRATED_PROSTHETIC|LIMB_SYNTHSKIN))
 		if (knitting_time != -1)
 			knitting_time = -1
 			to_chat(owner, SPAN_WARNING("You feel your [display_name] stop knitting together as it absorbs damage!"))
@@ -1269,11 +1281,34 @@ treat_grafted var tells it to apply to grafted but unsalved wounds, for burn kit
 			status |= LIMB_BROKEN
 			owner.pain.apply_pain(PAIN_BONE_BREAK)
 			broken_description = pick("broken","fracture","hairline fracture")
-			perma_injury = min_broken_damage
+			perma_injury = initial(limb_integrity) * 0.2
 	else
 		owner.visible_message(
 			SPAN_WARNING("[owner] seems to withstand the blow!"),
 			SPAN_WARNING("Your [display_name] manages to withstand the blow!"))
+
+/obj/limb/proc/dislocate()
+	if(status & (LIMB_BROKEN|LIMB_DISLOCATED|LIMB_DESTROYED|LIMB_UNCALIBRATED_PROSTHETIC|LIMB_SYNTHSKIN))
+		return
+
+	if(owner.status_flags & NO_PERMANENT_DAMAGE)
+		owner.visible_message(SPAN_WARNING("[owner] withstands the blow!"), SPAN_WARNING("Your [display_name] withstands the blow!"))
+		return
+
+	if(status & LIMB_ROBOT) // Robots don't dislocate, they malfunction.
+		return
+
+	owner.visible_message(
+		SPAN_WARNING("You hear a dull pop coming from [owner]!"),
+		SPAN_HIGHDANGER("Something feels like it popped out of place in your [display_name]!"),
+		SPAN_HIGHDANGER("You hear a sickening pop!"))
+	playsound(owner, 'sound/effects/snap.ogg', 45, TRUE)
+
+	status |= LIMB_DISLOCATED
+	owner.pain.apply_pain(PAIN_BONE_BREAK / 2)
+	broken_description = "dislocated"
+	perma_injury = initial(limb_integrity) * 0.1
+	start_processing()
 
 /obj/limb/proc/eschar()
 	if(status & (LIMB_ESCHAR|LIMB_DESTROYED|LIMB_UNCALIBRATED_PROSTHETIC|LIMB_SYNTHSKIN))
@@ -1363,6 +1398,9 @@ treat_grafted var tells it to apply to grafted but unsalved wounds, for burn kit
 /obj/limb/proc/is_constricted()
 	return (status & LIMB_CONSTRICTED)
 
+/obj/limb/proc/is_dislocated()
+	return (status & LIMB_DISLOCATED)
+
 /obj/limb/proc/is_malfunctioning()
 	if(status & LIMB_ROBOT)
 		return prob(brute_dam + burn_dam)
@@ -1377,29 +1415,30 @@ treat_grafted var tells it to apply to grafted but unsalved wounds, for burn kit
 	var/result
 	if(is_constricted())
 		if(prob(35))
-			owner.drop_inv_item_on_ground(c_hand)
-			owner.emote("me", 1, "releases their grip due to their constricted [hand_name]!")
 			result = "constriction"
-
-	if(is_broken())
+			owner.emote("me", 1, "releases their grip due to their constricted [hand_name]!")
+	else if(is_dislocated())
+		if(prob(25))
+			result = "dislocation"
+			var/emote_scream_dislocated = pick("winces in pain and", "lets out a sharp cry and", "cries out and")
+			owner.emote("me", 1, "[(!owner.pain.feels_pain) ? "" : emote_scream_dislocated ] drops what they were holding in their [hand_name]!")
+	else if(is_broken())
 		if(prob(15))
-			owner.drop_inv_item_on_ground(c_hand)
+			result = "fracture"
 			var/emote_scream = pick("screams in pain and", "lets out a sharp cry and", "cries out and")
 			owner.emote("me", 1, "[(!owner.pain.feels_pain) ? "" : emote_scream ] drops what they were holding in their [hand_name]!")
-			result = "fracture pain"
-
-	if(is_malfunctioning())
+	else if(is_malfunctioning())
 		if(prob(10))
-			owner.drop_inv_item_on_ground(c_hand)
+			result = "malfunction"
 			owner.emote("me", 1, "drops what they were holding, their [hand_name] malfunctioning!")
 			var/datum/effect_system/spark_spread/spark_system = new /datum/effect_system/spark_spread()
 			spark_system.set_up(5, 0, owner)
 			spark_system.attach(owner)
 			spark_system.start()
 			QDEL_IN(spark_system, 1 SECONDS)
-			result = "malfunction"
 
 	if(result) // spams this shit otherwise
+		owner.drop_inv_item_on_ground(c_hand)
 		balloon_alert(owner, "Dropped [hand_name] item from [result]!")
 
 /obj/limb/proc/embed(obj/item/W, silent = 0)
@@ -1515,11 +1554,11 @@ treat_grafted var tells it to apply to grafted but unsalved wounds, for burn kit
 	icon_name = "torso"
 	display_name = "chest"
 	cavity = "thoracic cavity"
-	max_damage = 200
-	min_broken_damage = 30
+	max_damage = 250
+	limb_integrity = 150
 	min_eschar_damage = 30
 	body_part = BODY_FLAG_CHEST
-	vital = 1
+	vital = TRUE
 	encased = "ribcage"
 	splint_icon_amount = 4
 	bandage_icon_amount = 4
@@ -1529,11 +1568,11 @@ treat_grafted var tells it to apply to grafted but unsalved wounds, for burn kit
 	icon_name = "groin"
 	display_name = "groin"
 	cavity = "abdominal cavity"
-	max_damage = 200
-	min_broken_damage = 30
+	max_damage = 150
+	limb_integrity = 125
 	min_eschar_damage = 30
 	body_part = BODY_FLAG_GROIN
-	vital = 1
+	vital = TRUE
 	splint_icon_amount = 1
 	bandage_icon_amount = 2
 
@@ -1546,30 +1585,30 @@ treat_grafted var tells it to apply to grafted but unsalved wounds, for burn kit
 /obj/limb/leg
 	name = "leg"
 	display_name = "leg"
-	max_damage = 35
-	min_broken_damage = 20
+	max_damage = 75
+	limb_integrity = 75
 	min_eschar_damage = 20
 
 /obj/limb/foot
 	name = "foot"
 	display_name = "foot"
-	max_damage = 30
-	min_broken_damage = 20
+	max_damage = 45
+	limb_integrity = 50
 	min_eschar_damage = 20
 	can_bleed_internally = FALSE
 
 /obj/limb/arm
 	name = "arm"
 	display_name = "arm"
-	max_damage = 35
-	min_broken_damage = 20
+	max_damage = 75
+	limb_integrity = 75
 	min_eschar_damage = 20
 
 /obj/limb/hand
 	name = "hand"
 	display_name = "hand"
-	max_damage = 30
-	min_broken_damage = 20
+	max_damage = 35
+	limb_integrity = 45
 	min_eschar_damage = 20
 	can_bleed_internally = FALSE
 
@@ -1654,11 +1693,11 @@ treat_grafted var tells it to apply to grafted but unsalved wounds, for burn kit
 	icon_name = "head"
 	display_name = "head"
 	cavity = "cranial cavity"
-	max_damage = 60
-	min_broken_damage = 30
+	max_damage = 100
+	limb_integrity = 100
 	min_eschar_damage = 30
 	body_part = BODY_FLAG_HEAD
-	vital = 1
+	vital = TRUE
 	encased = "skull"
 	has_stump_icon = TRUE
 	splint_icon_amount = 4

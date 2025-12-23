@@ -171,16 +171,16 @@
 	for(var/obj/limb/limb in H.limbs)
 		switch(limb.name)
 			if("groin","chest")
-				limb.min_broken_damage = 40
+				limb.limb_integrity = 40
 				limb.max_damage = 200
 			if("head")
-				limb.min_broken_damage = 40
+				limb.limb_integrity = 40
 				limb.max_damage = 60
 			if("l_hand","r_hand","r_foot","l_foot")
-				limb.min_broken_damage = 25
+				limb.limb_integrity = 25
 				limb.max_damage = 30
 			if("r_leg","r_arm","l_leg","l_arm")
-				limb.min_broken_damage = 30
+				limb.limb_integrity = 30
 				limb.max_damage = 35
 		limb.time_to_knit = -1
 
@@ -196,19 +196,19 @@
 	for(var/obj/limb/limb in hunter.limbs)
 		switch(limb.name)
 			if("groin","chest")
-				limb.min_broken_damage = 145
+				limb.limb_integrity = 200
 				limb.max_damage = 150
 				limb.time_to_knit = 1200 // 2 minutes to self heal bone break, time is in tenths of a second to auto heal this
 			if("head")
-				limb.min_broken_damage = 140
+				limb.limb_integrity = 150
 				limb.max_damage = 150
 				limb.time_to_knit = 600 // 1 minute to self heal bone break, time is in tenths of a second
 			if("l_hand","r_hand","r_foot","l_foot")
-				limb.min_broken_damage = 145
+				limb.limb_integrity = 100
 				limb.max_damage = 150
 				limb.time_to_knit = 600 // 1 minute to self heal bone break, time is in tenths of a second
 			if("r_leg","r_arm","l_leg","l_arm")
-				limb.min_broken_damage = 145
+				limb.limb_integrity = 100
 				limb.max_damage = 150
 				limb.time_to_knit = 600 // 1 minute to self heal bone break, time is in tenths of a second
 

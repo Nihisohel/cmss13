@@ -236,7 +236,7 @@
 			var/obj/limb/selected_limb = pick(limbs)
 			var/damage_amount = (rand((40 * survival_difficulty), (50 * survival_difficulty)))
 			selected_limb.take_damage(round((damage_amount * damage_amount_split) / amount_of_parts), round((damage_amount * (1 - damage_amount_split)) / amount_of_parts))
-			if((damage_amount > selected_limb.min_broken_damage) && prob(survival_difficulty * 7))
+			if((damage_amount > selected_limb.limb_integrity) && prob(survival_difficulty * 7)) // touch this later
 				selected_limb.fracture()
 			if((damage_amount > selected_limb.min_eschar_damage) && prob(survival_difficulty * 3))
 				selected_limb.eschar()
