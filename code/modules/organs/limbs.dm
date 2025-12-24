@@ -225,14 +225,20 @@
 
 	var/damage = armor_damage_reduction(GLOB.marine_bone_break, brute*3, armor, 0, 0, 0, max_damage ? (100*(max_damage-brute_dam) / max_damage) : 100)
 
-	if(!(status & (LIMB_BROKEN|LIMB_DISLOCATED|LIMB_DESTROYED|LIMB_UNCALIBRATED_PROSTHETIC|LIMB_SYNTHSKIN)) && !vital)
-		if(prob(damage / 2))
+	var/integrity_threshold = initial(limb_integrity) * 0.85
+	if(!(status & (LIMB_BROKEN|LIMB_DISLOCATED|LIMB_DESTROYED|LIMB_UNCALIBRATED_PROSTHETIC|LIMB_SYNTHSKIN)) && !vital && (limb_integrity < integrity_threshold))
+		if(prob(damage))
 			dislocate()
 			return
 
-	limb_integrity -= damage
+	if(damage >= 15)
+		limb_integrity -= damage / 10
+		to_chat(owner, SPAN_WARNING("The bones in your [display_name] has an integrity of [limb_integrity]!"))
 	if(limb_integrity <= 0)
 		fracture(100)
+		if(limb_integrity <= -initial(limb_integrity)) // im so smart, basically equivalent to -100 percent of the initial integrity values
+			limb_delimb()
+			to_chat(owner, SPAN_WARNING("Your [display_name] has taken wany too much punishment and has torn off!"))
 
 /obj/limb/proc/take_damage_eschar(burn)
 	if(!owner)
