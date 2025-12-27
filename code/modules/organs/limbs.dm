@@ -236,9 +236,6 @@
 		to_chat(owner, SPAN_WARNING("The bones in your [display_name] has an integrity of [limb_integrity]!"))
 	if(limb_integrity <= 0)
 		fracture(100)
-		if(limb_integrity <= -initial(limb_integrity)) // im so smart, basically equivalent to -100 percent of the initial integrity values
-			limb_delimb()
-			to_chat(owner, SPAN_WARNING("Your [display_name] has taken wany too much punishment and has torn off!"))
 
 /obj/limb/proc/take_damage_eschar(burn)
 	if(!owner)
@@ -1292,6 +1289,10 @@ treat_grafted var tells it to apply to grafted but unsalved wounds, for burn kit
 		owner.visible_message(
 			SPAN_WARNING("[owner] seems to withstand the blow!"),
 			SPAN_WARNING("Your [display_name] manages to withstand the blow!"))
+
+	if(limb_integrity <= -initial(limb_integrity) && !vital) // im so smart, basically equivalent to -100 percent of the initial integrity values
+		limb_delimb()
+		to_chat(owner, SPAN_WARNING("Your [display_name] has taken way too much punishment and has torn off!"))
 
 /obj/limb/proc/dislocate()
 	if(status & (LIMB_BROKEN|LIMB_DISLOCATED|LIMB_DESTROYED|LIMB_UNCALIBRATED_PROSTHETIC|LIMB_SYNTHSKIN))
