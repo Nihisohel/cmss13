@@ -428,6 +428,7 @@
 	desc = "A heavily altered suit of lightweight M3 pattern marine armor. The joints have been cut away to enhance mobility while additional pads have been fastened around the shoulders. It is incredibly beat-down."
 	icon_state = "MA"
 	specialty = "M3 pattern mod-'A' marine"
+	lamp_icon = "lampr"
 
 /obj/item/clothing/suit/storage/marine/medium/leader/mod_b
 	name = "\improper modified M3 pattern marine armor 'B'"
@@ -436,6 +437,7 @@
 	armor_melee = CLOTHING_ARMOR_MEDIUM
 	storage_slots = 4
 	specialty = "M3 pattern mod-'B' marine"
+	lamp_icon = "lampr"
 
 /obj/item/clothing/suit/storage/marine/medium/leader/mod_c
 	name = "\improper modified M3 pattern marine armor 'C'"
@@ -450,6 +452,7 @@
 	armor_internaldamage = CLOTHING_ARMOR_LOW
 	storage_slots = 2
 	specialty = "M3 pattern mod-'C' marine"
+	lamp_icon = "lampr"
 
 /obj/item/clothing/suit/storage/marine/tanker
 	name = "\improper M3 pattern tanker armor"
