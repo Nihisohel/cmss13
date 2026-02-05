@@ -71,6 +71,8 @@
 				marine_rk = "co_army"
 			if(JOB_ARMY_SYN)
 				marine_rk = "syn_army"
+			if(JOB_VET_SQUAD_LEADER)
+				marine_rk = "vsl"
 		if(squad.squad_leader == current_human)
 			switch(squad.squad_type)
 				if("Squad")
@@ -284,6 +286,8 @@
 				marine_rk = "tl"
 			if(JOB_SQUAD_LEADER)
 				marine_rk = "leader"
+			if(JOB_VET_SQUAD_LEADER)
+				marine_rk = "vsl"
 		if(current_human.rank_override)
 			marine_rk = current_human.rank_override
 
