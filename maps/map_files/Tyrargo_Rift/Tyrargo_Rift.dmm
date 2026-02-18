@@ -2507,11 +2507,9 @@
 /area/tyrargo/outdoors/colony_streets/south_west)
 "agM" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/item/prop{
-	desc = "Empty and useless now.";
-	icon = 'icons/obj/items/casings.dmi';
+/obj/effect/decal/cleanable/ammo_casing/cartridge{
 	icon_state = "cartridge_10_1";
-	name = "spent casings";
+	randomized_mapload = 0;
 	dir = 6;
 	pixel_y = 1;
 	layer = 3.01
@@ -7370,11 +7368,9 @@
 	layer = 2.96;
 	pixel_y = -12
 	},
-/obj/item/prop{
-	desc = "Empty and useless now.";
-	icon = 'icons/obj/items/casings.dmi';
+/obj/effect/decal/cleanable/ammo_casing/cartridge{
 	icon_state = "cartridge_10_1";
-	name = "spent casings";
+	randomized_mapload = 0;
 	dir = 6;
 	pixel_x = 5;
 	pixel_y = -24
@@ -8143,11 +8139,9 @@
 /turf/open/hybrisa/street/roadlines4,
 /area/tyrargo/outdoors/colony_streets/south_east)
 "aut" = (
-/obj/item/prop{
-	desc = "Empty and useless now.";
-	icon = 'icons/obj/items/casings.dmi';
+/obj/effect/decal/cleanable/ammo_casing/cartridge{
 	icon_state = "cartridge_10_1";
-	name = "spent casings";
+	randomized_mapload = 0;
 	dir = 6;
 	pixel_x = -14;
 	layer = 2.98
@@ -13253,11 +13247,9 @@
 /turf/open/asphalt/cement/cement15,
 /area/tyrargo/outdoors/colony_streets/south_west)
 "aHo" = (
-/obj/item/prop{
-	desc = "Empty and useless now.";
-	icon = 'icons/obj/items/casings.dmi';
+/obj/effect/decal/cleanable/ammo_casing/cartridge{
 	icon_state = "cartridge_10_1";
-	name = "spent casings";
+	randomized_mapload = 0;
 	pixel_x = 10;
 	dir = 6
 	},
@@ -13908,11 +13900,9 @@
 /turf/open/hybrisa/street/roadlines3,
 /area/tyrargo/indoors/museum_storage/ground)
 "aIN" = (
-/obj/item/prop{
-	desc = "Empty and useless now.";
-	icon = 'icons/obj/items/casings.dmi';
+/obj/effect/decal/cleanable/ammo_casing/cartridge{
 	icon_state = "cartridge_10_1";
-	name = "spent casings";
+	randomized_mapload = 0;
 	dir = 6;
 	pixel_x = -14;
 	layer = 2.98
@@ -22255,11 +22245,9 @@
 	icon_state = "sandbag_0";
 	pixel_x = 4
 	},
-/obj/item/prop{
-	desc = "Empty and useless now.";
-	icon = 'icons/obj/items/casings.dmi';
+/obj/effect/decal/cleanable/ammo_casing/cartridge{
 	icon_state = "cartridge_10_1";
-	name = "spent casings";
+	randomized_mapload = 0;
 	dir = 6
 	},
 /obj/effect/decal/cleanable/ammo_casing,
@@ -24568,11 +24556,9 @@
 /obj/effect/decal/cleanable/ammo_casing,
 /obj/effect/decal/cleanable/ammo_casing,
 /obj/effect/decal/cleanable/ammo_casing,
-/obj/item/prop{
-	desc = "Empty and useless now.";
-	icon = 'icons/obj/items/casings.dmi';
+/obj/effect/decal/cleanable/ammo_casing/cartridge{
 	icon_state = "cartridge_10_1";
-	name = "spent casings";
+	randomized_mapload = 0;
 	pixel_y = 12;
 	pixel_x = -15
 	},
@@ -26187,11 +26173,9 @@
 	anchored = 1;
 	layer = 3.03
 	},
-/obj/item/prop{
-	desc = "Empty and useless now.";
-	icon = 'icons/obj/items/casings.dmi';
+/obj/effect/decal/cleanable/ammo_casing/cartridge{
 	icon_state = "cartridge_10_1";
-	name = "spent casings";
+	randomized_mapload = 0;
 	dir = 6;
 	pixel_y = 14;
 	pixel_x = 8
@@ -53437,11 +53421,8 @@
 /turf/open/floor/prison/blue/west,
 /area/tyrargo/indoors/sewer_treatment/upper)
 "cAA" = (
-/obj/item/prop{
-	desc = "Empty and useless now.";
-	icon = 'icons/obj/items/casings.dmi';
+/obj/effect/decal/cleanable/ammo_casing/shell{
 	icon_state = "shell_10_1";
-	name = "spent casings";
 	dir = 1
 	},
 /obj/item/weapon/gun/shotgun/pump/m37a,
@@ -53480,11 +53461,9 @@
 	icon_state = "trash_4";
 	layer = 3.2
 	},
-/obj/item/prop{
-	desc = "Empty and useless now.";
-	icon = 'icons/obj/items/casings.dmi';
+/obj/effect/decal/cleanable/ammo_casing/cartridge{
 	icon_state = "cartridge_10_1";
-	name = "spent casings";
+	randomized_mapload = 0;
 	dir = 6;
 	pixel_y = -13
 	},
@@ -100053,11 +100032,9 @@
 	anchored = 1;
 	layer = 3.03
 	},
-/obj/item/prop{
-	desc = "Empty and useless now.";
-	icon = 'icons/obj/items/casings.dmi';
+/obj/effect/decal/cleanable/ammo_casing/cartridge{
 	icon_state = "cartridge_10_1";
-	name = "spent casings";
+	randomized_mapload = 0;
 	dir = 6;
 	pixel_y = 7;
 	pixel_x = 8
@@ -104816,11 +104793,9 @@
 /area/tyrargo/indoors/apartment/south_upper)
 "gGY" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/item/prop{
-	desc = "Empty and useless now.";
-	icon = 'icons/obj/items/casings.dmi';
+/obj/effect/decal/cleanable/ammo_casing/cartridge{
 	icon_state = "cartridge_10_1";
-	name = "spent casings";
+	randomized_mapload = 0;
 	dir = 6;
 	pixel_y = -14;
 	layer = 3.01
@@ -106482,11 +106457,9 @@
 /turf/open/hybrisa/street/asphalt,
 /area/tyrargo/outdoors/colony_streets/south_west)
 "kvK" = (
-/obj/item/prop{
-	desc = "Empty and useless now.";
-	icon = 'icons/obj/items/casings.dmi';
+/obj/effect/decal/cleanable/ammo_casing/cartridge{
 	icon_state = "cartridge_10_1";
-	name = "spent casings";
+	randomized_mapload = 0;
 	dir = 6;
 	pixel_y = -14;
 	layer = 3.01
@@ -107070,11 +107043,9 @@
 /turf/open/floor/hybrisa/wood/blackwood,
 /area/tyrargo/indoors/apartment/north_ground)
 "lNE" = (
-/obj/item/prop{
-	desc = "Empty and useless now.";
-	icon = 'icons/obj/items/casings.dmi';
+/obj/effect/decal/cleanable/ammo_casing/cartridge{
 	icon_state = "cartridge_10_1";
-	name = "spent casings";
+	randomized_mapload = 0;
 	pixel_x = 10;
 	dir = 6
 	},
@@ -107131,11 +107102,9 @@
 /obj/effect/decal/hybrisa/bloodtrail{
 	dir = 4
 	},
-/obj/item/prop{
-	desc = "Empty and useless now.";
-	icon = 'icons/obj/items/casings.dmi';
+/obj/effect/decal/cleanable/ammo_casing/cartridge{
 	icon_state = "cartridge_10_1";
-	name = "spent casings";
+	randomized_mapload = 0;
 	dir = 6;
 	pixel_x = 5
 	},
@@ -108761,11 +108730,9 @@
 /turf/open/floor/hybrisa/tile/tilebeigecheckered,
 /area/tyrargo/indoors/apartment/north_upper)
 "oFM" = (
-/obj/item/prop{
-	desc = "Empty and useless now.";
-	icon = 'icons/obj/items/casings.dmi';
+/obj/effect/decal/cleanable/ammo_casing/cartridge{
 	icon_state = "cartridge_10_1";
-	name = "spent casings";
+	randomized_mapload = 0;
 	dir = 6;
 	pixel_y = -14;
 	layer = 3.01
@@ -108922,11 +108889,9 @@
 /turf/open/asphalt/cement/cement12,
 /area/tyrargo/outdoors/colony_streets/north_west)
 "oPc" = (
-/obj/item/prop{
-	desc = "Empty and useless now.";
-	icon = 'icons/obj/items/casings.dmi';
+/obj/effect/decal/cleanable/ammo_casing/cartridge{
 	icon_state = "cartridge_10_1";
-	name = "spent casings";
+	randomized_mapload = 0;
 	dir = 6;
 	pixel_x = 5;
 	pixel_y = 6
@@ -109295,11 +109260,9 @@
 	dir = 8;
 	icon_state = "sandbag_0"
 	},
-/obj/item/prop{
-	desc = "Empty and useless now.";
-	icon = 'icons/obj/items/casings.dmi';
+/obj/effect/decal/cleanable/ammo_casing/cartridge{
 	icon_state = "cartridge_10_1";
-	name = "spent casings";
+	randomized_mapload = 0;
 	dir = 6;
 	pixel_x = 9;
 	pixel_y = -2
@@ -109661,11 +109624,9 @@
 /turf/open/floor/wood,
 /area/tyrargo/indoors/bar/ground)
 "qtr" = (
-/obj/item/prop{
-	desc = "Empty and useless now.";
-	icon = 'icons/obj/items/casings.dmi';
+/obj/effect/decal/cleanable/ammo_casing/cartridge{
 	icon_state = "cartridge_10_1";
-	name = "spent casings";
+	randomized_mapload = 0;
 	dir = 6
 	},
 /obj/effect/decal/cleanable/ammo_casing,
@@ -111234,11 +111195,9 @@
 	dir = 8;
 	icon_state = "sandbag_0"
 	},
-/obj/item/prop{
-	desc = "Empty and useless now.";
-	icon = 'icons/obj/items/casings.dmi';
+/obj/effect/decal/cleanable/ammo_casing/cartridge{
 	icon_state = "cartridge_10_1";
-	name = "spent casings";
+	randomized_mapload = 0;
 	pixel_y = -10;
 	pixel_x = 8;
 	dir = 6
@@ -112518,11 +112477,9 @@
 "vAp" = (
 /obj/effect/decal/cleanable/ammo_casing,
 /obj/effect/decal/cleanable/ammo_casing,
-/obj/item/prop{
-	desc = "Empty and useless now.";
-	icon = 'icons/obj/items/casings.dmi';
+/obj/effect/decal/cleanable/ammo_casing/cartridge{
 	icon_state = "cartridge_10_1";
-	name = "spent casings";
+	randomized_mapload = 0;
 	dir = 6
 	},
 /obj/item/stack/medical/bruise_pack/random_amount,
@@ -113004,11 +112961,9 @@
 /turf/open/asphalt/cement/cement9,
 /area/tyrargo/outdoors/colony_streets/south_west)
 "wjb" = (
-/obj/item/prop{
-	desc = "Empty and useless now.";
-	icon = 'icons/obj/items/casings.dmi';
+/obj/effect/decal/cleanable/ammo_casing/cartridge{
 	icon_state = "cartridge_10_1";
-	name = "spent casings";
+	randomized_mapload = 0;
 	dir = 6;
 	pixel_x = 5;
 	pixel_y = 6

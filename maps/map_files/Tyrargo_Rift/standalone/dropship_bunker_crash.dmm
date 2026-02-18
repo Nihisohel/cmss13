@@ -1429,11 +1429,9 @@
 /obj/effect/decal/cleanable/ammo_casing,
 /obj/effect/decal/cleanable/ammo_casing,
 /obj/effect/decal/cleanable/ammo_casing,
-/obj/item/prop{
-	desc = "Empty and useless now.";
-	icon = 'icons/obj/items/casings.dmi';
+/obj/effect/decal/cleanable/ammo_casing/cartridge{
 	icon_state = "cartridge_10_1";
-	name = "spent casings";
+	randomized_mapload = 0;
 	pixel_y = 12;
 	pixel_x = -15
 	},
