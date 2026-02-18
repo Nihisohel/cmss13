@@ -740,19 +740,7 @@
 /turf/open/asphalt/cement_sunbleached/cement_sunbleached9,
 /area/desert_dam/exterior/valley/south_valley_dam)
 "EW" = (
-/obj/effect/blocker/toxic_water/Group_2,
-/obj/effect/decal/ammo_casing/cartridge,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
 /obj/effect/blocker/water/toxic/Group_2,
-/obj/item/ammo_casing/bullet,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/effect/blocker/toxic_water/Group_2,
 /obj/item/ammo_casing/bullet,
 /turf/open/gm/river/desert/shallow_edge/covered/north,
 /area/desert_dam/exterior/river/riverside_east)

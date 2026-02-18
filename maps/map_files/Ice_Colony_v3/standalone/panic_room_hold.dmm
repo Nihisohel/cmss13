@@ -17,18 +17,8 @@
 /turf/open/floor/shiva/bluefull,
 /area/shiva/interior/colony/s_admin)
 "ae" = (
-/obj/effect/decal/ammo_casing,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
 /obj/item/ammo_casing,
 /obj/effect/decal/cleanable/dirt,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/item/ammo_casing,
 /turf/open/floor/shiva/bluefull,
 /area/shiva/interior/colony/s_admin)
 "af" = (
@@ -36,18 +26,8 @@
 /turf/open/floor/shiva/north,
 /area/shiva/interior/colony/s_admin)
 "ag" = (
-/obj/effect/decal/ammo_casing,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
 /obj/item/ammo_casing,
 /obj/effect/decal/cleanable/dirt,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/item/ammo_casing,
 /turf/open/floor/shiva/north,
 /area/shiva/interior/colony/s_admin)
 "ah" = (
@@ -96,20 +76,8 @@
 /area/shiva/interior/colony/s_admin)
 "ap" = (
 /obj/effect/decal/cleanable/blood/drip,
-/obj/effect/decal/ammo_casing,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/effect/decal/cleanable/blood/drip,
 /obj/item/ammo_casing,
 /obj/effect/decal/cleanable/dirt,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/effect/decal/cleanable/blood/drip,
-/obj/item/ammo_casing,
 /turf/open/floor/shiva/north,
 /area/shiva/interior/colony/s_admin)
 "ar" = (
@@ -1402,18 +1370,8 @@
 /turf/open/floor/shiva/redfull/west,
 /area/shiva/interior/colony/s_admin)
 "TI" = (
-/obj/effect/decal/ammo_casing,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
 /obj/item/ammo_casing,
 /obj/effect/decal/cleanable/dirt,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/item/ammo_casing,
 /turf/open/floor/shiva/multi_tiles/west,
 /area/shiva/interior/colony/s_admin)
 "TL" = (

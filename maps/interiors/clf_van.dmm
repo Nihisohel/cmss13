@@ -10,24 +10,6 @@
 	pixel_x = -32;
 	tag = "back_right"
 	},
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/structure/bed/chair/comfy{
-	dir = 1
-	},
-/obj/effect/landmark/interior/spawn/entrance{
-	dir = 8;
-	exit_type = /obj/structure/interior_exit/vehicle/van/backright;
-	name = "back right entrance marker";
-	pixel_x = -32;
-	tag = "back_right"
-	},
 /obj/item/ammo_casing,
 /obj/item/ammo_casing,
 /obj/item/ammo_casing,
@@ -108,26 +90,6 @@
 /obj/effect/landmark/interior/spawn/entrance{
 	dir = 8;
 	exit_type = /obj/structure/interior_exit/vehicle/clf_van/backleft;
-	name = "back left entrance marker";
-	pixel_x = -32;
-	tag = "back_left"
-	},
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/structure/bed/chair/comfy{
-	dir = 8
-	},
-/obj/effect/vehicle_roof/clf_van,
-/obj/effect/landmark/interior/spawn/entrance{
-	dir = 8;
-	exit_type = /obj/structure/interior_exit/vehicle/van/backleft;
 	name = "back left entrance marker";
 	pixel_x = -32;
 	tag = "back_left"

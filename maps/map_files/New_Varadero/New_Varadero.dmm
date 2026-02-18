@@ -7099,7 +7099,7 @@
 	dir = 4
 	},
 /obj/effect/decal/cleanable/blood,
-/obj/effect/decal/ammo_casing/shell{
+/obj/item/ammo_casing/shell{
 	icon_state = "cartridge_1_1"
 	},
 /turf/open/floor/shiva/redfull,
@@ -8466,7 +8466,7 @@
 /turf/open/floor/shiva/blue,
 /area/varadero/interior/hall_SE)
 "gCH" = (
-/obj/effect/decal/ammo_casing{
+/obj/item/ammo_casing{
 	dir = 6;
 	icon_state = "casing_5"
 	},
@@ -8737,7 +8737,7 @@
 	dir = 8
 	},
 /obj/effect/decal/cleanable/blood/drip,
-/obj/effect/decal/ammo_casing/shell{
+/obj/item/ammo_casing/shell{
 	icon_state = "cartridge_3_1"
 	},
 /turf/open/floor/shiva/wredfull,
@@ -11353,7 +11353,7 @@
 /turf/open/gm/dirt,
 /area/varadero/exterior/monsoon)
 "iWE" = (
-/obj/effect/decal/ammo_casing/shell{
+/obj/item/ammo_casing/shell{
 	icon_state = "cartridge_10"
 	},
 /obj/effect/landmark/corpsespawner/miner,
@@ -14731,7 +14731,7 @@
 /turf/open/floor/shiva/north,
 /area/varadero/interior/morgue)
 "lRz" = (
-/obj/effect/decal/ammo_casing{
+/obj/item/ammo_casing{
 	icon_state = "casing_7_1"
 	},
 /turf/open/floor/carpet,
@@ -14941,7 +14941,7 @@
 /turf/open/floor/plating/icefloor/asteroidplating,
 /area/varadero/exterior/lz1_near)
 "lZU" = (
-/obj/effect/decal/ammo_casing/shell{
+/obj/item/ammo_casing/shell{
 	dir = 10;
 	icon_state = "bshell_"
 	},
@@ -15677,7 +15677,7 @@
 	dir = 8;
 	icon_state = "pipe-c"
 	},
-/obj/effect/decal/ammo_casing{
+/obj/item/ammo_casing{
 	icon_state = "casing_10_1"
 	},
 /turf/open/floor/carpet,
@@ -21620,7 +21620,7 @@
 /turf/open/floor/shiva/blue/north,
 /area/varadero/interior/maintenance)
 "rpT" = (
-/obj/effect/decal/ammo_casing/shell{
+/obj/item/ammo_casing/shell{
 	icon_state = "shell_9_1"
 	},
 /turf/open/floor/wood,
@@ -21980,7 +21980,7 @@
 /obj/structure/bed/chair/comfy/orange{
 	dir = 8
 	},
-/obj/effect/decal/ammo_casing/shell{
+/obj/item/ammo_casing/shell{
 	icon_state = "cartridge_3_1"
 	},
 /obj/structure/blocker/forcefield/multitile_vehicles,
@@ -24715,7 +24715,7 @@
 /area/varadero/interior/medical)
 "tQI" = (
 /obj/structure/pipes/standard/simple/hidden/green,
-/obj/effect/decal/ammo_casing{
+/obj/item/ammo_casing{
 	dir = 8;
 	icon_state = "cartridge_2"
 	},
@@ -25789,7 +25789,7 @@
 /turf/open/floor/shiva/yellow/southwest,
 /area/varadero/interior/technical_storage)
 "uMQ" = (
-/obj/effect/decal/ammo_casing/shell{
+/obj/item/ammo_casing/shell{
 	icon_state = "cartridge_1_1"
 	},
 /obj/effect/decal/cleanable/blood,
@@ -27237,7 +27237,7 @@
 /turf/open/floor/shiva/floor3,
 /area/varadero/interior/mess)
 "vPK" = (
-/obj/effect/decal/ammo_casing{
+/obj/item/ammo_casing{
 	icon_state = "casing_8"
 	},
 /turf/open/floor/wood,
