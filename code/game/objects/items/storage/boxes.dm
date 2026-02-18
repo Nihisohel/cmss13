@@ -114,7 +114,7 @@
 /obj/item/storage/box/syringes
 	name = "box of syringes"
 	desc = "A box full of syringes."
-	desc = "A biohazard alert warning is printed on the box"
+	desc = "A biohazard alert warning is printed on the box."
 	icon_state = "syringe"
 	item_state = "syringe"
 	w_class = SIZE_MEDIUM
@@ -529,7 +529,7 @@
 	storage_flags = STORAGE_FLAGS_BOX|STORAGE_CLICK_GATHER|STORAGE_GATHER_SIMULTAENOUSLY
 
 	//multiplier to time required to empty the box into chem master
-	var/time_to_empty = 3
+	var/time_to_empty = 0.3 SECONDS
 
 
 /obj/item/storage/box/pillbottles/fill_preset_inventory()
