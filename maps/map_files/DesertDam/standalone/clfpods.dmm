@@ -1,4 +1,21 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
+"aa" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+/obj/merge_conflict_marker{
+	name = "---Merge Conflict Marker---";
+	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
+	},
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
+/turf/open/asphalt,
+/area/desert_dam/exterior/valley/valley_medical)
 "ab" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/barricade/sandbags/wired{
@@ -14,6 +31,22 @@
 	},
 /turf/open/asphalt,
 /area/desert_dam/exterior/valley/valley_medical)
+"ad" = (
+/obj/structure/desertdam/decals/road_edge{
+	icon_state = "road_edge_decal2"
+	},
+/obj/merge_conflict_marker{
+	name = "---Merge Conflict Marker---";
+	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
+	},
+/obj/structure/desertdam/decals/road_edge{
+	icon_state = "road_edge_decal2"
+	},
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
+/turf/open/asphalt,
+/area/desert_dam/exterior/valley/valley_medical)
 "ae" = (
 /obj/effect/decal/ammo_casing/cartridge,
 /obj/effect/decal/ammo_casing/cartridge,
@@ -22,7 +55,32 @@
 /obj/effect/decal/ammo_casing/cartridge,
 /obj/effect/decal/ammo_casing/cartridge,
 /obj/effect/decal/ammo_casing/cartridge,
+/obj/merge_conflict_marker{
+	name = "---Merge Conflict Marker---";
+	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
+	},
+/obj/structure/barricade/sandbags/wired{
+	dir = 4
+	},
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
 /turf/open/asphalt/cement_sunbleached/cement_sunbleached3,
+/area/desert_dam/exterior/valley/valley_medical)
+"af" = (
+/obj/structure/desertdam/decals/road_edge{
+	icon_state = "road_edge_decal2"
+	},
+/obj/merge_conflict_marker{
+	name = "---Merge Conflict Marker---";
+	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
+	},
+/obj/structure/desertdam/decals/road_edge{
+	icon_state = "road_edge_decal2"
+	},
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
+/turf/open/asphalt,
 /area/desert_dam/exterior/valley/valley_medical)
 "ag" = (
 /obj/effect/decal/cleanable/dirt,
@@ -44,6 +102,17 @@
 /obj/effect/decal/ammo_casing/cartridge,
 /obj/effect/decal/ammo_casing/cartridge,
 /obj/effect/decal/ammo_casing/cartridge,
+/obj/merge_conflict_marker{
+	name = "---Merge Conflict Marker---";
+	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
+	},
+/obj/structure/desertdam/decals/road_edge{
+	icon_state = "road_edge_decal4"
+	},
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
 /turf/open/asphalt,
 /area/desert_dam/exterior/valley/valley_medical)
 "aj" = (
@@ -58,6 +127,17 @@
 /obj/effect/decal/ammo_casing/cartridge,
 /obj/effect/decal/ammo_casing/cartridge,
 /obj/effect/decal/ammo_casing/cartridge,
+/obj/merge_conflict_marker{
+	name = "---Merge Conflict Marker---";
+	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
+	},
+/obj/effect/decal/warning_stripes{
+	icon_state = "E"
+	},
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
 /turf/open/asphalt,
 /area/desert_dam/exterior/valley/valley_medical)
 "al" = (
@@ -66,6 +146,19 @@
 	},
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/ammo_casing/cartridge,
+/obj/effect/decal/cleanable/blood{
+	icon_state = "gib6";
+	pixel_y = -8
+	},
+/obj/merge_conflict_marker{
+	name = "---Merge Conflict Marker---";
+	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
+	},
+/obj/effect/decal/warning_stripes{
+	icon_state = "W"
+	},
+/obj/effect/decal/cleanable/dirt,
+/obj/item/ammo_casing/bullet,
 /obj/effect/decal/cleanable/blood{
 	icon_state = "gib6";
 	pixel_y = -8
@@ -90,11 +183,29 @@
 /obj/effect/decal/cleanable/blood/xeno,
 /turf/open/asphalt,
 /area/desert_dam/exterior/valley/valley_medical)
+"ap" = (
+/obj/merge_conflict_marker{
+	name = "---Merge Conflict Marker---";
+	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
+	},
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
+/turf/open/asphalt,
+/area/desert_dam/exterior/valley/valley_medical)
 "aq" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/ammo_casing/cartridge,
 /obj/effect/decal/ammo_casing/cartridge,
 /obj/effect/decal/ammo_casing/cartridge,
+/obj/merge_conflict_marker{
+	name = "---Merge Conflict Marker---";
+	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
+	},
+/obj/effect/decal/cleanable/dirt,
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
 /turf/open/asphalt,
 /area/desert_dam/exterior/valley/valley_medical)
 "ar" = (
@@ -103,6 +214,18 @@
 	},
 /obj/effect/decal/cleanable/dirt,
 /obj/item/ammo_magazine/rifle/mar40,
+/turf/open/asphalt,
+/area/desert_dam/exterior/valley/valley_medical)
+"as" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/merge_conflict_marker{
+	name = "---Merge Conflict Marker---";
+	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
+	},
+/obj/effect/decal/cleanable/dirt,
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
 /turf/open/asphalt,
 /area/desert_dam/exterior/valley/valley_medical)
 "at" = (
@@ -119,6 +242,15 @@
 	},
 /obj/effect/decal/ammo_casing/cartridge,
 /obj/item/ammo_magazine/rifle/mar40,
+/obj/merge_conflict_marker{
+	name = "---Merge Conflict Marker---";
+	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
+	},
+/obj/structure/desertdam/decals/road_edge{
+	icon_state = "road_edge_decal4"
+	},
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_magazine/rifle/mar40,
 /turf/open/asphalt,
 /area/desert_dam/exterior/valley/valley_medical)
 "av" = (
@@ -128,6 +260,16 @@
 /obj/effect/decal/ammo_casing/cartridge,
 /obj/effect/decal/ammo_casing/cartridge,
 /obj/effect/decal/ammo_casing/cartridge,
+/obj/merge_conflict_marker{
+	name = "---Merge Conflict Marker---";
+	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
+	},
+/obj/effect/decal/warning_stripes{
+	icon_state = "W"
+	},
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
 /turf/open/asphalt,
 /area/desert_dam/exterior/valley/valley_medical)
 "aw" = (
@@ -209,6 +351,25 @@
 /obj/effect/decal/cleanable/blood/oil,
 /turf/open/floor/plating,
 /area/desert_dam/building/medical/garage)
+"aL" = (
+/obj/structure/desertdam/decals/road_edge{
+	icon_state = "road_edge_decal2"
+	},
+/obj/effect/decal/cleanable/dirt,
+/obj/merge_conflict_marker{
+	name = "---Merge Conflict Marker---";
+	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
+	},
+/obj/structure/desertdam/decals/road_edge{
+	icon_state = "road_edge_decal2"
+	},
+/obj/effect/decal/cleanable/dirt,
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
+/turf/open/asphalt,
+/area/desert_dam/exterior/valley/valley_medical)
 "aM" = (
 /obj/item/stack/rods,
 /turf/open/floor/plating/platingdmg3/west,
@@ -241,6 +402,21 @@
 /obj/effect/decal/hybrisa/dirt,
 /turf/open/floor/prison/whitegreen,
 /area/desert_dam/building/medical/lobby)
+"aS" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/merge_conflict_marker{
+	name = "---Merge Conflict Marker---";
+	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
+	},
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/barricade/plasteel/wired{
+	dir = 4;
+	closed = 0
+	},
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
+/turf/open/asphalt/cement_sunbleached/cement_sunbleached13,
+/area/desert_dam/exterior/valley/valley_medical)
 "aT" = (
 /obj/effect/decal/warning_stripes{
 	icon_state = "W"
@@ -1025,6 +1201,20 @@
 /obj/structure/desertdam/decals/road_edge{
 	icon_state = "road_edge_decal10"
 	},
+/obj/merge_conflict_marker{
+	name = "---Merge Conflict Marker---";
+	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
+	},
+/obj/structure/desertdam/decals/road_edge{
+	icon_state = "road_edge_decal10"
+	},
+/obj/item/ammo_casing/bullet,
+/obj/effect/decal/cleanable/blood{
+	dir = 4;
+	icon_state = "gib6"
+	},
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
 /turf/open/asphalt,
 /area/desert_dam/exterior/valley/valley_medical)
 "pg" = (
@@ -1276,6 +1466,15 @@
 	icon_state = "road_edge_decal2"
 	},
 /obj/item/ammo_magazine/smg/fp9000,
+/obj/merge_conflict_marker{
+	name = "---Merge Conflict Marker---";
+	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
+	},
+/obj/structure/desertdam/decals/road_edge{
+	icon_state = "road_edge_decal2"
+	},
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
 /turf/open/asphalt,
 /area/desert_dam/exterior/valley/valley_medical)
 "xq" = (
@@ -1747,6 +1946,12 @@
 "Lx" = (
 /obj/effect/decal/ammo_casing/cartridge,
 /obj/effect/decal/ammo_casing/cartridge,
+/obj/merge_conflict_marker{
+	name = "---Merge Conflict Marker---";
+	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
+	},
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
 /turf/open/asphalt,
 /area/desert_dam/exterior/valley/valley_medical)
 "Mc" = (
@@ -1890,6 +2095,15 @@
 	},
 /obj/effect/decal/ammo_casing/cartridge,
 /obj/effect/decal/ammo_casing/cartridge,
+/obj/merge_conflict_marker{
+	name = "---Merge Conflict Marker---";
+	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
+	},
+/obj/structure/desertdam/decals/road_edge{
+	icon_state = "road_edge_decal4"
+	},
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
 /turf/open/asphalt,
 /area/desert_dam/exterior/valley/valley_medical)
 "PI" = (
@@ -2080,6 +2294,19 @@
 /obj/effect/decal/ammo_casing/cartridge,
 /obj/effect/decal/ammo_casing/cartridge,
 /obj/effect/decal/ammo_casing/cartridge,
+/obj/merge_conflict_marker{
+	name = "---Merge Conflict Marker---";
+	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
+	},
+/obj/effect/decal/warning_stripes{
+	icon_state = "N"
+	},
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
+/obj/item/ammo_casing/bullet,
 /turf/open/asphalt,
 /area/desert_dam/exterior/valley/valley_medical)
 "UZ" = (
@@ -3039,7 +3266,7 @@ Au
 JD
 Au
 PQ
-Ct
+aa
 GM
 dJ
 ID
@@ -3069,10 +3296,10 @@ bW
 bT
 Yc
 gE
-JD
+as
 Au
 bH
-Au
+ap
 Au
 Au
 JD
@@ -3106,14 +3333,14 @@ bW
 bU
 Yc
 oW
-Nc
+aL
 TK
 Jt
 wT
-Jt
+af
 Jt
 Oe
-Jt
+ad
 bl
 be
 ID
@@ -3143,7 +3370,7 @@ bW
 bV
 cR
 Ql
-Ql
+aS
 Wg
 Qx
 ae
