@@ -3142,8 +3142,8 @@
 /turf/open/floor/prison,
 /area/desert_dam/building/security/workshop)
 "ajE" = (
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
 /turf/open/asphalt/tile,
 /area/desert_dam/exterior/valley/valley_security)
 "ajF" = (
@@ -3193,8 +3193,8 @@
 /obj/structure/barricade/sandbags{
 	dir = 8
 	},
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
 /turf/open/asphalt/tile,
 /area/desert_dam/exterior/valley/valley_security)
 "ajM" = (
@@ -3242,8 +3242,8 @@
 /turf/open/asphalt/tile,
 /area/desert_dam/exterior/valley/valley_security)
 "ajS" = (
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
 /obj/effect/decal/sand_overlay/sand1/corner1{
 	dir = 1
 	},
@@ -3278,17 +3278,17 @@
 /turf/open/shuttle/can_surgery/black,
 /area/desert_dam/interior/dam_interior/hanger)
 "ajZ" = (
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
 /obj/effect/decal/sand_overlay/sand1/corner1{
 	dir = 8
 	},
 /turf/open/asphalt/tile,
 /area/desert_dam/exterior/valley/valley_security)
 "aka" = (
-/obj/effect/decal/cleanable/ammo_casing/bullet,
+/obj/effect/decal/cleanable/ammo_casing,
 /turf/open/asphalt/tile,
 /area/desert_dam/exterior/valley/valley_security)
 "akb" = (
@@ -3339,7 +3339,7 @@
 /obj/structure/barricade/sandbags{
 	dir = 8
 	},
-/obj/effect/decal/cleanable/ammo_casing/bullet,
+/obj/effect/decal/cleanable/ammo_casing,
 /turf/open/asphalt/tile,
 /area/desert_dam/exterior/valley/valley_security)
 "akj" = (
@@ -3758,15 +3758,15 @@
 /turf/open/floor/prison/darkredcorners2/west,
 /area/desert_dam/building/security/workshop)
 "alz" = (
-/obj/effect/decal/cleanable/ammo_casing/bullet,
+/obj/effect/decal/cleanable/ammo_casing,
 /turf/open/floor/prison,
 /area/desert_dam/building/security/workshop)
 "alA" = (
 /obj/structure/machinery/light{
 	dir = 4
 	},
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
 /turf/open/floor/prison/darkred2/east,
 /area/desert_dam/building/security/workshop)
 "alB" = (
@@ -3794,7 +3794,7 @@
 /turf/open/floor/prison,
 /area/desert_dam/building/security/workshop)
 "alE" = (
-/obj/effect/decal/cleanable/ammo_casing/bullet,
+/obj/effect/decal/cleanable/ammo_casing,
 /obj/effect/decal/cleanable/dirt,
 /obj/item/ammo_magazine/revolver/cmb{
 	current_rounds = 0;
@@ -3807,8 +3807,8 @@
 /turf/open/floor/prison,
 /area/desert_dam/building/security/workshop)
 "alF" = (
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
 /turf/open/floor/prison,
 /area/desert_dam/building/security/workshop)
 "alG" = (
@@ -3840,9 +3840,9 @@
 /turf/open/floor/prison,
 /area/desert_dam/building/security/workshop)
 "alJ" = (
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
 /turf/open/floor/prison,
 /area/desert_dam/building/security/workshop)
 "alK" = (
@@ -3875,9 +3875,9 @@
 /area/desert_dam/building/security/workshop)
 "alO" = (
 /obj/structure/surface/table/reinforced,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
 /obj/item/ammo_magazine/pistol/l54{
 	current_rounds = 0
 	},
@@ -3898,10 +3898,10 @@
 	dir = 1
 	},
 /obj/structure/surface/table/reinforced,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
 /obj/item/ammo_magazine/pistol/l54{
 	pixel_x = 4;
 	current_rounds = 0
@@ -15193,8 +15193,8 @@
 /turf/open/desert/dirt/desert_transition_corner1/west,
 /area/desert_dam/exterior/valley/valley_hydro)
 "aWp" = (
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
 /turf/open/desert/dirt/desert_transition_edge1/north,
 /area/desert_dam/exterior/valley/valley_hydro)
 "aWq" = (
@@ -15202,9 +15202,9 @@
 	pixel_x = 4;
 	pixel_y = 18
 	},
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
 /turf/open/desert/dirt/desert_transition_edge1/northeast,
 /area/desert_dam/exterior/valley/valley_hydro)
 "aWr" = (
@@ -15240,11 +15240,11 @@
 	dir = 1;
 	pixel_y = 17
 	},
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
 /obj/effect/decal/cleanable/blood/gibs/limb,
 /turf/open/desert/dirt,
 /area/desert_dam/exterior/valley/valley_hydro)
@@ -15267,9 +15267,9 @@
 /turf/open/asphalt/cement_sunbleached/cement_sunbleached13,
 /area/desert_dam/exterior/valley/south_valley_dam)
 "aWA" = (
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
 /turf/open/asphalt/cement_sunbleached/cement_sunbleached12,
 /area/desert_dam/exterior/valley/south_valley_dam)
 "aWB" = (
@@ -15288,12 +15288,12 @@
 /obj/effect/decal/cleanable/blood/drip{
 	icon_state = "2"
 	},
-/obj/effect/decal/cleanable/ammo_casing/bullet,
+/obj/effect/decal/cleanable/ammo_casing,
 /turf/open/asphalt/cement_sunbleached/cement_sunbleached4,
 /area/desert_dam/exterior/valley/south_valley_dam)
 "aWF" = (
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
 /turf/open/asphalt/cement_sunbleached/cement_sunbleached9,
 /area/desert_dam/exterior/valley/south_valley_dam)
 "aWG" = (
@@ -22507,10 +22507,10 @@
 /turf/open/floor/whiteyellowcorner/east,
 /area/desert_dam/interior/dam_interior/break_room)
 "bAh" = (
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
 /turf/open/asphalt/tile,
 /area/desert_dam/exterior/valley/valley_security)
 "bAk" = (
@@ -26699,9 +26699,9 @@
 /turf/open/asphalt/cement_sunbleached/cement_sunbleached13,
 /area/desert_dam/exterior/landing_pad_one)
 "djI" = (
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
-/obj/effect/decal/cleanable/ammo_casing/bullet,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
+/obj/effect/decal/cleanable/ammo_casing,
 /turf/open/asphalt/tile,
 /area/desert_dam/exterior/valley/valley_security)
 "dkb" = (
@@ -27593,7 +27593,7 @@
 /turf/open/floor/prison/yellow/southeast,
 /area/desert_dam/building/hydroponics/hydroponics)
 "dAf" = (
-/obj/effect/decal/cleanable/ammo_casing/bullet,
+/obj/effect/decal/cleanable/ammo_casing,
 /obj/effect/decal/sand_overlay/sand1/corner1{
 	dir = 1
 	},
