@@ -248,7 +248,7 @@
 	/// The multiplier for how much slower this should fire in automatic mode. 1 is normal, 1.2 is 20% slower, 2 is 100% slower, etc. Protected due to it never needing to be edited.
 	VAR_PROTECTED/autofire_slow_mult = 1
 	/// How many empty shell casings are in the gun?
-	var/empty_casings = 0
+	var/list/spent_casings = list()
 
 	/// Whether the weapon has expended it's "second wind" and lost its acid protection.
 	var/has_second_wind = TRUE
@@ -1324,11 +1324,16 @@ and you're good to go.
 		projectile_to_fire.def_zone = user.zone_selected
 
 	play_firing_sounds(projectile_to_fire, user)
+
+	var/datum/ammo/fired_ammo = projectile_to_fire.ammo // reference for casing logic
+
 	if(flags_gun_features & (GUN_INTERNAL_MAG|GUN_MANUAL_EJECT_CASINGS)) //snowflake define for bolt actions or other weird guns that eject casings manually
-		empty_casings++ // accurate case ejections for these guns would be better
+		if(fired_ammo.shell_casing)
+			spent_casings += fired_ammo.shell_casing // accurate case ejections for these guns would be better
 
 	else if(prob(15) && flags_gun_features & GUN_AUTO_EJECT_CASINGS) // dont want to litter the ground too much, also dont want to unnecessarily increase the count for caseless weapons
-		empty_casings++
+		if(fired_ammo.shell_casing)
+			spent_casings += fired_ammo.shell_casing
 
 	if((flags_gun_features & GUN_AUTO_EJECT_CASINGS))
 		eject_casing()
@@ -1498,10 +1503,12 @@ and you're good to go.
 
 		// eject casing logic for PBs
 		if(flags_gun_features & (GUN_INTERNAL_MAG|GUN_MANUAL_EJECT_CASINGS))
-			empty_casings++
+			if(projectile_to_fire.ammo.shell_casing)
+				spent_casings += projectile_to_fire.ammo.shell_casing
 
 		else if(prob(15) && flags_gun_features & GUN_AUTO_EJECT_CASINGS)
-			empty_casings++
+			if(projectile_to_fire.ammo.shell_casing)
+				spent_casings += projectile_to_fire.ammo.shell_casing
 
 		if((flags_gun_features & GUN_AUTO_EJECT_CASINGS))
 			eject_casing()
@@ -2278,10 +2285,12 @@ not all weapons use normal magazines etc. load_into_chamber() itself is designed
 		ready_in_chamber() // obviously want to load the next round if any
 
 	if(flags_gun_features & (GUN_INTERNAL_MAG|GUN_MANUAL_EJECT_CASINGS))
-		empty_casings++
+		if(ammo.shell_casing)
+			spent_casings += ammo.shell_casing
 
 	else if (flags_gun_features & GUN_AUTO_EJECT_CASINGS) // drop a casing and prove a point
-		empty_casings++
+		if(ammo.shell_casing)
+			spent_casings += ammo.shell_casing
 
 	if((flags_gun_features & GUN_AUTO_EJECT_CASINGS))
 		eject_casing()
@@ -2345,26 +2354,21 @@ not all weapons use normal magazines etc. load_into_chamber() itself is designed
 
 /// For ejecting the spent casing from corresponding guns
 /obj/item/weapon/gun/proc/eject_casing()
-	if(empty_casings <= 0)
+	if(!length(spent_casings))
 		return
 
-	if(!ammo)
+	var/turf/ejection_turf = get_turf(src)
+	if(!ejection_turf)
 		return
 
-	if(empty_casings >= 1)
-		if(ammo.shell_casing)
-			var/turf/ejection_turf = get_turf(src)
-			if(!ejection_turf)
-				return
+	for(var/casing_type in spent_casings)
+		var/obj/effect/decal/cleanable/ammo_casing/casing = new casing_type
+		var/image/casing_image = casing.overlayed_image
+		if(casing_image)
+			casing_image.transform = matrix(rand(0,359), MATRIX_ROTATE) * matrix(rand(-14,14), rand(-14,14), MATRIX_TRANSLATE)
+			ejection_turf.overlays += casing_image
 
-			for(var/ejecting = 1 to empty_casings)
-				var/obj/effect/decal/cleanable/ammo_casing/casing = new ammo.shell_casing
-				var/image/casing_image = casing.actual_casing
-				if(casing_image)
-					casing_image.transform = matrix(rand(0,359), MATRIX_ROTATE) * matrix(rand(-14,14), rand(-14,14), MATRIX_TRANSLATE)
-					ejection_turf.overlays += casing_image
+		var/eject_noise = casing.ejection_sfx
+		playsound(loc, eject_noise, 25, TRUE)
 
-				var/eject_noise = casing.ejection_sfx
-				playsound(loc, eject_noise, 25, TRUE)
-
-	empty_casings = 0
+	spent_casings.Cut()

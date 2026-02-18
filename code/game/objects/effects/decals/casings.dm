@@ -23,8 +23,6 @@ that said, the icon_states in the dmi files aren't culled for use by mappers - n
 	layer = ABOVE_WEED_LAYER
 	density = FALSE
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
-	///the actual image of the casing, for manipulation
-	var/image/actual_casing
 	var/ejection_sfx = "gun_casing_generic"
 	/// number of variations of the casing found in its dmi file, much cleaner than spawning multiple casings on 1 tile for mappers
 	var/number_of_states = 10
@@ -33,13 +31,13 @@ that said, the icon_states in the dmi files aren't culled for use by mappers - n
 	. = ..()
 	if(mapload && number_of_states) // pretty much only called on map init and stuff
 		icon_state += "_[rand(1,number_of_states)]" // the casing dmi file needs to be slightly overhauled, its dirty, and doesnt use all the old system jank with its icon_state manipulation, but at least it works out of the box
-		setDir(pick(GLOB.alldirs))
-	else
-		setDir(pick(GLOB.alldirs))
-	actual_casing = image(icon, icon_state)
-	actual_casing.appearance_flags = PIXEL_SCALE
-	actual_casing.mouse_opacity = MOUSE_OPACITY_TRANSPARENT
-	actual_casing.layer = ABOVE_WEED_LAYER
+
+	setDir(pick(GLOB.alldirs))
+
+	overlayed_image = image(icon, icon_state)
+	overlayed_image.appearance_flags = PIXEL_SCALE
+	overlayed_image.mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	overlayed_image.layer = ABOVE_WEED_LAYER
 
 /obj/effect/decal/cleanable/ammo_casing/cartridge
 	name = "spent cartridge"
