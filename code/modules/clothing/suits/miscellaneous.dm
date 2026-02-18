@@ -168,6 +168,7 @@
 	desc = "A plastic replica of the syndicate space suit, you'll look just like a real murderous syndicate agent in this! This is a toy, it is not made for use in space!"
 	icon_state = "syndicate"
 	item_state = "syndicate"
+	blood_overlay_type = "bigsuit"
 	icon = 'icons/obj/items/clothing/suits/hazard.dmi'
 	item_icons = list(
 		WEAR_JACKET = 'icons/mob/humans/onmob/clothing/suits/hazard.dmi',
@@ -191,6 +192,7 @@
 	desc = "Have YOU killed a xenos today?"
 	icon_state = "imperium_monk"
 	item_state = "imperium_monk"
+	blood_overlay_type = "bigsuit"
 	flags_armor_protection = BODY_FLAG_HEAD|BODY_FLAG_CHEST|BODY_FLAG_GROIN|BODY_FLAG_LEGS|BODY_FLAG_FEET|BODY_FLAG_ARMS
 	flags_inv_hide = HIDESHOES|HIDEJUMPSUIT
 
@@ -200,6 +202,7 @@
 	desc = "A suit made long ago by the ancient empire KFC."
 	icon_state = "chickensuit"
 	item_state = "chickensuit"
+	blood_overlay_type = "bigsuit"
 	flags_armor_protection = BODY_FLAG_CHEST|BODY_FLAG_ARMS|BODY_FLAG_GROIN|BODY_FLAG_LEGS|BODY_FLAG_FEET
 	flags_inv_hide = HIDESHOES|HIDEJUMPSUIT
 	siemens_coefficient = 2
@@ -210,6 +213,7 @@
 	desc = "This is a nice holiday my son."
 	icon_state = "holidaypriest"
 	item_state = "holidaypriest"
+	blood_overlay_type = "bigsuit"
 	icon = 'icons/obj/items/clothing/suits/coats_robes.dmi'
 	item_icons = list(
 		WEAR_JACKET = 'icons/mob/humans/onmob/clothing/suits/coats_robes.dmi',
@@ -226,6 +230,7 @@
 	desc = "An ordinary cardboard box with holes cut in the sides."
 	icon_state = "cardborg"
 	item_state = "cardborg"
+	blood_overlay_type = "bigsuit"
 	flags_armor_protection = BODY_FLAG_CHEST|BODY_FLAG_GROIN
 	flags_inv_hide = HIDEJUMPSUIT
 
@@ -238,6 +243,7 @@
 	desc = "A suit that completely restrains the wearer."
 	icon_state = "straight_jacket"
 	item_state = "straight_jacket"
+	blood_overlay_type = "bigsuit"
 	flags_armor_protection = BODY_FLAG_CHEST|BODY_FLAG_GROIN|BODY_FLAG_LEGS|BODY_FLAG_FEET|BODY_FLAG_ARMS|BODY_FLAG_HANDS
 	flags_inv_hide = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT|HIDETAIL
 
@@ -254,6 +260,7 @@
 	desc = "Designed to be worn over a jumpsuit rather than clipped on."
 	icon_state = "webbing"
 	item_state = "webbing"
+	blood_overlay_type = ""
 	allowed = list(
 		/obj/item/weapon/baton,
 		/obj/item/restraint/handcuffs,
@@ -292,6 +299,7 @@
 	desc = "A utility vest to hold tools in."
 	icon_state = "synth_utility_vest"
 	item_state = "synth_utility_vest"
+	blood_overlay_type = "vest"
 	icon = 'icons/obj/items/clothing/suits/vests_aprons.dmi'
 	item_icons = list(
 		WEAR_JACKET = 'icons/mob/humans/onmob/clothing/suits/vests_aprons.dmi'
@@ -425,6 +433,7 @@
 	name = "brown bomber jacket"
 	desc = "A well-worn leather bomber jacket."
 	icon_state = "bomber"
+	blood_overlay_type = "jacket"
 	icon = 'icons/obj/items/clothing/suits/jackets.dmi'
 	item_icons = list(
 		WEAR_JACKET = 'icons/mob/humans/onmob/clothing/suits/jackets.dmi'
@@ -472,6 +481,7 @@
 	)
 	item_state = "manager_suit"
 	icon_state = "manager_suit"
+	blood_overlay_type = "jacket"
 
 	allowed = list(
 		/obj/item/weapon/gun/pistol,
@@ -503,6 +513,7 @@
 	)
 	item_state = "director_suit"
 	icon_state = "director_suit"
+	blood_overlay_type = "jacket"
 
 	allowed = list(
 		/obj/item/weapon/gun/pistol,
