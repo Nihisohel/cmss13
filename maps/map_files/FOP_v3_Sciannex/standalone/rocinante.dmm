@@ -107,7 +107,6 @@
 	},
 /obj/merge_conflict_marker{
 	name = "---Merge Conflict Marker---";
-	
 	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
 	},
 /obj/item/ammo_casing/bullet,
@@ -285,7 +284,7 @@
 /turf/open/floor/delivery,
 /area/fiorina/station/clf_ship)
 "ds" = (
-/obj/effect/decal/ammo_casing/shell{
+/obj/item/ammo_casing/shell{
 	icon_state = "shell_9_1"
 	},
 /obj/effect/spawner/random/gun/shotgun/highchance,
@@ -1044,7 +1043,7 @@
 /turf/open/floor/prison/darkbrown2/north,
 /area/fiorina/station/park)
 "Av" = (
-/obj/effect/decal/ammo_casing,
+/obj/item/ammo_casing,
 /obj/effect/decal/cleanable/blood,
 /obj/structure/machinery/door/poddoor/almayer{
 	id = "clf_umbilical_1";
@@ -1326,7 +1325,7 @@
 /turf/closed/wall/prison,
 /area/fiorina/station/park)
 "IR" = (
-/obj/effect/decal/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/floor/delivery,
 /area/fiorina/station/clf_ship)
 "IY" = (

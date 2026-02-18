@@ -276,7 +276,7 @@
 /area/bigredv2/outside/medical)
 "mM" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/effect/decal/ammo_casing/shell,
+/obj/item/ammo_casing/shell,
 /turf/open/floor/platingdmg1,
 /area/bigredv2/outside/medical)
 "mU" = (
@@ -324,7 +324,7 @@
 	amount = 1;
 	icon_state = "coil2"
 	},
-/obj/effect/decal/ammo_casing/shell,
+/obj/item/ammo_casing/shell,
 /turf/open/floor/platingdmg1,
 /area/bigredv2/outside/medical)
 "oU" = (
@@ -365,7 +365,7 @@
 /turf/open/floor/white,
 /area/bigredv2/outside/medical)
 "qG" = (
-/obj/effect/decal/ammo_casing/shell,
+/obj/item/ammo_casing/shell,
 /turf/open/floor/plating/panelscorched,
 /area/bigredv2/outside/medical)
 "ra" = (
@@ -502,7 +502,7 @@
 /turf/open/floor/white,
 /area/bigredv2/outside/medical)
 "tT" = (
-/obj/effect/decal/ammo_casing/shell,
+/obj/item/ammo_casing/shell,
 /turf/open/floor/plating/platingdmg3,
 /area/bigredv2/outside/medical)
 "tX" = (
@@ -598,7 +598,7 @@
 /turf/open/floor/asteroidwarning/north,
 /area/bigredv2/outside/n)
 "xm" = (
-/obj/effect/decal/ammo_casing/shell,
+/obj/item/ammo_casing/shell,
 /turf/open/floor/platingdmg1,
 /area/bigredv2/outside/medical)
 "xq" = (
@@ -843,7 +843,7 @@
 /area/bigredv2/outside/medical)
 "EH" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/effect/decal/ammo_casing/shell,
+/obj/item/ammo_casing/shell,
 /turf/open/floor/plating/panelscorched,
 /area/bigredv2/outside/medical)
 "EI" = (
@@ -951,7 +951,7 @@
 	dir = 5
 	},
 /obj/effect/decal/cleanable/dirt,
-/obj/effect/decal/ammo_casing/shell,
+/obj/item/ammo_casing/shell,
 /turf/open/floor/platingdmg1,
 /area/bigredv2/outside/medical)
 "IU" = (
@@ -1040,7 +1040,7 @@
 /area/bigredv2/outside/medical)
 "KV" = (
 /obj/structure/bed/chair,
-/obj/effect/decal/ammo_casing/shell,
+/obj/item/ammo_casing/shell,
 /turf/open/floor/platingdmg1,
 /area/bigredv2/outside/medical)
 "Lf" = (
@@ -1180,7 +1180,7 @@
 /area/bigredv2/outside/medical)
 "PW" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/effect/decal/ammo_casing/shell,
+/obj/item/ammo_casing/shell,
 /turf/open/floor/plating/platingdmg3,
 /area/bigredv2/outside/medical)
 "Qk" = (

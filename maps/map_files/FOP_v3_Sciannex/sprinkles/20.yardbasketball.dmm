@@ -1,22 +1,4 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
-"aa" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "W"
-	},
-/obj/effect/decal/warning_stripes{
-	icon_state = "S"
-	},
-/turf/open/floor/wood,
-/area/template_noop)
-"ab" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "N"
-	},
-/obj/effect/decal/warning_stripes{
-	icon_state = "W"
-	},
-/turf/open/floor/wood,
-/area/template_noop)
 "ac" = (
 /obj/structure/desertdam/decals/road_edge{
 	icon_state = "road_edge_decal3";
@@ -27,36 +9,10 @@
 	},
 /turf/open/floor/wood,
 /area/template_noop)
-"ad" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "E-corner"
-	},
-/obj/effect/decal/warning_stripes{
-	icon_state = "N"
-	},
-/turf/open/floor/wood,
-/area/template_noop)
 "ae" = (
 /obj/item/trash/cigbutt{
 	pixel_x = 5;
 	pixel_y = -6
-	},
-/turf/open/floor/wood,
-/area/template_noop)
-"af" = (
-/obj/effect/landmark/corpsespawner/ua_riot,
-/obj/effect/decal/cleanable/blood,
-/obj/item/restraint/handcuffs/zip{
-	pixel_y = -12
-	},
-/turf/open/floor/wood,
-/area/template_noop)
-"ag" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "NS-center"
-	},
-/obj/effect/decal/warning_stripes{
-	icon_state = "S"
 	},
 /turf/open/floor/wood,
 /area/template_noop)
@@ -70,24 +26,6 @@
 	},
 /turf/open/floor/wood,
 /area/template_noop)
-"ai" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "S"
-	},
-/obj/effect/decal/warning_stripes{
-	icon_state = "N"
-	},
-/obj/effect/decal/warning_stripes{
-	icon_state = "E-corner"
-	},
-/turf/open/floor/wood,
-/area/template_noop)
-"aj" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "E-corner"
-	},
-/turf/open/floor/wood,
-/area/template_noop)
 "ak" = (
 /obj/item/ammo_casing{
 	dir = 6;
@@ -95,28 +33,10 @@
 	},
 /turf/open/floor/wood,
 /area/template_noop)
-"al" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "S"
-	},
-/obj/effect/decal/warning_stripes{
-	icon_state = "W"
-	},
-/obj/effect/decal/warning_stripes{
-	icon_state = "N"
-	},
-/turf/open/floor/wood,
-/area/template_noop)
 "am" = (
 /obj/structure/desertdam/decals/road_edge{
 	icon_state = "road_edge_decal3";
 	pixel_y = -12
-	},
-/turf/open/floor/wood,
-/area/template_noop)
-"an" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "NS-center"
 	},
 /turf/open/floor/wood,
 /area/template_noop)
@@ -130,36 +50,12 @@
 	},
 /turf/open/floor/wood,
 /area/template_noop)
-"ap" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "N"
-	},
-/obj/effect/decal/warning_stripes{
-	icon_state = "E-corner"
-	},
-/turf/open/floor/wood,
-/area/template_noop)
 "aq" = (
 /obj/structure/desertdam/decals/road_edge{
 	pixel_x = -12
 	},
 /obj/structure/desertdam/decals/road_edge{
 	icon_state = "road_edge_decal3"
-	},
-/turf/open/floor/wood,
-/area/template_noop)
-"ar" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "NS-center"
-	},
-/obj/effect/decal/warning_stripes{
-	icon_state = "N"
-	},
-/turf/open/floor/wood,
-/area/template_noop)
-"as" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "N"
 	},
 /turf/open/floor/wood,
 /area/template_noop)
@@ -173,16 +69,6 @@
 	},
 /turf/open/floor/wood,
 /area/template_noop)
-"au" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "N"
-	},
-/obj/item/spacecash/c100{
-	pixel_x = -11;
-	pixel_y = -6
-	},
-/turf/open/floor/wood,
-/area/template_noop)
 "av" = (
 /obj/structure/desertdam/decals/road_edge{
 	icon_state = "road_edge_decal3";
@@ -193,25 +79,6 @@
 	pixel_x = 9
 	},
 /obj/item/weapon/gun/shotgun/pump/dual_tube/cmb,
-/turf/open/floor/wood,
-/area/template_noop)
-"aw" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "N"
-	},
-/obj/effect/decal/warning_stripes{
-	icon_state = "W"
-	},
-/obj/item/trash/barcardine,
-/turf/open/floor/wood,
-/area/template_noop)
-"ax" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "E-corner"
-	},
-/obj/effect/decal/warning_stripes{
-	icon_state = "S"
-	},
 /turf/open/floor/wood,
 /area/template_noop)
 "ay" = (
@@ -253,13 +120,6 @@
 	icon_state = "road_edge_decal3";
 	pixel_x = 9
 	},
-/turf/open/floor/wood,
-/area/template_noop)
-"aC" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "NS-center"
-	},
-/obj/effect/decal/warning_stripes,
 /turf/open/floor/wood,
 /area/template_noop)
 "aD" = (
@@ -307,12 +167,6 @@
 	icon_state = "road_edge_decal7";
 	pixel_x = 16;
 	pixel_y = -16
-	},
-/turf/open/floor/wood,
-/area/template_noop)
-"aG" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "W"
 	},
 /turf/open/floor/wood,
 /area/template_noop)
@@ -370,22 +224,6 @@
 	icon_state = "road_edge_decal7";
 	pixel_x = 16;
 	pixel_y = -16
-	},
-/turf/open/floor/wood,
-/area/template_noop)
-"aL" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "S"
-	},
-/turf/open/floor/wood,
-/area/template_noop)
-"aM" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "E-corner"
-	},
-/obj/effect/decal/warning_stripes,
-/obj/structure/holohoop{
-	dir = 8
 	},
 /turf/open/floor/wood,
 /area/template_noop)
@@ -451,41 +289,6 @@
 	},
 /turf/open/floor/wood,
 /area/template_noop)
-"aQ" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "W"
-	},
-/obj/effect/decal/warning_stripes{
-	icon_state = "N"
-	},
-/turf/open/floor/wood,
-/area/template_noop)
-"aR" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "W"
-	},
-/obj/effect/decal/warning_stripes,
-/obj/structure/holohoop{
-	dir = 4
-	},
-/turf/open/floor/wood,
-/area/template_noop)
-"aS" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "S"
-	},
-/obj/effect/decal/warning_stripes{
-	icon_state = "N"
-	},
-/turf/open/floor/wood,
-/area/template_noop)
-"aT" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "E-corner"
-	},
-/obj/item/weapon/gun/shotgun/pump/dual_tube/cmb,
-/turf/open/floor/wood,
-/area/template_noop)
 "aU" = (
 /obj/item/ammo_magazine/smg/uzi{
 	current_rounds = 0;
@@ -525,14 +328,6 @@
 "aY" = (
 /turf/open/floor/wood,
 /area/template_noop)
-"aZ" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "NS-center"
-	},
-/obj/effect/decal/warning_stripes,
-/obj/item/toy/beach_ball/holoball,
-/turf/open/floor/wood,
-/area/template_noop)
 "ba" = (
 /obj/structure/desertdam/decals/road_edge{
 	icon_state = "road_edge_decal6";
@@ -542,13 +337,6 @@
 /obj/structure/desertdam/decals/road_edge{
 	pixel_x = 2;
 	pixel_y = -22
-	},
-/turf/open/floor/wood,
-/area/template_noop)
-"bb" = (
-/obj/effect/decal/ammo_casing{
-	dir = 6;
-	icon_state = "casing_10_1"
 	},
 /turf/open/floor/wood,
 /area/template_noop)
@@ -708,7 +496,7 @@ am
 "}
 (9,1,1) = {"
 bh
-bb
+ak
 aW
 aY
 am

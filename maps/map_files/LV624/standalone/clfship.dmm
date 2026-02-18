@@ -11,9 +11,9 @@
 /turf/open/gm/dirt,
 /area/lv624/ground/caves/south_west_caves)
 "ac" = (
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/gm/dirt,
 /area/lv624/ground/caves/south_west_caves)
 "ad" = (
@@ -24,7 +24,7 @@
 /turf/open/gm/dirt,
 /area/lv624/ground/caves/south_west_caves)
 "ae" = (
-/obj/effect/decal/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/gm/dirt,
 /area/lv624/ground/caves/south_west_caves)
 "af" = (
@@ -71,13 +71,13 @@
 /turf/open/gm/dirt,
 /area/lv624/ground/caves/south_west_caves)
 "am" = (
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/floor/damaged3/west,
 /area/lv624/lazarus/crashed_ship)
 "an" = (
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/gm/dirt,
 /area/lv624/lazarus/crashed_ship)
 "ao" = (
@@ -113,9 +113,9 @@
 /turf/open/gm/dirt,
 /area/lv624/ground/caves/south_west_caves)
 "av" = (
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/gm/dirt,
 /area/lv624/lazarus/crashed_ship)
 "aw" = (
@@ -123,14 +123,14 @@
 /turf/open/gm/dirt,
 /area/lv624/ground/caves/south_west_caves)
 "ax" = (
-/obj/effect/decal/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/floor/platingdmg1,
 /area/lv624/lazarus/crashed_ship)
 "ay" = (
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/gm/dirt,
 /area/lv624/ground/caves/south_west_caves)
 "az" = (
@@ -158,7 +158,6 @@
 /obj/effect/decal/ammo_casing,
 /obj/merge_conflict_marker{
 	name = "---Merge Conflict Marker---";
-	
 	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
 	},
 /obj/item/ammo_casing,
@@ -168,6 +167,18 @@
 /obj/structure/machinery/defenses/sentry/premade/lowammo/random/dumb{
 	dir = 4
 	},
+/obj/merge_conflict_marker{
+	name = "---Merge Conflict Marker---";
+	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
+	},
+/obj/structure/machinery/defenses/sentry/premade/lowammo/random/dumb{
+	faction_group = list("CLF");
+	dir = 4
+	},
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/gm/dirt,
 /area/lv624/ground/caves/south_west_caves)
 "aC" = (
@@ -184,25 +195,25 @@
 /turf/open/gm/dirt,
 /area/lv624/ground/caves/south_west_caves)
 "aE" = (
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/floor/platingdmg1,
 /area/lv624/lazarus/crashed_ship)
 "aF" = (
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/floor/plating/platingdmg3,
 /area/lv624/lazarus/crashed_ship)
 "aG" = (
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/floor/plating/platingdmg3,
 /area/lv624/lazarus/crashed_ship)
 "aH" = (
@@ -210,22 +221,22 @@
 /turf/open/floor/damaged3/west,
 /area/lv624/lazarus/crashed_ship)
 "aI" = (
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/floor/platingdmg1,
 /area/lv624/lazarus/crashed_ship)
 "aJ" = (
-/obj/effect/decal/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/floor/plating,
 /area/lv624/lazarus/crashed_ship)
 "aK" = (
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/gm/dirt,
 /area/lv624/ground/caves/south_west_caves)
 "aL" = (
@@ -242,13 +253,13 @@
 /turf/open/floor/platingdmg1,
 /area/lv624/lazarus/crashed_ship)
 "aN" = (
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/floor/plating,
 /area/lv624/lazarus/crashed_ship)
 "aO" = (
@@ -262,18 +273,18 @@
 /turf/open/gm/dirt,
 /area/lv624/ground/caves/south_west_caves)
 "aQ" = (
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/gm/dirt,
 /area/lv624/ground/caves/south_west_caves)
 "aR" = (
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
 /obj/item/device/flashlight/flare/on,
 /turf/open/gm/dirt,
 /area/lv624/ground/caves/south_west_caves)
@@ -310,8 +321,8 @@
 	dir = 4;
 	icon_state = "sandbag_2"
 	},
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/gm/dirt,
 /area/lv624/ground/caves/south_west_caves)
 "aY" = (
@@ -331,10 +342,10 @@
 	dir = 4;
 	icon_state = "sandbag_2"
 	},
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/gm/dirt,
 /area/lv624/ground/caves/south_west_caves)
 "bb" = (
@@ -342,10 +353,10 @@
 	dir = 4;
 	icon_state = "sandbag_3"
 	},
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/gm/dirt,
 /area/lv624/ground/caves/south_west_caves)
 "bc" = (
@@ -650,10 +661,10 @@
 /obj/structure/barricade/metal/wired{
 	icon_state = "metal_1"
 	},
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/floor/platingdmg1,
 /area/lv624/lazarus/crashed_ship)
 "ky" = (
@@ -751,7 +762,6 @@
 /obj/effect/decal/ammo_casing,
 /obj/merge_conflict_marker{
 	name = "---Merge Conflict Marker---";
-	
 	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
 	},
 /obj/item/ammo_casing,
@@ -765,6 +775,22 @@
 /obj/structure/machinery/defenses/sentry/premade/lowammo/random/dumb{
 	dir = 4
 	},
+/obj/merge_conflict_marker{
+	name = "---Merge Conflict Marker---";
+	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
+	},
+/obj/structure/machinery/defenses/sentry/premade/lowammo/random/dumb{
+	faction_group = list("CLF");
+	dir = 4
+	},
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/gm/dirt,
 /area/lv624/ground/caves/south_west_caves)
 "mK" = (
@@ -846,14 +872,14 @@
 /turf/open/floor/damaged3/west,
 /area/lv624/ground/caves/south_west_caves)
 "qu" = (
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/floor/plating/platingdmg3,
 /area/lv624/lazarus/crashed_ship)
 "qT" = (
@@ -879,11 +905,11 @@
 /turf/open/floor/plating,
 /area/lv624/lazarus/crashed_ship)
 "rX" = (
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/floor/plating,
 /area/lv624/lazarus/crashed_ship)
 "sH" = (
@@ -1029,7 +1055,6 @@
 /obj/effect/decal/ammo_casing,
 /obj/merge_conflict_marker{
 	name = "---Merge Conflict Marker---";
-	
 	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
 	},
 /obj/item/ammo_casing,
@@ -1043,6 +1068,22 @@
 /obj/structure/machinery/defenses/sentry/premade/lowammo/random/dumb{
 	dir = 8
 	},
+/obj/merge_conflict_marker{
+	name = "---Merge Conflict Marker---";
+	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
+	},
+/obj/structure/machinery/defenses/sentry/premade/lowammo/random/dumb{
+	faction_group = list("CLF");
+	dir = 8
+	},
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/floor/platingdmg1,
 /area/lv624/lazarus/crashed_ship)
 "xl" = (
@@ -1167,11 +1208,11 @@
 	pixel_y = 28;
 	range = 20
 	},
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
-/obj/effect/decal/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/floor/plating,
 /area/lv624/lazarus/crashed_ship)
 "Bc" = (
@@ -1612,7 +1653,6 @@
 /obj/effect/decal/ammo_casing,
 /obj/merge_conflict_marker{
 	name = "---Merge Conflict Marker---";
-	
 	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
 	},
 /obj/item/ammo_casing,
@@ -1626,6 +1666,22 @@
 /obj/structure/machinery/defenses/sentry/premade/lowammo/random/dumb{
 	dir = 4
 	},
+/obj/merge_conflict_marker{
+	name = "---Merge Conflict Marker---";
+	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
+	},
+/obj/structure/machinery/defenses/sentry/premade/lowammo/random/dumb{
+	faction_group = list("CLF");
+	dir = 4
+	},
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
+/obj/item/ammo_casing,
 /turf/open/floor/plating/platingdmg3,
 /area/lv624/lazarus/crashed_ship)
 "OL" = (
