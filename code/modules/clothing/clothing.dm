@@ -17,7 +17,9 @@
 	var/list/clothing_traits // Trait modification, lazylist of traits to add/take away, on equipment/drop in the correct slot
 	var/clothing_traits_active = TRUE //are the clothing traits that are applied to the item active (acting on the mob) or not?
 
-	var/stylish = FALSE // if the clothing is considered for the style system
+	/// if the clothing is considered for the style system
+	var/stylish = FALSE
+	/// the list of selectable styles for the style system
 	var/list/style_postfix = list()
 
 	// accessory stuff
@@ -53,21 +55,45 @@
 		return
 
 	var/base_state = initial(icon_state)
-	var/current_index = 0
-	for(var/i = 1 to length(style_postfix))
-		if(item_state == "[base_state]_[style_postfix[i]]")
-			current_index = i
-			break
 
-	var/next_index = (current_index % length(style_postfix)) + 1
-	var/new_postfix = style_postfix[next_index]
-	item_state = "[base_state]_[new_postfix]"
+	if(!user.client || user.client.prefs?.no_radials_preference)
+		var/current_index = 0
+		for(var/i = 1 to length(style_postfix))
+			if(item_state == "[base_state]_[style_postfix[i]]")
+				current_index = i
+				break
+
+		var/next_index = (current_index % length(style_postfix)) + 1
+		var/new_postfix = style_postfix[next_index]
+
+		item_state = "[base_state]_[new_postfix]"
+		update_clothing_icon()
+
+		to_chat(user, SPAN_GREEN("You change the style of [src]."))
+		if((flags_obj & OBJ_IS_HELMET_GARB) && item_icons && item_icons[WEAR_AS_GARB])
+			if(item_state in icon_states(item_icons[WEAR_AS_GARB]))
+				LAZYSET(item_state_slots, WEAR_AS_GARB, item_state)
+				to_chat(user, SPAN_ORANGE("... and you also change its helmet garb style!"))
+		return
+
+	var/list/choices = list()
+
+	// radial stuff
+	for(var/postfix in style_postfix)
+		choices[postfix] = image(icon = accessory_icons[WEAR_BODY], icon_state = "[base_state]_[postfix]")
+
+	var/choice = show_radial_menu(user, user, choices, require_near = TRUE)
+	if(!choice)
+		return
+
+	item_state = "[base_state]_[choice]"
 	update_clothing_icon()
-	to_chat(user, SPAN_NOTICE("You change the style of [src]."))
+
+	to_chat(user, SPAN_GREEN("You change the style of [src]."))
 	if((flags_obj & OBJ_IS_HELMET_GARB) && item_icons && item_icons[WEAR_AS_GARB])
 		if(item_state in icon_states(item_icons[WEAR_AS_GARB]))
 			LAZYSET(item_state_slots, WEAR_AS_GARB, item_state)
-			to_chat(user, SPAN_NOTICE("... and you also change its helmet garb style!"))
+			to_chat(user, SPAN_ORANGE("... and you also change its helmet garb style!"))
 
 /obj/item/clothing/proc/convert_to_accessory(mob/user)
 	if(!can_become_accessory)
