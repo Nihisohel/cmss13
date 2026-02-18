@@ -572,9 +572,10 @@
 	name = "USCM patch"
 	desc = "A fire-resistant shoulder patch, worn by the men and women of the United States Colonial Marines."
 	icon_state = "uscmpatch"
-	item_state = "uscmpatch_style_1"
-	item_state_slots = list(WEAR_AS_GARB = "uscmpatch_style_1")
+	item_state = "uscmpatch_right_shoulder"
+	item_state_slots = list(WEAR_AS_GARB = "uscmpatch_right_shoulder")
 	stylish = TRUE
+	style_postfix = list("right_shoulder", "left_shoulder", "right_chest", "left_chest")
 
 /obj/item/clothing/accessory/patch/falcon
 	name = "USCM Falling Falcons patch"
@@ -1513,7 +1514,7 @@ Wrist Accessories
 	name = "rosary"
 	desc = "Jesus Saves Lives!"
 	icon_state = "rosary"
-	item_state = "rosary_style_1"
+	item_state = "rosary_neck"
 	icon = 'icons/obj/items/clothing/accessory/misc.dmi'
 	accessory_icons = list(
 		WEAR_BODY = 'icons/mob/humans/onmob/clothing/accessory/misc.dmi',
@@ -1526,12 +1527,13 @@ Wrist Accessories
 	stylish = TRUE
 	worn_accessory_slot = ACCESSORY_SLOT_DECOR
 	worn_accessory_limit = 2
+	style_postfix = list("neck", "left_wrist", "right_wrist")
 
 /obj/item/clothing/accessory/rosary/gold
 	name = "golden rosary"
 	desc = "Truly, one can be closest to God when adorned in gold, jewels, and riches whilst flaunting it about."
 	icon_state = "grosary"
-	item_state = "grosary_style_1"
+	item_state = "grosary_neck"
 	item_state_slots = list(WEAR_AS_GARB = "grosary")
 
 //TEMPORARY
