@@ -242,7 +242,7 @@
 	accurate_range = 12
 	damage = 35
 	penetration = ARMOR_PENETRATION_TIER_6
-	shell_casing = /obj/effect/decal/ammo_casing/cartridge
+	shell_casing = /obj/effect/decal/cleanable/ammo_casing/cartridge
 
 /datum/ammo/bullet/minigun/New()
 	..()
@@ -267,7 +267,7 @@
 	damage = 45 //7.62x51 is scary
 	penetration= ARMOR_PENETRATION_TIER_6
 	shrapnel_chance = SHRAPNEL_CHANCE_TIER_2
-	shell_casing = /obj/effect/decal/ammo_casing/cartridge
+	shell_casing = /obj/effect/decal/cleanable/ammo_casing/cartridge
 
 /datum/ammo/bullet/pkp
 	name = "machinegun bullet"

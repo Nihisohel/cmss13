@@ -14,12 +14,11 @@ and that most of the ejection procedures utilize image matrices for randomizatio
 that said, the icon_states in the dmi files aren't culled for use by mappers - nihi
 */
 
-/obj/effect/decal/ammo_casing
+/obj/effect/decal/cleanable/ammo_casing
 	name = "spent casing"
 	desc = "Empty and useless now."
 	icon = 'icons/obj/items/weapons/casings.dmi'
 	icon_state = "casing"
-	garbage = TRUE
 	appearance_flags = PIXEL_SCALE
 	layer = ABOVE_WEED_LAYER
 	density = FALSE
@@ -30,7 +29,7 @@ that said, the icon_states in the dmi files aren't culled for use by mappers - n
 	/// number of variations of the casing found in its dmi file, much cleaner than spawning multiple casings on 1 tile for mappers
 	var/number_of_states = 10
 
-/obj/effect/decal/ammo_casing/Initialize(mapload)
+/obj/effect/decal/cleanable/ammo_casing/Initialize(mapload)
 	. = ..()
 	if(mapload && number_of_states) // pretty much only called on map init and stuff
 		icon_state += "_[rand(1,number_of_states)]" // the casing dmi file needs to be slightly overhauled, its dirty, and doesnt use all the old system jank with its icon_state manipulation, but at least it works out of the box
@@ -42,44 +41,44 @@ that said, the icon_states in the dmi files aren't culled for use by mappers - n
 	actual_casing.mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	actual_casing.layer = ABOVE_WEED_LAYER
 
-/obj/effect/decal/ammo_casing/cartridge
+/obj/effect/decal/cleanable/ammo_casing/cartridge
 	name = "spent cartridge"
 	icon_state = "cartridge"
 
-/obj/effect/decal/ammo_casing/shell
+/obj/effect/decal/cleanable/ammo_casing/shell
 	name = "spent shell"
 	icon_state = "generic_shell" //its kinda like darker red, but more vague red if you know what i mean??
 	ejection_sfx = "gun_casing_shotgun"
 
-/obj/effect/decal/ammo_casing/shell/green_shell
+/obj/effect/decal/cleanable/ammo_casing/shell/green_shell
 	name = "spent shell"
 	icon_state = "green_shell"
 
-/obj/effect/decal/ammo_casing/shell/red_shell
+/obj/effect/decal/cleanable/ammo_casing/shell/red_shell
 	name = "spent shell"
 	icon_state = "red_shell"
 	number_of_states = 0
 
-/obj/effect/decal/ammo_casing/shell/blue_shell
+/obj/effect/decal/cleanable/ammo_casing/shell/blue_shell
 	name = "spent shell"
 	icon_state = "blue_shell"
 
-/obj/effect/decal/ammo_casing/shell/purple_shell
+/obj/effect/decal/cleanable/ammo_casing/shell/purple_shell
 	name = "spent shell"
 	icon_state = "purple_shell"
 	number_of_states = 0
 
-/obj/effect/decal/ammo_casing/shell/incen_shell
+/obj/effect/decal/cleanable/ammo_casing/shell/incen_shell
 	name = "spent shell"
 	icon_state = "incen_shell"
 	number_of_states = 0
 
-/obj/effect/decal/ammo_casing/shell/blank_shell
+/obj/effect/decal/cleanable/ammo_casing/shell/blank_shell
 	name = "spent shell"
 	icon_state = "blank_shell"
 	number_of_states = 0
 
-/obj/effect/decal/ammo_casing/shell/twobore_shell
+/obj/effect/decal/cleanable/ammo_casing/shell/twobore_shell
 	name = "comedically sized spent shell"
 	icon_state = "twobore_shell"
 	number_of_states = 0

@@ -6,7 +6,7 @@
 
 /datum/ammo/bullet/shotgun
 	headshot_state = HEADSHOT_OVERLAY_HEAVY
-	shell_casing = /obj/effect/decal/ammo_casing/shell/red_shell // safe to assume that most shotguns will have a casing
+	shell_casing = /obj/effect/decal/cleanable/ammo_casing/shell/red_shell // safe to assume that most shotguns will have a casing
 
 /datum/ammo/bullet/shotgun/setup_faction_clash_values()
 	. = ..()
@@ -24,7 +24,7 @@
 	accuracy = HIT_ACCURACY_TIER_3
 	damage_armor_punch = 2
 	handful_state = "slug_shell"
-	shell_casing = /obj/effect/decal/ammo_casing/shell/green_shell
+	shell_casing = /obj/effect/decal/cleanable/ammo_casing/shell/green_shell
 
 /datum/ammo/bullet/shotgun/slug/on_hit_mob(mob/M,obj/projectile/P)
 	knockback(M, P, 6)
@@ -55,7 +55,7 @@
 	damage = 60
 	penetration = ARMOR_PENETRATION_TIER_8
 	accuracy = HIT_ACCURACY_TIER_5
-	shell_casing = /obj/effect/decal/ammo_casing/shell
+	shell_casing = /obj/effect/decal/cleanable/ammo_casing/shell
 
 /datum/ammo/bullet/shotgun/beanbag
 	name = "beanbag slug"
@@ -72,7 +72,7 @@
 	accuracy = HIT_ACCURACY_TIER_3
 	shell_speed = AMMO_SPEED_TIER_3
 	handful_state = "beanbag_slug"
-	shell_casing = /obj/effect/decal/ammo_casing/shell/blue_shell
+	shell_casing = /obj/effect/decal/cleanable/ammo_casing/shell/blue_shell
 
 /datum/ammo/bullet/shotgun/beanbag/on_hit_mob(mob/M, obj/projectile/P)
 	if(!M || M == P.firer)
@@ -99,7 +99,7 @@
 	accuracy = HIT_ACCURACY_TIER_3
 	shell_speed = AMMO_SPEED_TIER_4
 	handful_state = "shock_slug"
-	shell_casing = /obj/effect/decal/ammo_casing/shell/blank_shell
+	shell_casing = /obj/effect/decal/cleanable/ammo_casing/shell/blank_shell
 
 /datum/ammo/bullet/shotgun/beanbag/es7/on_hit_mob(mob/mobs, obj/projectile/P)
 	if(!isyautja(mobs) && !isxeno(mobs))
@@ -122,7 +122,7 @@
 	damage = 55
 	penetration= ARMOR_PENETRATION_TIER_1
 	handful_state = "incendiary_slug"
-	shell_casing = /obj/effect/decal/ammo_casing/shell/incen_shell
+	shell_casing = /obj/effect/decal/cleanable/ammo_casing/shell/incen_shell
 
 /datum/ammo/bullet/shotgun/incendiary/set_bullet_traits()
 	. = ..()
@@ -157,7 +157,7 @@
 	bonus_projectiles_amount = EXTRA_PROJECTILES_TIER_3
 	handful_state = "flechette_shell"
 	multiple_handful_name = TRUE
-	shell_casing = /obj/effect/decal/ammo_casing/shell/purple_shell
+	shell_casing = /obj/effect/decal/cleanable/ammo_casing/shell/purple_shell
 
 /datum/ammo/bullet/shotgun/flechette/setup_faction_clash_values()
 	. = ..()
@@ -206,7 +206,7 @@
 	name = "incendiary buckshot shell"
 	handful_state = "incen_buckshot"
 	handful_type = /obj/item/ammo_magazine/handful/shotgun/buckshot/incendiary
-	shell_casing = /obj/effect/decal/ammo_casing/shell/incen_shell
+	shell_casing = /obj/effect/decal/cleanable/ammo_casing/shell/incen_shell
 
 
 /datum/ammo/bullet/shotgun/buckshot/incendiary/set_bullet_traits()
@@ -285,7 +285,7 @@
 	accurate_range = 3
 	max_range = 4
 	bonus_projectiles_type = /datum/ammo/bullet/shotgun/heavy/buckshot/dragonsbreath/spread
-	shell_casing = /obj/effect/decal/ammo_casing/shell/incen_shell
+	shell_casing = /obj/effect/decal/cleanable/ammo_casing/shell/incen_shell
 
 /datum/ammo/bullet/shotgun/heavy/buckshot/dragonsbreath/set_bullet_traits()
 	. = ..()
@@ -310,7 +310,7 @@
 	damage = 90 //ouch.
 	penetration = ARMOR_PENETRATION_TIER_6
 	damage_armor_punch = 2
-	shell_casing = /obj/effect/decal/ammo_casing/shell/green_shell
+	shell_casing = /obj/effect/decal/cleanable/ammo_casing/shell/green_shell
 
 /datum/ammo/bullet/shotgun/heavy/slug/on_hit_mob(mob/M,obj/projectile/P)
 	knockback(M, P, 7)
@@ -344,7 +344,7 @@
 	stamina_damage = 100
 	accuracy = HIT_ACCURACY_TIER_2
 	shell_speed = AMMO_SPEED_TIER_2
-	shell_casing = /obj/effect/decal/ammo_casing/shell/blue_shell
+	shell_casing = /obj/effect/decal/cleanable/ammo_casing/shell/blue_shell
 
 /datum/ammo/bullet/shotgun/heavy/beanbag/on_hit_mob(mob/M, obj/projectile/P)
 	if(!M || M == P.firer)
@@ -368,7 +368,7 @@
 	damage_var_high = PROJECTILE_VARIANCE_TIER_8
 	penetration = ARMOR_PENETRATION_TIER_10
 	bonus_projectiles_amount = EXTRA_PROJECTILES_TIER_2
-	shell_casing = /obj/effect/decal/ammo_casing/shell/purple_shell
+	shell_casing = /obj/effect/decal/cleanable/ammo_casing/shell/purple_shell
 
 /datum/ammo/bullet/shotgun/heavy/flechette/setup_faction_clash_values()
 	. = ..()
@@ -400,7 +400,7 @@
 	handful_state = "breaching_shell"
 	multiple_handful_name = TRUE
 	bonus_projectiles_type = /datum/ammo/bullet/shotgun/light/breaching/spread
-	shell_casing = /obj/effect/decal/ammo_casing/shell/blank_shell
+	shell_casing = /obj/effect/decal/cleanable/ammo_casing/shell/blank_shell
 
 	accuracy_var_low = PROJECTILE_VARIANCE_TIER_6
 	accuracy_var_high = PROJECTILE_VARIANCE_TIER_6
@@ -433,7 +433,7 @@
 	stamina_damage = 35
 	bonus_projectiles_amount = EXTRA_PROJECTILES_TIER_3
 	penetration = ARMOR_PENETRATION_TIER_1
-	shell_casing = /obj/effect/decal/ammo_casing/shell/blue_shell
+	shell_casing = /obj/effect/decal/cleanable/ammo_casing/shell/blue_shell
 
 /datum/ammo/bullet/shotgun/light/rubber/spread
 	name = "additional rubber buckshot"
@@ -454,7 +454,7 @@
 	penetration = ARMOR_PENETRATION_TIER_3
 	damage_falloff = DAMAGE_FALLOFF_TIER_1 * 3 //It has a lot of energy, but the 26mm bullet drops off fast.
 	effective_range_max = EFFECTIVE_RANGE_MAX_TIER_2 //Full damage up to this distance, then falloff for each tile beyond.
-	shell_casing = /obj/effect/decal/ammo_casing/shell/twobore_shell
+	shell_casing = /obj/effect/decal/cleanable/ammo_casing/shell/twobore_shell
 	var/hit_messages = list()
 
 /datum/ammo/bullet/shotgun/twobore/on_hit_mob(mob/living/M, obj/projectile/P)
