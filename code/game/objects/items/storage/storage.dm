@@ -9,25 +9,34 @@
 	name = "storage"
 	w_class = SIZE_MEDIUM
 	flags_atom = FPRINT|NO_GAMEMODE_SKIN
-	var/list/can_hold = new/list() //List of objects which this item can store (if set, it can't store anything else)
-	var/list/cant_hold = new/list() //List of objects which this item can't store (in effect only if can_hold isn't set)
-	var/list/bypass_w_limit = new/list() //a list of objects which this item can store despite not passing the w_class limit
-	var/list/click_border_start = new/list() //In slotless storage, stores areas where clicking will refer to the associated item
-	var/list/click_border_end = new/list()
-	var/list/hearing_items //A list of items that use hearing for the purpose of performance
-	var/max_w_class = SIZE_SMALL //Max size of objects that this object can store
-	var/max_storage_space = 14 //The sum of the storage costs of all the items in this storage item.
-	var/storage_slots = 7 //The number of storage slots in this container.
-	var/atom/movable/screen/storage/boxes = null
-	var/atom/movable/screen/storage/storage_start = null //storage UI
-	var/atom/movable/screen/storage/storage_continue = null
-	var/atom/movable/screen/storage/storage_end = null
-	var/datum/item_storage_box/stored_ISB //! This contains what previously was known as stored_start, stored_continue, and stored_end
-	var/atom/movable/screen/close/closer = null
+
+	///List of objects which this item can store (if set, it can't store anything else)
+	var/list/can_hold = new/list()
+
+	///List of objects which this item can't store (in effect only if can_hold isn't set)
+	var/list/cant_hold = new/list()
+
+	///List of objects which this item can store despite not passing the w_class limit
+	var/list/bypass_w_limit = new/list()
+
+	///Max size of objects that this object can store
+	var/max_w_class = SIZE_SMALL
+
+	///The sum of the storage costs of all the items in this storage item. default is 14, which should be equivalent to 7 small items, or 14 tiny items
+	var/max_storage_space = STORAGE_SPACE_MAX
+
+	///The number of storage slots in this container, default should be 7, as its what fits the UI in a singular row without making a column. null means it utilizes the weight class system, and 7 equivalent small items would fill up the box just as similarly
+	var/storage_slots = STORAGE_SLOTS_DEFAULT
+
+	///If you can fold it into a base form, like into a cardboard box, set to null if you want it poof into nothingness
 	var/foldable = null
-	var/use_sound = "rustle" //sound played when used. null for no sound.
-	var/opened = FALSE //Has it been opened before?
-	var/list/content_watchers //list of mobs currently seeing the storage's contents
+
+	///sound played when used. null for no sound.
+	var/use_sound = "rustle"
+
+	///Has it been opened before?
+	var/opened = FALSE
+
 	var/storage_flags = STORAGE_FLAGS_DEFAULT
 
 	///Special can_holds that require a skill to insert, it is an associated list of typepath = list(skilltype, skilllevel)
@@ -56,6 +65,20 @@
 	/// the weight multiplier for items in contents
 	var/weight_multiplier = STORAGE_WEIGHT_DEFAULT
 
+	//storage UI stuff
+	var/list/click_border_start = new/list() //In slotless storage, stores areas where clicking will refer to the associated item
+	var/list/click_border_end = new/list()
+	var/list/hearing_items //A list of items that use hearing for the purpose of performance
+	var/list/content_watchers //list of mobs currently seeing the storage's contents
+
+	var/atom/movable/screen/storage/boxes = null
+	var/atom/movable/screen/storage/storage_start = null
+	var/atom/movable/screen/storage/storage_continue = null
+	var/atom/movable/screen/storage/storage_end = null
+
+	var/datum/item_storage_box/stored_ISB //! This contains what previously was known as stored_start, stored_continue, and stored_end
+	var/atom/movable/screen/close/closer = null
+	//storage UI end
 
 /obj/item/storage/MouseDrop(obj/over_object as obj)
 	if(CAN_PICKUP(usr, src) && !HAS_TRAIT(usr, TRAIT_HAULED))
@@ -930,10 +953,9 @@ W is always an item. stop_warning prevents messaging. user may be null.**/
 	post_skin_selection()
 	fill_preset_inventory()
 	if(preset_hold_only)
-		can_hold = list() // basically populate the can_hold list with the item presets found when initialized, might mean that there will be a bunch of duplicate types but w/e
-		for(var/obj/item/I in contents)
-			if(!is_type_in_list(I.type, can_hold))
-				can_hold += I.type
+		can_hold = list()
+		for(var/obj/item/list in contents)
+			can_hold |= list.type
 	update_icon()
 
 /*
