@@ -400,7 +400,7 @@
 				src.reagents.reaction(target, INJECTION)
 			spawn(5)
 				var/trans = src.reagents.trans_to(target, amount_per_transfer_from_this, method = INJECTION)
-				to_chat(user, SPAN_NOTICE(" You inject [trans] units of the solution. The syringe now contains [src.reagents.total_volume] units."))
+				to_chat(user, SPAN_NOTICE("You inject [trans] units of the solution. The syringe now contains [src.reagents.total_volume] units."))
 				if (reagents.total_volume >= reagents.maximum_volume && mode==SYRINGE_INJECT)
 					mode = SYRINGE_DRAW
 					update_icon()
