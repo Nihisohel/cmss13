@@ -35,7 +35,7 @@
 	if(alien == IS_YAUTJA || alien == IS_HORROR || !holder)
 		return
 	creature.nutrition += nutriment_factor
-	holder.remove_reagent(src.id, (alien ? FOOD_METABOLISM : ALCOHOL_METABOLISM)) // Catch-all for creatures without livers.
+	holder.remove_reagent(id, (alien ? FOOD_METABOLISM : ALCOHOL_METABOLISM)) // Catch-all for creatures without livers.
 
 	accumulated_alcohol += boozepwr
 
@@ -295,7 +295,7 @@
 				var/datum/internal_organ/heart/damaging = drunkards_heart.internal_organs_by_name["heart"]
 				if(damaging && istype(damaging))
 					damaging.take_damage(100, 0)
-	holder.remove_reagent(src.id, FOOD_METABOLISM)
+	holder.remove_reagent(id, FOOD_METABOLISM)
 	return TRUE
 
 /datum/reagent/ethanol/deadrum
