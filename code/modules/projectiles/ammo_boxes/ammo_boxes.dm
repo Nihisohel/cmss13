@@ -26,6 +26,11 @@
 	var/weight_multiplier = MAG_BOX_WEIGHT_DEFAULT
 
 //---------------------GENERAL PROCS
+/obj/item/ammo_box/get_examine_text(mob/living/user)
+	. = ..()
+
+	if(weighted_ammo)
+		. += SPAN_INFO("Carrying ammo boxes around will [SPAN_RED("weigh you down")] based on the mass within the box!")
 
 /obj/item/ammo_box/dropped(mob/user, silent)
 	. = ..()
@@ -154,6 +159,7 @@
 
 /obj/item/ammo_box/magazine/get_examine_text(mob/living/user)
 	. = ..()
+
 	. += SPAN_INFO("[SPAN_HELPFUL("Activate")] box in hand or [SPAN_HELPFUL("click")] with it on the ground to deploy it. Activating it while empty will fold it into cardboard sheet.")
 	if(src.loc != user) //feeling box weight in a distance is unnatural and bad
 		return

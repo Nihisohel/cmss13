@@ -325,6 +325,9 @@
 	if(desc_lore)
 		. += SPAN_NOTICE("This has an <a href='byond://?src=\ref[src];desc_lore=1'>extended lore description</a>.")
 
+	if(weighted_item)
+		. += SPAN_INFO("This item is quite cumbersome and will [SPAN_RED("weigh you down")] when carried!")
+
 /obj/item/attack_hand(mob/user)
 	if (!user)
 		return

@@ -80,6 +80,12 @@
 	var/atom/movable/screen/close/closer = null
 	//storage UI end
 
+/obj/item/storage/get_examine_text(mob/living/user)
+	. = ..()
+
+	if(weighted_storage)
+		. += SPAN_INFO("This storage item is cumbersome enough to [SPAN_RED("weigh you down")] based on the mass within its contents!")
+
 /obj/item/storage/MouseDrop(obj/over_object as obj)
 	if(CAN_PICKUP(usr, src) && !HAS_TRAIT(usr, TRAIT_HAULED))
 		if(over_object == usr) // this must come before the screen objects only block
