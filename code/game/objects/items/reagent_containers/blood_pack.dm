@@ -122,7 +122,7 @@
 
 	//if we're using it on ourselves, we should be slowed
 	if(connected_to == connected_from)
-		connected_to.set_effect(3, SLOW) //3 ticks, adjust_effect would stack, set_effect just refreshes it, i also didnt want to set the effect to zero upon bad_disconnect or detach due to possible exploity issues - nihi
+		connected_to.SetSlow(3) //3 stacks, adjust_effect would stack, set_effect just refreshes it, i also didnt want to set the effect to zero upon bad_disconnect or detach due to possible exploity issues - nihi
 
 	//give blood
 	if(mode == BLOOD_BAG_INJECTING)

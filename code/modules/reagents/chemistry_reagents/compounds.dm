@@ -14,24 +14,24 @@
 	intensitymod = -3
 	preferred_delivery = INGESTION | CONTROLLED_INGESTION
 
-/datum/reagent/water/reaction_turf(turf/T, volume)
-	if(!istype(T))
+/datum/reagent/water/reaction_turf(turf/floor, volume)
+	if(!istype(floor))
 		return
 	src = null
 	if(volume >= 3)
-		T.wet_floor(FLOOR_WET_WATER)
+		floor.wet_floor(FLOOR_WET_WATER)
 
-/datum/reagent/water/reaction_obj(obj/O, volume)
+/datum/reagent/water/reaction_obj(obj/wet, volume)
 	src = null
-	O.extinguish()
+	wet.extinguish()
 
-/datum/reagent/water/reaction_mob(mob/living/M, method=TOUCH, volume, permeable)//Splashing people with water can help put them out!
-	if(!istype(M, /mob/living))
+/datum/reagent/water/reaction_mob(mob/living/person, method=TOUCH, volume, permeable)//Splashing people with water can help put them out!
+	if(!istype(person, /mob/living))
 		return
 	if(method == TOUCH)
-		M.adjust_fire_stacks(-(volume / 10))
-		if(M.fire_stacks <= 0)
-			M.ExtinguishMob()
+		person.adjust_fire_stacks(-(volume / 10))
+		if(person.fire_stacks <= 0)
+			person.ExtinguishMob()
 
 /datum/reagent/water/reaction_hydro_tray_reagent(obj/structure/machinery/portable_atmospherics/hydroponics/processing_tray, volume)
 	. = ..()
@@ -73,45 +73,45 @@
 	overdose_critical = REAGENTS_OVERDOSE_CRITICAL
 	chemclass = CHEM_CLASS_UNCOMMON
 
-/datum/reagent/compound/space_cleaner/reaction_obj(obj/O, volume)
-	if(istype(O, /obj/effect/decal/cleanable))
-		var/obj/effect/decal/cleanable/C = O
-		C.cleanup_cleanable()
-	else if(O)
-		O.clean_blood()
+/datum/reagent/compound/space_cleaner/reaction_obj(obj/wetting, volume)
+	if(istype(wetting, /obj/effect/decal/cleanable))
+		var/obj/effect/decal/cleanable/cleaning = wetting
+		cleaning.cleanup_cleanable()
+	else if(wetting)
+		wetting.clean_blood()
 
-/datum/reagent/compound/space_cleaner/reaction_turf(turf/T, volume)
-	if(volume >= 1 && istype(T))
-		T.clean_cleanables()
+/datum/reagent/compound/space_cleaner/reaction_turf(turf/floor, volume)
+	if(volume >= 1 && istype(floor))
+		floor.clean_cleanables()
 
-/datum/reagent/compound/space_cleaner/reaction_mob(mob/M, method=TOUCH, volume, permeable)
-	if(iscarbon(M))
-		var/mob/living/carbon/C = M
-		if(C.r_hand)
-			C.r_hand.clean_blood()
-		if(C.l_hand)
-			C.l_hand.clean_blood()
-		if(C.wear_mask)
-			if(C.wear_mask.clean_blood())
-				C.update_inv_wear_mask(0)
-		if(ishuman(M))
-			var/mob/living/carbon/human/H = C
-			if(H.head)
-				if(H.head.clean_blood())
-					H.update_inv_head(0)
-			if(H.wear_suit)
-				if(H.wear_suit.clean_blood())
-					H.update_inv_wear_suit(0)
-			else if(H.w_uniform)
-				if(H.w_uniform.clean_blood())
-					H.update_inv_w_uniform(0)
-			if(H.shoes)
-				if(H.shoes.clean_blood())
-					H.update_inv_shoes(0)
+/datum/reagent/compound/space_cleaner/reaction_mob(mob/person, method=TOUCH, volume, permeable)
+	if(iscarbon(person))
+		var/mob/living/carbon/cleaning = person
+		if(cleaning.r_hand)
+			cleaning.r_hand.clean_blood()
+		if(cleaning.l_hand)
+			cleaning.l_hand.clean_blood()
+		if(cleaning.wear_mask)
+			if(cleaning.wear_mask.clean_blood())
+				cleaning.update_inv_wear_mask(0)
+		if(ishuman(person))
+			var/mob/living/carbon/human/exfoliating = cleaning
+			if(exfoliating.head)
+				if(exfoliating.head.clean_blood())
+					exfoliating.update_inv_head(0)
+			if(exfoliating.wear_suit)
+				if(exfoliating.wear_suit.clean_blood())
+					exfoliating.update_inv_wear_suit(0)
+			else if(exfoliating.w_uniform)
+				if(exfoliating.w_uniform.clean_blood())
+					exfoliating.update_inv_w_uniform(0)
+			if(exfoliating.shoes)
+				if(exfoliating.shoes.clean_blood())
+					exfoliating.update_inv_shoes(0)
 			else
-				H.clean_blood(1)
+				exfoliating.clean_blood(1)
 				return
-		M.clean_blood()
+		person.clean_blood()
 
 /datum/reagent/compound/cryptobiolin
 	name = "Cryptobiolin"

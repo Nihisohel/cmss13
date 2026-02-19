@@ -18,12 +18,12 @@
 
 	custom_metabolism = AMOUNT_PER_TIME(1, 200 SECONDS)
 
-/datum/reagent/periodic_table/safe/carbon/reaction_turf(turf/T, volume)
+/datum/reagent/periodic_table/safe/carbon/reaction_turf(turf/floor, volume)
 	src = null
-	if(!istype(T, /turf/open/space))
-		var/obj/effect/decal/cleanable/dirt/dirtoverlay = locate(/obj/effect/decal/cleanable/dirt, T)
+	if(!istype(floor, /turf/open/space))
+		var/obj/effect/decal/cleanable/dirt/dirtoverlay = locate(/obj/effect/decal/cleanable/dirt, floor)
 		if(!dirtoverlay)
-			dirtoverlay = new/obj/effect/decal/cleanable/dirt(T)
+			dirtoverlay = new/obj/effect/decal/cleanable/dirt(floor)
 			dirtoverlay.alpha = volume*30
 		else
 			dirtoverlay.alpha = min(dirtoverlay.alpha+volume*30, 255)
@@ -243,10 +243,10 @@
 	chemclass = CHEM_CLASS_RARE
 	properties = list(PROPERTY_CARCINOGENIC = 2)
 
-/datum/reagent/periodic_table/risky/uranium/reaction_turf(turf/T, volume)
+/datum/reagent/periodic_table/risky/uranium/reaction_turf(turf/floor, volume)
 	src = null
 	if(volume >= 3)
-		if(!istype(T, /turf/open/space))
-			var/obj/effect/decal/cleanable/greenglow/glow = locate(/obj/effect/decal/cleanable/greenglow, T)
+		if(!istype(floor, /turf/open/space))
+			var/obj/effect/decal/cleanable/greenglow/glow = locate(/obj/effect/decal/cleanable/greenglow, floor)
 			if(!glow)
-				new /obj/effect/decal/cleanable/greenglow(T)
+				new /obj/effect/decal/cleanable/greenglow(floor)

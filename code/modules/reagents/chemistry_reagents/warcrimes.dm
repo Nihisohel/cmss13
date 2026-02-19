@@ -289,9 +289,9 @@
 	power = 1.5
 	falloff_modifier = -0.4
 
-/datum/reagent/reactant_compound/cyclonite/on_mob_life(mob/living/M)
+/datum/reagent/reactant_compound/cyclonite/on_mob_life(mob/living/person)
 	. = ..()
-	M.apply_damage(1, TOX)
+	person.apply_damage(1, TOX)
 
 /datum/reagent/reactant_compound/octogen //HER MAJESTY'S EXPLOSIVE LOOOOOOL
 	name = "Octogen"
@@ -321,12 +321,12 @@
 	chemclass = CHEM_CLASS_UNCOMMON
 	properties = list(PROPERTY_FUELING = 7, PROPERTY_OXIDIZING = 5, PROPERTY_VISCOUS = 4, PROPERTY_CORROSIVE = 2)
 
-/datum/reagent/reactant_compound/thermite/reaction_turf(turf/T, volume)
+/datum/reagent/reactant_compound/thermite/reaction_turf(turf/floor, volume)
 	src = null
-	if(istype(T, /turf/closed/wall))
-		var/turf/closed/wall/W = T
-		W.thermite += volume
-		W.overlays += image('icons/effects/effects.dmi',icon_state = "#673910")
+	if(istype(floor, /turf/closed/wall))
+		var/turf/closed/wall/thermite_wall = floor
+		thermite_wall.thermite += volume
+		thermite_wall.overlays += image('icons/effects/effects.dmi',icon_state = "#673910")
 
 /datum/reagent/reactant_compound/hexamine
 	name = "Hexamine"
