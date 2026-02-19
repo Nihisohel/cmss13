@@ -70,7 +70,7 @@
 			to_chat(user, SPAN_DANGER("You fail to fill [src] with reagents from [target]."))
 			return
 
-		to_chat(user, SPAN_NOTICE(" You fill [src] with [trans] units of the contents of [target]."))
+		to_chat(user, SPAN_NOTICE("You fill [src] with [trans] units of the contents of [target]."))
 
 	//Something like a glass or a food item. Player probably wants to transfer TO it.
 	else if(target.is_open_container() || istype(target, /obj/item/reagent_container/food/snacks))
