@@ -55,7 +55,7 @@ Engineering parts and scraps and lights and tubes and stuff
 	item_state = "lightstick"
 	w_class = SIZE_SMALL
 	can_hold = list(
-		/obj/item/lightstick
+		/obj/item/lightstick,
 	)
 	storage_slots = STORAGE_SLOTS_DEFAULT
 
