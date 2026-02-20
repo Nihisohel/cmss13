@@ -88,6 +88,7 @@ type Data = {
     name: string;
     amount: number;
     od: BooleanLike;
+    crit_od: BooleanLike;
     dangerous: BooleanLike;
     improper: BooleanLike;
     color: string;
@@ -525,6 +526,12 @@ const ScannerChems = (props) => {
               {chemical.improper ? (
                 <Box inline color={'red'} bold>
                   {'Improper Delivery'}
+                </Box>
+              ) : null}
+              <Box inline width={'5px'} />
+              {chemical.crit_od ? (
+                <Box inline color={'orange'} bold>
+                  {'Critical'}
                 </Box>
               ) : null}
               <Box inline width={'5px'} />

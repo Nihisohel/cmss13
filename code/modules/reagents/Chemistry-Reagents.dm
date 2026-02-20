@@ -158,7 +158,7 @@ GLOBAL_LIST_INIT(name2reagent, build_name2reagent())
 	handle_processing(M, mods, delta_time)
 	if(QDELETED(src)) //proc above could have deleted us
 		return
-	holder.remove_reagent(id, custom_metabolism * delta_time)
+	holder.remove_reagent(id, custom_metabolism * delta_time, method = delivery_method)
 
 	if(adj_temp && M.bodytemperature != target_temp)
 		if(adj_temp > 0) // heating
@@ -239,7 +239,7 @@ GLOBAL_LIST_INIT(name2reagent, build_name2reagent())
 			processing_in_dead = TRUE
 
 	if(processing_in_dead && !mods[REAGENT_FORCE]) // mods[REAGENT_FORCE] will force the reagent removal anyhow.
-		holder.remove_reagent(id, custom_metabolism *delta_time)
+		holder.remove_reagent(id, custom_metabolism *delta_time, method = delivery_method)
 
 /datum/reagent/proc/on_delete()
 	if(!holder || !holder.my_atom || !isliving(holder.my_atom))

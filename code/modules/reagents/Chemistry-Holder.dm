@@ -231,10 +231,52 @@
 	//handle_reactions() Don't need to handle reactions on the source since you're (presumably isolating and) transferring a specific reagent.
 	return amount
 
-/datum/reagents/proc/metabolize(mob/M, alien, delta_time)
+/datum/reagents/proc/metabolize(mob/druggie, alien, delta_time)
+	var/list/unique_reagent = list()
 	for(var/datum/reagent/reagent in reagent_list)
-		if(M && reagent && !QDELETED(reagent))
-			reagent.on_mob_life(M, alien, delta_time)
+		if(druggie && reagent && !QDELETED(reagent))
+			if(!unique_reagent[reagent.id])
+				unique_reagent[reagent.id] = list()
+			unique_reagent[reagent.id] += reagent
+
+	for(var/id in unique_reagent)
+		var/list/reagents = unique_reagent[id]
+		if(length(reagents) == 1)
+			var/datum/reagent/drug = reagents[1]
+			if(!QDELETED(drug))
+				drug.on_mob_life(druggie, alien, delta_time)
+			continue
+
+		var/datum/reagent/best_reagent
+		var/best_drug
+
+		for(var/datum/reagent/scoring in reagents)
+			if(QDELETED(scoring))
+				continue
+			var/outcome = scoring.calc_delivery_spectrum(scoring.delivery_method)
+			if(outcome == DELIVERY_NEGATIVE_EFFECT)
+				continue
+			if(scoring.overdose && scoring.volume > scoring.overdose)
+				continue
+			var/index = 0
+			if(outcome == DELIVERY_PREFERRED_EFFECT) index = 2
+			else if(outcome == DELIVERY_LESSER_EFFECT) index = 1
+			if(index > best_drug)
+				best_drug = index
+				best_reagent = scoring
+			else if(index == best_drug)
+				if(!best_reagent || scoring.volume > best_reagent.volume)
+					best_reagent = scoring
+
+		for(var/datum/reagent/winning_reagents in reagents)
+			if(QDELETED(winning_reagents))
+				continue
+			var/outcome = winning_reagents.calc_delivery_spectrum(winning_reagents.delivery_method)
+			if((winning_reagents.overdose && winning_reagents.volume > winning_reagents.overdose) || outcome == DELIVERY_NEGATIVE_EFFECT || winning_reagents == best_reagent)
+				winning_reagents.on_mob_life(druggie, alien, delta_time)
+			else
+				remove_reagent(winning_reagents.id, winning_reagents.custom_metabolism * delta_time, method = winning_reagents.delivery_method)
+
 	update_total()
 
 /datum/reagents/proc/handle_reactions()
@@ -498,7 +540,7 @@
 			new_data[index] = data[index]
 
 	for(var/datum/reagent/R in reagent_list)
-		if(R.id == reagent)
+		if(R.id == reagent && R.delivery_method == method)
 			R.volume += amount
 			R.last_source_mob = new_data["last_source_mob"]
 			R.delivery_method = method
@@ -567,13 +609,15 @@
 
 	return TRUE
 
-/datum/reagents/proc/remove_reagent(reagent, amount, safety = 0)//Added a safety check for the trans_id_to
+/datum/reagents/proc/remove_reagent(reagent, amount, safety = 0, method = ANY_DELIVERY)//Added a safety check for the trans_id_to
 	if(!isnum(amount))
 		return TRUE
 
-	for(var/datum/reagent/R in reagent_list)
-		if(R.id == reagent)
-			R.volume -= amount
+	for(var/datum/reagent/removing in reagent_list)
+		if(removing.id == reagent)
+			if(!isnull(method) && method != ANY_DELIVERY && removing.delivery_method != method) // only specific to remove_reagent so we can default to the original method of removal if we dont specify an argument
+				continue
+			removing.volume -= amount
 			update_total()
 			if(!safety)//So it does not handle reactions when it need not to
 				handle_reactions()
