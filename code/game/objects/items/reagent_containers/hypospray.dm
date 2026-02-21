@@ -295,8 +295,9 @@
 			return (ATTACKBY_HINT_NO_AFTERATTACK|ATTACKBY_HINT_UPDATE_NEXT_MOVE)
 
 		if(INJECTOR_MODE_PRECISE)
-			var/injection_duration = 4.5 SECONDS
-			injection_duration = (injection_duration * user.get_skill_duration_multiplier(SKILL_MEDICAL))
+			var/injection_duration = 4 SECONDS
+			if(user.skills)
+				injection_duration -= (user.skills.get_skill_level(SKILL_MEDICAL) * 10)
 
 			if(M == user) // spamming do_afters results in the null units injected bug which does nothing, but its really fucking annoying and ive got no fucking clue how to fix it, so try not to spam your injector more than the required amount - nihi
 				user.visible_message(SPAN_WARNING("[user] begins to carefully administer \the [src] to themselves..."), SPAN_WARNING("You begin to carefully administer \the [src] to yourself..."))
@@ -304,7 +305,7 @@
 					return hypoinject(M, user)
 			else
 				user.visible_message(SPAN_WARNING("[user] begins to carefully administer \the [src] to [M]..."), SPAN_WARNING("You begin to carefully administer \the [src] to [M]..."))
-				if(do_after(user, injection_duration, INTERRUPT_NO_NEEDHAND, BUSY_ICON_FRIENDLY, M, INTERRUPT_ALL, BUSY_ICON_MEDICAL))
+				if(do_after(user, injection_duration, (INTERRUPT_ALL & ~INTERRUPT_MOVED & ~INTERRUPT_NEEDHAND | INTERRUPT_OUT_OF_RANGE), BUSY_ICON_FRIENDLY, M, (INTERRUPT_ALL & (~INTERRUPT_MOVED)), BUSY_ICON_MEDICAL, status_effect = SLOW))
 					return hypoinject(M, user)
 
 
