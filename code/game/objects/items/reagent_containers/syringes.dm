@@ -26,6 +26,7 @@
 	transparent = TRUE
 	reagent_desc_override = TRUE //uses display_contents
 	var/mode = SYRINGE_DRAW
+	var/untoggleable_mode = FALSE
 
 /obj/item/reagent_container/syringe/on_reagent_change()
 	update_icon()
@@ -47,6 +48,10 @@
 
 /obj/item/reagent_container/syringe/attack_self(mob/user)
 	..()
+
+	if(untoggleable_mode)
+		to_chat(user, SPAN_WARNING("You cannot toggle the mode of the [src]."))
+		return
 
 	switch(mode)
 		if(SYRINGE_DRAW)
@@ -323,6 +328,7 @@
 	amount_per_transfer_from_this = 50
 	possible_transfer_amounts = null //list(5,10,15)
 	volume = 50
+	untoggleable_mode = TRUE // would be kind of weird for the parent specifically since it doesnt actually carry anything
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Syringes. END
