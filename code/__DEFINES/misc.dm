@@ -173,6 +173,10 @@
 #define INJECTOR_MODE_FAST 1
 #define INJECTOR_MODE_PRECISE 2
 
+#define SYRINGE_DRAW 0
+#define SYRINGE_INJECT 1
+#define SYRINGE_BROKEN 2
+
 // RESEARCH DEFINES //
 
 // Matrix CAS Upgrades

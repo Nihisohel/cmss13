@@ -1,9 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 /// Syringes.
 ////////////////////////////////////////////////////////////////////////////////
-#define SYRINGE_DRAW 0
-#define SYRINGE_INJECT 1
-#define SYRINGE_BROKEN 2
 
 /obj/item/reagent_container/syringe
 	name = "syringe"
@@ -149,9 +146,19 @@
 					var/obj/item/blocker = target_human.get_sharp_obj_blocker(injection_limb)
 					if(blocker)
 						injection_delay = 3 SECONDS
-						user.visible_message(SPAN_DANGER("<B>[user] begins looking for a good spot to draw blood from [target_human]'s [blocker]!</B>"))
+						if(user == target_human)
+							user.visible_message(SPAN_DANGER("<B>[user] begins looking for a good spot to draw blood from their [blocker]!</B>"), \
+								SPAN_DANGER("<B>You begin looking for a good spot to draw blood from your [blocker]!</B>"))
+						else
+							user.visible_message(SPAN_DANGER("<B>[user] begins looking for a good spot to draw blood from [target_human]'s [blocker]!</B>"), \
+								SPAN_DANGER("<B>You begin looking for a good spot to draw blood from [target_human]'s [blocker]!</B>"))
 					else
-						user.visible_message(SPAN_DANGER("<B>[user] is trying to draw blood from [target_human]!</B>"))
+						if(user == target_human)
+							user.visible_message(SPAN_DANGER("<B>[user] is trying to draw blood from themself!</B>"), \
+								SPAN_DANGER("<B>You are trying to draw blood from yourself!</B>"))
+						else
+							user.visible_message(SPAN_DANGER("<B>[user] is trying to draw blood from [target_human]!</B>"), \
+								SPAN_DANGER("<B>You are trying to draw blood from [target_human]!</B>"))
 
 				if(!do_after(user, injection_time, INTERRUPT_ALL, BUSY_ICON_FRIENDLY, target, INTERRUPT_MOVED, BUSY_ICON_MEDICAL))
 					return
@@ -159,8 +166,12 @@
 				target_human.take_blood(src,amount)
 				on_reagent_change()
 				reagents.handle_reactions()
-				user.visible_message(SPAN_WARNING("[user] takes a blood sample from [target]."),
-				SPAN_NOTICE("You take a blood sample from [target]."), null, 4)
+				if(user == target)
+					user.visible_message(SPAN_WARNING("[user] takes a blood sample from themself."), \
+						SPAN_NOTICE("You take a blood sample from yourself."), null, 4)
+				else
+					user.visible_message(SPAN_WARNING("[user] takes a blood sample from [target]."), \
+						SPAN_NOTICE("You take a blood sample from [target]."), null, 4)
 				update_icon()
 				user.update_inv_l_hand()
 				user.update_inv_r_hand()
@@ -213,14 +224,29 @@
 
 					if(blocker)
 						injection_delay = 3 SECONDS
-						user.visible_message(SPAN_DANGER("<B>[user] begins looking for a good spot to inject something into [target_human]'s \the [blocker]!</B>"))
+						if(user == target_human)
+							user.visible_message(SPAN_DANGER("<B>[user] begins looking for a good spot to inject something into their [blocker]!</B>"), \
+								SPAN_DANGER("<B>You begin looking for a good spot to inject something into your [blocker]!</B>"))
+						else
+							user.visible_message(SPAN_DANGER("<B>[user] begins looking for a good spot to inject something into [target_human]'s [blocker]!</B>"), \
+								SPAN_DANGER("<B>You begin looking for a good spot to inject something into [target_human]'s [blocker]!</B>"))
 					else
-						user.visible_message(SPAN_DANGER("<B>[user] is trying to inject something into [target_human]!</B>"))
+						if(user == target_human)
+							user.visible_message(SPAN_DANGER("<B>[user] is trying to inject something into themself!</B>"), \
+								SPAN_DANGER("<B>You are trying to inject something into yourself!</B>"))
+						else
+							user.visible_message(SPAN_DANGER("<B>[user] is trying to inject something into [target_human]!</B>"), \
+								SPAN_DANGER("<B>You are trying to inject something into [target_human]!</B>"))
 
 				if(!do_after(user, injection_time, (INTERRUPT_ALL & ~INTERRUPT_MOVED & ~INTERRUPT_NEEDHAND | INTERRUPT_OUT_OF_RANGE), BUSY_ICON_FRIENDLY, target, (INTERRUPT_ALL & (~INTERRUPT_MOVED)), BUSY_ICON_MEDICAL, status_effect = SLOW))
 					return
 
-				user.visible_message(SPAN_DANGER("[user] injects [target] with the syringe!"))
+				if(user == target)
+					user.visible_message(SPAN_DANGER("[user] injects themself with the syringe!"), \
+						SPAN_DANGER("You inject yourself with the syringe!"))
+				else
+					user.visible_message(SPAN_DANGER("[user] injects [target] with the syringe!"), \
+						SPAN_DANGER("You inject [target] with the syringe!"))
 
 				if(target != user)
 					var/list/injected = list()
@@ -309,7 +335,12 @@
 		user.visible_message(SPAN_DANGER("<B>[user] tries to stab [target] in [hit_area] with [src], but the attack is deflected by [blocker]!</B>"))
 		return
 
-	user.visible_message(SPAN_DANGER("<B>[user] stabs [target]'s [hit_area] with [src]!</B>"))
+	if(user == target)
+		user.visible_message(SPAN_DANGER("<B>[user] stabs their [hit_area] with [src]!</B>"), \
+			SPAN_DANGER("<B>You stab your [hit_area] with [src]!</B>"))
+	else
+		user.visible_message(SPAN_DANGER("<B>[user] stabs [target]'s [hit_area] with [src]!</B>"), \
+			SPAN_DANGER("<B>You stab [target]'s [hit_area] with [src]!</B>"))
 
 	affecting.take_damage(3)
 
