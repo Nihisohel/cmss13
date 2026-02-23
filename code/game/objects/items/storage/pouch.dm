@@ -437,6 +437,18 @@
 	if(inserted_mag)
 		overlays += "+pistol_pouch_mag"
 
+/obj/item/storage/pouch/pistol/mag_carrier/attack_hand(mob/user, mods)
+	if(current_gun && ishuman(user) && loc == user) // probably best to make the entire proc a flag i think, but lets worry about that another time
+		if(mods && mods[ALT_CLICK] && length(contents) > 1) //Withdraw the most recently inserted nongun item if possible.
+			var/obj/item/object = contents[length(contents)]
+			if(isgun(object))
+				object = contents[length(contents) - 1]
+			object.attack_hand(user)
+		else
+			current_gun.attack_hand(user)
+		return
+	..()
+
 ///CO pouch. This pouch can hold only 1 of each type of item: 1 sidearm, 1 pair of binoculars, 1 CO tablet
 /obj/item/storage/pouch/pistol/command
 	name = "command pouch"
