@@ -445,18 +445,12 @@ GLOBAL_LIST_INIT(allowed_helmet_items, list(
 
 	//speciality does NOTHING if you have NO_NAME_OVERRIDE
 	var/specialty = "M10 pattern marine" //Give them a specialty var so that they show up correctly in vendors. speciality does NOTHING if you have NO_NAME_OVERRIDE.
-	valid_accessory_slots = list(ACCESSORY_SLOT_HELM_C)
 
 	var/obj/item/storage/internal/headgear/pockets
 	var/storage_slots = 2 // Small items like injectors, bandages, etc
 	var/storage_slots_reserved_for_garb = 2 // Cosmetic items & now cigarettes and lighters for RP
 	var/storage_max_w_class = SIZE_TINY // can hold tiny items only, EXCEPT for glasses & metal flask.
 	var/storage_max_storage_space = 4
-
-	/// The dmi where the grayscale squad overlays are contained for "std-helmet" and "sql-helmet"
-	var/helmet_overlay_icon = 'icons/mob/humans/onmob/clothing/head/overlays.dmi'
-	/// The dmi where the "helmet_band" is contained for garb
-	var/helmet_band_icon = 'icons/mob/humans/onmob/clothing/helmet_garb/misc.dmi'
 
 	///Any visors built into the helmet
 	var/list/built_in_visors = list(new /obj/item/device/helmet_visor)
@@ -472,6 +466,30 @@ GLOBAL_LIST_INIT(allowed_helmet_items, list(
 	var/list/camera_factions = FACTION_LIST_MARINE_WY
 
 
+	/// COSMETIC HELMET OVERLAYS
+
+	valid_accessory_slots = list(ACCESSORY_SLOT_HELM_A, ACCESSORY_SLOT_HELM_B, ACCESSORY_SLOT_HELM_C)
+
+	/// the helmets starting accessory items
+	var/list/starting_accessories = list(/obj/item/clothing/accessory/helmet/backstrap/marine_lobster)
+	/// The dmi where the grayscale squad overlays are contained for "std-helmet" and "sql-helmet"
+	var/helmet_overlay_icon = 'icons/mob/humans/onmob/clothing/head/overlays.dmi'
+	/// The dmi where the "helmet_band" is contained for garb
+	var/helmet_band_icon = 'icons/mob/humans/onmob/clothing/helmet_garb/misc.dmi'
+
+	var/helmet_strap = FALSE
+	///toggles the helmet camera visiblity, do note that this is purely visual
+	var/helmet_camera = FALSE
+	var/helmet_camera_icon = "camera_uscm"
+	var/helmet_strap_icon = "strap_uscm_brown"
+
+//	if(helmet_camera)
+//		var/obj/structure/machinery/camera/camera
+		//BLAH BLAH BLAH OVERLAY  HERE
+
+//	if(helmet_strap)
+		//bl;asadlasldsalkdsadsa hujd
+
 /obj/item/clothing/head/helmet/marine/Initialize(mapload, new_protection[] = list(MAP_ICE_COLONY = ICE_PLANET_MIN_COLD_PROT))
 	. = ..()
 	AddComponent(/datum/component/overwatch_console_control)
@@ -485,6 +503,10 @@ GLOBAL_LIST_INIT(allowed_helmet_items, list(
 
 	if(!(flags_atom & NO_GAMEMODE_SKIN))
 		select_gamemode_skin(type, null, new_protection)
+
+	for(var/path in starting_accessories)
+		var/obj/item/clothing/accessory/helmet_accessory = new path(src)
+		attach_accessory(helmet_accessory)
 
 	helmet_overlays = list() //To make things simple.
 
@@ -1048,6 +1070,7 @@ GLOBAL_LIST_INIT(allowed_helmet_items, list(
 	icon_state = "sl_helmet"
 	armor_bio = CLOTHING_ARMOR_MEDIUMHIGH
 	specialty = "M11 pattern marine"
+	starting_accessories = list(/obj/item/clothing/accessory/helmet/backstrap/dust_ruffle)
 
 /obj/item/clothing/head/helmet/marine/rto
 	name = "\improper M12 pattern dust helmet"
@@ -1395,6 +1418,7 @@ GLOBAL_LIST_INIT(allowed_helmet_items, list(
 	specialty = "M11 pattern commanding officer"
 	flags_atom = NO_NAME_OVERRIDE
 	built_in_visors = list(new /obj/item/device/helmet_visor, new /obj/item/device/helmet_visor/medical/advanced, new /obj/item/device/helmet_visor/security)
+	starting_accessories = list(/obj/item/clothing/accessory/helmet/backstrap/dust_ruffle)
 
 /obj/item/clothing/head/helmet/marine/leader/CO/general
 	name = "\improper M11 pattern ceremonial helmet"
