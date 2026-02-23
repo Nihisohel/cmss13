@@ -114,3 +114,14 @@ corporate or pencil pusher shit included, i guess
 /obj/item/storage/box/tapes/fill_preset_inventory()
 	for(var/i in 1 to STORAGE_SPACE_MAX)
 		new /obj/item/tape/regulation(src)
+
+/obj/item/storage/box/holobadge
+	name = "holobadge box"
+	desc = "A box claiming to contain holobadges."
+	storage_slots = STORAGE_SLOTS_DEFAULT
+
+/obj/item/storage/box/holobadge/New()
+	for(var/i in 1 to 4)
+		new /obj/item/clothing/accessory/holobadge(src)
+	for(var/i in 1 to 3)
+		new /obj/item/clothing/accessory/holobadge/cord(src)
