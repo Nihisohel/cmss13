@@ -79,3 +79,9 @@
 	desc_lore = "The TSL originated during Tientsin campaign, conjured up by UA contracted cryptographers due to a heightened paranoia concerning enemy espionage. Surprisingly enough, TSL draws a good ammount of inspiration from the American Sign Language system, and a deaf person could decypher atleast 20% of what is being said."
 	flavour_text = "you feel 👌."
 	trait = /datum/character_trait/language/tactical_sign_language
+
+/obj/item/pamphlet/language/forgotten
+	name = "Ab Urbe Condita"
+	desc = "A ripped off excerpt of Roman Historian Titus Livius' 'From the Foundation of the City' which was a 142 book-history of Rome where a single book is equivalent to a volume of a novel, of which only 35 where said to be found, this is quite an archaeological find!"
+	flavour_text = "you feel well informed of the inner workings of the ancient world."
+	trait = /datum/character_trait/language/forgotten
