@@ -2405,7 +2405,7 @@ not all weapons use normal magazines etc. load_into_chamber() itself is designed
 	var/mob/living/carbon/human/execution_target = hit_mob
 
 	if(execution_target.status_flags & PERMANENTLY_DEAD)
-		to_chat(user, SPAN_DANGER("[execution_target] has already been executed!"))
+		to_chat(user, SPAN_DANGER("[execution_target] looks to be pretty dead."))
 		return
 
 	user.affected_message(execution_target,
