@@ -246,26 +246,37 @@ Defined in conflicts.dm of the #defines folder.
 	SEND_SIGNAL(user, COMSIG_MOB_FIRED_GUN_ATTACHMENT, src) // Because of this, the . = ..() check should be called last, just before firing
 	return TRUE
 
-/obj/item/attachable/proc/handle_attachment_description()
+/obj/item/attachable/proc/handle_attachment_description(mob/user)
+	var/obj/item/weapon/gun/gun = loc
+	var/adjacent = user && gun && gun.Adjacent(user)
 	var/base_attachment_desc
 	switch(slot)
 		if("rail")
-			base_attachment_desc = "It has a [icon2html(src)] [name] mounted on the top."
+			base_attachment_desc = "It has a [icon2html(src)][SPAN_ORANGE(name)] mounted on the top."
 		if("muzzle")
-			base_attachment_desc = "It has a [icon2html(src)] [name] mounted on the front."
+			base_attachment_desc = "It has a [icon2html(src)][SPAN_ORANGE(name)] mounted on the front."
 		if("stock")
-			base_attachment_desc = "It has a [icon2html(src)] [name] for a stock."
+			base_attachment_desc = "It has a [icon2html(src)][SPAN_ORANGE(name)] for a stock."
 		if("under")
-			var/output = "It has a [icon2html(src)] [name]"
-			if(flags_attach_features & ATTACH_WEAPON)
-				output += " ([current_rounds]/[max_rounds])"
+			var/output = "It has a [icon2html(src)][SPAN_ORANGE(name)]"
+
+			if(flags_attach_features & ATTACH_WEAPON && adjacent)
+				var/ammo_text = "([current_rounds]/[max_rounds])"
+				if(current_rounds <= 0)
+					ammo_text = SPAN_RED(ammo_text)
+				else if(current_rounds < max_rounds)
+					ammo_text = SPAN_ORANGE(ammo_text)
+				else
+					ammo_text = SPAN_GREEN(ammo_text)
+				output += " [ammo_text]"
 			output += " mounted underneath."
 			base_attachment_desc = output
 		else
-			base_attachment_desc = "It has a [icon2html(src)] [name] attached."
-	return handle_pre_break_attachment_description(base_attachment_desc) + "<br>"
+			base_attachment_desc = "It has a [icon2html(src)][SPAN_ORANGE(name)] attached."
 
-/obj/item/attachable/proc/handle_pre_break_attachment_description(base_description_text as text)
+	return SPAN_INFO(handle_pre_break_attachment_description(base_attachment_desc, user)) + "<br>"
+
+/obj/item/attachable/proc/handle_pre_break_attachment_description(base_description_text as text, mob/user)
 	return base_description_text
 
 // ======== Muzzle Attachments ======== //
@@ -3383,7 +3394,7 @@ Defined in conflicts.dm of the #defines folder.
 		intense_mode = TRUE
 	update_icon()
 
-/obj/item/attachable/attached_gun/flamer/handle_pre_break_attachment_description(base_description_text as text)
+/obj/item/attachable/attached_gun/flamer/handle_pre_break_attachment_description(base_description_text as text, mob/user)
 	return base_description_text + " It is on [intense_mode ? "intense" : "normal"] mode."
 
 /obj/item/attachable/attached_gun/flamer/reload_attachment(obj/item/ammo_magazine/flamer_tank/fuel_holder, mob/user)
@@ -3677,8 +3688,11 @@ Defined in conflicts.dm of the #defines folder.
 		return
 	. += SPAN_WARNING("It's empty.")
 
-/obj/item/attachable/attached_gun/extinguisher/handle_attachment_description(slot)
-	return "It has a [icon2html(src)] [name] ([floor(internal_extinguisher.reagents.total_volume)]/[internal_extinguisher.max_water]) mounted underneath.<br>"
+/obj/item/attachable/attached_gun/extinguisher/handle_attachment_description(mob/user)
+	var/obj/item/weapon/gun/gun = loc
+	var/adjacent = user && gun && gun.Adjacent(user)
+	var/info = adjacent ? " ([floor(internal_extinguisher.reagents.total_volume)]/[internal_extinguisher.max_water])" : ""
+	return SPAN_INFO("It has a [icon2html(src)] [SPAN_ORANGE(name)][info] mounted underneath.") + "<br>"
 
 /obj/item/attachable/attached_gun/extinguisher/New()
 	..()
@@ -3732,8 +3746,8 @@ Defined in conflicts.dm of the #defines folder.
 		'sound/weapons/gun_flamethrower3.ogg'
 	)
 
-/obj/item/attachable/attached_gun/flamer_nozzle/handle_attachment_description(slot)
-	return "It has a [icon2html(src)] [name] mounted beneath the barrel.<br>"
+/obj/item/attachable/attached_gun/flamer_nozzle/handle_attachment_description(mob/user)
+	return SPAN_INFO("It has a [icon2html(src)] [SPAN_ORANGE(name)] mounted beneath the barrel.") + "<br>"
 
 /obj/item/attachable/attached_gun/flamer_nozzle/activate_attachment(obj/item/weapon/gun/firearm, mob/living/user, turn_off)
 	. = ..()
