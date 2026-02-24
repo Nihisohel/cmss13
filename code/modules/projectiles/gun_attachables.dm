@@ -3264,10 +3264,11 @@ Defined in conflicts.dm of the #defines folder.
 	if(get_dist(user,target) > max_range)
 		to_chat(user, SPAN_WARNING("Too far to fire the attachment!"))
 		playsound(user, 'sound/weapons/gun_empty.ogg', 50, TRUE, 5)
-		return
+		return FALSE
 
 	if(current_rounds > 0 && ..())
 		prime_grenade(target,gun,user)
+		return TRUE
 
 /obj/item/attachable/attached_gun/grenade/proc/prime_grenade(atom/target,obj/item/weapon/gun/gun,mob/living/user)
 	set waitfor = 0
@@ -3440,12 +3441,13 @@ Defined in conflicts.dm of the #defines folder.
 
 	if(!(attached_gun.flags_item & WIELDED))
 		to_chat(user, SPAN_WARNING("You must wield [attached_gun] to fire [src]!"))
-		return
+		return FALSE
 
 	if(current_rounds > round_usage_per_tile && ..())
 		unleash_flame(target, user)
 		if(attached_gun.last_fired < world.time)
 			attached_gun.last_fired = world.time
+		return TRUE
 
 /obj/item/attachable/attached_gun/flamer/proc/unleash_flame(atom/target, mob/living/user)
 	set waitfor = 0
@@ -3760,36 +3762,36 @@ Defined in conflicts.dm of the #defines folder.
 	. = ..()
 
 	if(world.time < gun.last_fired + gun.get_fire_delay())
-		return
+		return FALSE
 
 	if((gun.flags_gun_features & GUN_WIELDED_FIRING_ONLY) && !(gun.flags_item & WIELDED))
 		to_chat(user, SPAN_WARNING("You must wield [gun] to fire [src]!"))
-		return
+		return FALSE
 
 	if(gun.flags_gun_features & GUN_TRIGGER_SAFETY)
 		to_chat(user, SPAN_WARNING("\The [gun] isn't lit!"))
-		return
+		return FALSE
 
 	if(!istype(gun.current_mag, /obj/item/ammo_magazine/flamer_tank))
 		to_chat(user, SPAN_WARNING("\The [gun] needs a flamer tank installed!"))
-		return
+		return FALSE
 
 	if(!length(gun.current_mag.reagents.reagent_list))
 		to_chat(user, SPAN_WARNING("\The [gun] doesn't have enough fuel to launch a projectile!"))
-		return
+		return FALSE
 
 	var/datum/reagent/flamer_reagent = gun.current_mag.reagents.reagent_list[1]
 	if(flamer_reagent.volume < FLAME_REAGENT_USE_AMOUNT * fuel_per_projectile)
 		to_chat(user, SPAN_WARNING("\The [gun] doesn't have enough fuel to launch a projectile!"))
-		return
+		return FALSE
 
 	if(istype(flamer_reagent, /datum/reagent/foaming_agent/stabilized))
 		to_chat(user, SPAN_WARNING("This chemical will clog the nozzle!"))
-		return
+		return FALSE
 
 	if(istype(gun.current_mag, /obj/item/ammo_magazine/flamer_tank/smoke)) // you can't fire smoke like a projectile!
 		to_chat(user, SPAN_WARNING("[src] can't be used with this fuel tank!"))
-		return
+		return FALSE
 
 	gun.last_fired = world.time
 	gun.current_mag.reagents.remove_reagent(flamer_reagent.id, FLAME_REAGENT_USE_AMOUNT * fuel_per_projectile)

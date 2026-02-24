@@ -984,7 +984,7 @@ User can be passed as null, (a gun reloading itself for instance), so we need to
 				in_chamber = create_bullet(bullet.ammo_source, initial(name))
 				apply_traits(in_chamber)
 				user.visible_message(SPAN_NOTICE(("[user] loads a [bullet.singular_name] into [src]'s chamber!")),
-					SPAN_NOTICE(("You load a [bullet.singular_name] into [src]'s chamber.")))
+					SPAN_NOTICE(("You load a [SPAN_ORANGE(bullet.singular_name)] into [src]'s chamber.")))
 				bullet.current_rounds--
 				bullet.update_icon()
 				if(bullet.current_rounds <= 0)
@@ -1032,7 +1032,7 @@ User can be passed as null, (a gun reloading itself for instance), so we need to
 	update_icon()
 
 ///Unload a chambered round, if one exists, and empty the chamber.
-/obj/item/weapon/gun/proc/unload_chamber(mob/user)
+/obj/item/weapon/gun/proc/unload_chamber(mob/user, force_hand = FALSE)
 	if(!in_chamber)
 		return
 
@@ -1064,7 +1064,7 @@ User can be passed as null, (a gun reloading itself for instance), so we need to
 			break
 
 	if(new_handful)
-		if(user.client?.prefs?.toggle_prefs & TOGGLE_COCKING_TO_HAND)
+		if(force_hand || (user.client?.prefs?.toggle_prefs & TOGGLE_COCKING_TO_HAND))
 			user.put_in_hands(new_handful)
 		else
 			new_handful.forceMove(get_turf(src)) // just drop it
@@ -1280,8 +1280,8 @@ and you're good to go.
 				to_chat(user, SPAN_NOTICE("You disable [active_attachable]."))
 				active_attachable.activate_attachment(src, null, TRUE)
 			else
-				active_attachable.fire_attachment(target, src, user) //Fire it.
-				active_attachable.last_fired = world.time
+				if(active_attachable.fire_attachment(target, src, user)) //Fire it.
+					active_attachable.last_fired = world.time
 			return NONE
 			//If there's more to the attachment, it will be processed farther down, through in_chamber and regular bullet act.
 	/*
