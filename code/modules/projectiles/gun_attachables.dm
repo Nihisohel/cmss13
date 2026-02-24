@@ -937,7 +937,7 @@ Defined in conflicts.dm of the #defines folder.
 			item_action.update_button_icon()
 
 /obj/item/attachable/flashlight/activate_attachment(obj/item/weapon/gun/G, mob/living/user, turn_off)
-	turn_light(user, turn_off ? !turn_off : !light_on)
+	turn_light(user, turn_off ? !turn_off : !light_on, forced = turn_off)
 
 /obj/item/attachable/flashlight/turn_light(mob/user, toggle_on, cooldown, sparks, forced, light_again)
 	. = ..()
