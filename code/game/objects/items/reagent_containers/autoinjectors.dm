@@ -391,6 +391,7 @@
 	display_maptext = TRUE //see anaesthetic injector
 	maptext_label = "!!"
 	skilllock = SKILL_MEDICAL_DEFAULT
+	mode = INJECTOR_MODE_SKILLESS
 
 /obj/item/reagent_container/hypospray/autoinjector/emergency/Initialize()
 	. = ..()
@@ -412,6 +413,7 @@
 	display_maptext = TRUE
 	maptext_label = "!!!"
 	skilllock = SKILL_MEDICAL_DEFAULT
+	mode = INJECTOR_MODE_SKILLESS
 
 /obj/item/reagent_container/hypospray/autoinjector/black_goo_cure/Initialize()
 	. = ..()
@@ -431,6 +433,7 @@
 	skilllock = SKILL_MEDICAL_DEFAULT
 	display_maptext = FALSE //corporate secret
 	maptext_label = "Uz"
+	mode = INJECTOR_MODE_SKILLESS
 
 /obj/item/reagent_container/hypospray/autoinjector/ultrazine/update_icon()
 	. = ..()
