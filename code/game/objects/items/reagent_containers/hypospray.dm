@@ -231,7 +231,7 @@
 	// initial checks for both injection modes
 	var/toxin = FALSE
 	for(var/datum/reagent/reagent in reagents.reagent_list)
-		if(reagents.contains_harmful_substances())
+		if(istype(reagent, /datum/reagent/toxin))
 			toxin = TRUE
 			break
 
