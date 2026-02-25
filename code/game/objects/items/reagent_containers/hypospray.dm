@@ -305,7 +305,7 @@
 					return hypoinject(target, user)
 			else
 				user.visible_message(SPAN_WARNING("[user] begins to carefully administer \the [src] to [target]..."), SPAN_WARNING("You begin to carefully administer \the [src] to [target]..."))
-				if(do_after(user, injection_duration, (INTERRUPT_ALL & ~INTERRUPT_MOVED & ~INTERRUPT_NEEDHAND | INTERRUPT_OUT_OF_RANGE), BUSY_ICON_FRIENDLY, target, (INTERRUPT_ALL & (~INTERRUPT_MOVED)), BUSY_ICON_MEDICAL, status_effect = SLOW))
+				if(do_after(user, injection_duration, (INTERRUPT_ALL & ~INTERRUPT_MOVED & ~INTERRUPT_NEEDHAND | INTERRUPT_OUT_OF_RANGE), BUSY_ICON_FRIENDLY, target, INTERRUPT_TARGET_IN_RANGE, BUSY_ICON_MEDICAL, status_effect = SLOW))
 					return hypoinject(target, user)
 
 

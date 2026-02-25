@@ -238,7 +238,7 @@
 							user.visible_message(SPAN_DANGER("<B>[user] is trying to inject something into [target_human]!</B>"), \
 								SPAN_DANGER("<B>You are trying to inject something into [target_human]!</B>"))
 
-				if(!do_after(user, injection_time, (INTERRUPT_ALL & ~INTERRUPT_MOVED & ~INTERRUPT_NEEDHAND | INTERRUPT_OUT_OF_RANGE), BUSY_ICON_FRIENDLY, target, (INTERRUPT_ALL & (~INTERRUPT_MOVED)), BUSY_ICON_MEDICAL, status_effect = SLOW))
+				if(!do_after(user, injection_time, (INTERRUPT_ALL & ~INTERRUPT_MOVED & ~INTERRUPT_NEEDHAND | INTERRUPT_OUT_OF_RANGE), BUSY_ICON_FRIENDLY, target, INTERRUPT_TARGET_IN_RANGE, BUSY_ICON_MEDICAL, status_effect = SLOW))
 					return
 
 				if(user == target)
