@@ -119,6 +119,11 @@
 
 			// induced vomitting
 			if(attacking_mob.zone_selected == "mouth") // also doesnt check if we have something covering the mouth, but it shouldnt matter all too much, at least for now
+
+				attacking_mob.attack_log += text("\[[time_stamp()]\] <font color='red'>Attempted to induce vomiting on [key_name(src)]</font>")
+				attack_log += text("\[[time_stamp()]\] <font color='orange'>Has been attempted to induce vomiting by [key_name(attacking_mob)]</font>")
+				msg_admin_attack("[key_name(attacking_mob)] is attempting to induce vomiting on [key_name(src)] in [get_area(src)] ([src.loc.x],[src.loc.y],[src.loc.z]).", src.loc.x, src.loc.y, src.loc.z)
+
 				if(attacking_mob.action_busy)
 					return TRUE
 
@@ -128,6 +133,15 @@
 					else
 						to_chat(attacking_mob, SPAN_WARNING("[src] has recently thrown up, give them a moment."))
 					return TRUE
+
+				if(attacking_mob != src)
+					if(attacking_mob.faction != src.faction)
+						to_chat(attacking_mob, SPAN_WARNING("Not happening."))
+						return TRUE
+
+					if(!skillcheck(attacking_mob, SKILL_MEDICAL, SKILL_MEDICAL_TRAINED))
+						to_chat(attacking_mob, SPAN_WARNING("You are not trained to induce vomiting!"))
+						return TRUE
 
 				if(attacking_mob == src)
 					attacking_mob.visible_message(SPAN_DANGER("[attacking_mob] tries to force themselves to vomit!"), \
