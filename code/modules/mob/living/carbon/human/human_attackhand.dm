@@ -156,6 +156,10 @@
 							SPAN_DANGER("...but [src] you can't exactly force a dead person to throw up can you now knucklehead?"))
 						return TRUE
 
+					if(species.flags & IS_SYNTHETIC)
+						to_chat(attacking_mob, SPAN_WARNING("...but try as you might, it wouldn't do anything for [src]."))
+						return TRUE
+
 					if(attacking_mob == src)
 						attacking_mob.visible_message(SPAN_DANGER("[attacking_mob] forces themselves to vomit!"), \
 							SPAN_DANGER("You force yourself to vomit!"))

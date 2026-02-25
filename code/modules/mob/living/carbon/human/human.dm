@@ -927,12 +927,15 @@
 		addtimer(CALLBACK(src, PROC_REF(do_vomit)), 25 SECONDS)
 
 /mob/living/carbon/human/proc/do_vomit(forced_vomit = FALSE)
-	SetStun(1) // just one stack i guess
-	SetSuperslow(10) // yeah, 10 stacks of superslow, better than being stunned for 5
+
 	if(stat == 2) //One last corpse check
 		return
+
 	src.visible_message(SPAN_WARNING("[src] throws up!"), SPAN_WARNING("You throw up!"), null, 5)
 	playsound(loc, 'sound/effects/splat.ogg', 25, 1, 7)
+
+	SetStun(1) // just one stack i guess
+	SetSuperslow(10) // yeah, 10 stacks of superslow, better than being stunned for 5
 
 	var/turf/location = loc
 	if(istype(location, /turf))
@@ -950,10 +953,17 @@
 	if(forced_vomit)
 		var/datum/internal_organ/liver/liver = internal_organs_by_name["liver"] // liver since its the closest alternative to the stomach
 		if(liver)
-			liver.take_damage(rand(5, 10))
+			if(nutrition <= 0)
+				liver.take_damage(rand(10, 20))
+				apply_damage(rand(10, 25), TOX) // we are killing them if they do this while hungry
+			else
+				liver.take_damage(rand(5, 10))
 
 	else
-		apply_damage(rand(-5, -20), TOX)
+		if(nutrition <= 0)
+			apply_damage(rand(1, 10), TOX)
+		else
+			apply_damage(rand(-5, -20), TOX)
 
 /mob/living/carbon/human/proc/get_visible_gender()
 	if(wear_suit && wear_suit.flags_inv_hide & HIDEJUMPSUIT && ((head && head.flags_inv_hide & HIDEMASK) || wear_mask))
