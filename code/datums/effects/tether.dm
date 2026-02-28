@@ -72,7 +72,7 @@
 	if(source.throwing && get_dist(target, tethered.affected_atom) > range)
 		return COMPONENT_CANCEL_MOVE
 
-	if(ishuman(source) && ishuman(tethered.affected_atom))
+	if((ishuman(source) || isStructure(source)) && (ishuman(tethered.affected_atom) || isStructure(tethered.affected_atom)))
 		if(get_dist(target, tethered.affected_atom) > range)
 			to_chat(source, SPAN_WARNING("You are tethered to [tethered.affected_atom] and cannot move further away!"))
 			return COMPONENT_CANCEL_MOVE
