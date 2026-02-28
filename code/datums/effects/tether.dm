@@ -24,6 +24,7 @@
 
 /datum/effects/tethering/on_apply_effect()
 	RegisterSignal(affected_atom, COMSIG_MOVABLE_MOVED, PROC_REF(moved))
+	RegisterSignal(affected_atom, COMSIG_MOVABLE_PRE_MOVE, PROC_REF(pre_move))
 
 /datum/effects/tethering/Destroy()
 	if(tethered)
@@ -32,7 +33,7 @@
 		tethered = null
 	if(affected_atom)
 		QDEL_NULL(tether_beam)
-		UnregisterSignal(affected_atom, COMSIG_MOVABLE_MOVED)
+		UnregisterSignal(affected_atom, list(COMSIG_MOVABLE_MOVED, COMSIG_MOVABLE_PRE_MOVE))
 	. = ..()
 
 /datum/effects/tethering/proc/moved()
@@ -62,6 +63,15 @@
 	// Integrity of tether is compromised (cannot maintain range), so delete it
 	qdel(src)
 
+/datum/effects/tethering/proc/pre_move(atom/movable/source, atom/target)
+	SIGNAL_HANDLER
+
+	if(isnull(tethered))
+		return
+
+	if(source.throwing && get_dist(target, tethered.affected_atom) > range)
+		return COMPONENT_CANCEL_MOVE
+
 /datum/effects/tethering/proc/set_tethered(datum/effects/tethered/T)
 	tethered = T
 	T.tether = src
@@ -86,6 +96,7 @@
 
 /datum/effects/tethered/on_apply_effect()
 	RegisterSignal(affected_atom, COMSIG_MOVABLE_PRE_MOVE, PROC_REF(check_move))
+	RegisterSignal(affected_atom, COMSIG_ITEM_PICKUP, PROC_REF(check_pickup))
 	if (resistable)
 		RegisterSignal(affected_atom, COMSIG_MOB_RESISTED, PROC_REF(resist_callback))
 
@@ -109,7 +120,7 @@
 		qdel(tether)
 		tether = null
 	if (affected_atom)
-		UnregisterSignal(affected_atom, COMSIG_MOVABLE_PRE_MOVE)
+		UnregisterSignal(affected_atom, list(COMSIG_MOVABLE_PRE_MOVE, COMSIG_ITEM_PICKUP))
 		if (resistable)
 			UnregisterSignal(affected_atom, COMSIG_MOB_RESISTED)
 	. = ..()
@@ -121,6 +132,16 @@
 		return
 
 	INVOKE_ASYNC(src, PROC_REF(resisted))
+
+/datum/effects/tethered/proc/check_pickup(datum/source, mob/user)
+	SIGNAL_HANDLER
+
+	if (isnull(tether))
+		return
+
+	if (get_dist(user, tether.affected_atom) > tether.range)
+		to_chat(user, SPAN_WARNING("[source] is tethered too far away to pick up!"))
+		return COMSIG_ITEM_PICKUP_CANCELLED
 
 /datum/effects/tethered/proc/resisted()
 	to_chat(affected_atom, SPAN_DANGER("You attempt to break out of your tether to [tether.affected_atom]. (This will take around [resist_time/10] seconds and you need to stand still)"))

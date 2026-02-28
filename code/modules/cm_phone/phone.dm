@@ -22,7 +22,7 @@ GLOBAL_LIST_EMPTY_TYPED(transmitters, /obj/structure/transmitter)
 
 	var/phone_type = /obj/item/phone
 
-	var/range = 7
+	var/range = 3
 
 	var/enabled = TRUE
 	/// Whether or not the phone is receiving calls or not. Varies between on/off or forcibly on/off.
@@ -476,12 +476,6 @@ GLOBAL_LIST_EMPTY_TYPED(transmitters, /obj/structure/transmitter)
 			qdel(tether_effect)
 		tether_effect = null
 	on_beam_removed()
-
-/obj/item/phone/attack_hand(mob/user)
-	if(attached_to && get_dist(user, attached_to) > attached_to.range)
-		to_chat(user, SPAN_WARNING("The [src] is tethered too far away to pick up!"))
-		return FALSE
-	return ..()
 
 /obj/item/phone/proc/on_beam_removed()
 	if(!attached_to)

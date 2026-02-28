@@ -70,14 +70,12 @@
 	UnregisterSignal(target, COMSIG_MOVABLE_PRE_THROW) // necessary since we are calling parent
 	RegisterSignal(target, COMSIG_MOVABLE_MOVED, PROC_REF(check_tether))
 	RegisterSignal(container, COMSIG_MOVABLE_MOVED, PROC_REF(container_moved))
-	RegisterSignal(target, COMSIG_ITEM_PICKUP, PROC_REF(check_pickup))
 
 /datum/element/drop_retrieval/storage/Detach(datum/source, force)
 	if(active_tether)
 		UnregisterSignal(active_tether, COMSIG_PARENT_QDELETING)
 		QDEL_NULL(active_tether)
 	UnregisterSignal(source, COMSIG_MOVABLE_MOVED)
-	UnregisterSignal(source, COMSIG_ITEM_PICKUP)
 	if(container)
 		UnregisterSignal(container, COMSIG_MOVABLE_MOVED)
 	return ..()
@@ -109,14 +107,6 @@
 			qdel(active_tether)
 
 	maintain_tether()
-
-/datum/element/drop_retrieval/storage/proc/check_pickup(obj/item/source, mob/user) // ordinarily attack_hand would be cleaner here, but signal shenanigans
-	SIGNAL_HANDLER
-
-	var/atom/anchor = get_anchor()
-	if(get_dist(user, anchor) > container.sling_range)
-		to_chat(user, SPAN_WARNING("\The [source] is tethered too far away to pick up!"))
-		return COMSIG_ITEM_PICKUP_CANCELLED
 
 /datum/element/drop_retrieval/storage/proc/tether_deleted(datum/source)
 	SIGNAL_HANDLER
