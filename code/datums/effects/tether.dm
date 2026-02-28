@@ -86,7 +86,7 @@
 	effect_name = "tethered"
 	flags = INF_DURATION
 	var/datum/effects/tethering/tether
-	var/resistable = FALSE
+	var/resistible = FALSE
 	var/resist_time = 15 SECONDS
 
 /datum/effects/tethered/New(atom/target, resistable)
@@ -157,7 +157,7 @@
 
 // Tethers the tethered atom to the tetherer
 // If you want both atoms to be tethered to each other, pass in TRUE to the two_way arg
-/proc/apply_tether(atom/tetherer, atom/tethered, two_way = FALSE, range = 1, resistable = FALSE, icon = "chain", always_face = TRUE)
+/proc/apply_tether(atom/tetherer, atom/tethered, two_way = FALSE, range = 1, resistible = FALSE, icon = "chain", always_face = TRUE)
 	var/list/ret_list = list()
 
 	var/datum/effects/tethering/anchor = new /datum/effects/tethering(tetherer, range, icon, always_face)
