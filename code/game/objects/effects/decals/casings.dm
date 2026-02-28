@@ -23,6 +23,7 @@ that said, the icon_states in the dmi files aren't culled for use by mappers - n
 	layer = ABOVE_WEED_LAYER
 	density = FALSE
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	allow_this_to_overlap = TRUE
 	var/ejection_sfx = "gun_casing_generic"
 	/// number of variations of the casing found in its dmi file, much cleaner than spawning multiple casings on 1 tile for mappers
 	var/number_of_states = 10
@@ -36,13 +37,25 @@ that said, the icon_states in the dmi files aren't culled for use by mappers - n
 			icon_state += "_[rand(1,number_of_states)]" // the casing dmi file needs to be slightly overhauled, its dirty, and doesnt use all the old system jank with its icon_state manipulation, but at least it works out of the box
 
 	setDir(pick(GLOB.alldirs))
-
-	overlayed_image = image(icon, icon_state)
-	overlayed_image.appearance_flags = PIXEL_SCALE
-	overlayed_image.mouse_opacity = MOUSE_OPACITY_TRANSPARENT
-	overlayed_image.layer = ABOVE_WEED_LAYER
+	transform = matrix(rand(0,359), MATRIX_ROTATE) * matrix(rand(-14,14), rand(-14,14), MATRIX_TRANSLATE)
 
 	. = ..()
+
+/obj/effect/decal/cleanable/ammo_casing/create_overlay(overlay_icon = icon, overlay_icon_state = icon_state)
+	overlayed_image = image(overlay_icon, icon_state = overlay_icon_state)
+	overlayed_image.appearance_flags = appearance_flags
+	overlayed_image.mouse_opacity = mouse_opacity
+	overlayed_image.layer = layer
+	overlayed_image.transform = transform
+	if(pixel_x)
+		overlayed_image.pixel_x = pixel_x
+	if(pixel_y)
+		overlayed_image.pixel_y = pixel_y
+	if(color)
+		overlayed_image.color = color
+
+	cleanable_turf.overlays += overlayed_image
+	moveToNullspace()
 
 /obj/effect/decal/cleanable/ammo_casing/cartridge
 	name = "spent cartridge"

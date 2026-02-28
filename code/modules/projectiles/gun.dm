@@ -2399,11 +2399,7 @@ not all weapons use normal magazines etc. load_into_chamber() itself is designed
 		return
 
 	for(var/casing_type in spent_casings)
-		var/obj/effect/decal/cleanable/ammo_casing/casing = new casing_type
-		var/image/casing_image = casing.overlayed_image
-		if(casing_image)
-			casing_image.transform = matrix(rand(0,359), MATRIX_ROTATE) * matrix(rand(-14,14), rand(-14,14), MATRIX_TRANSLATE)
-			ejection_turf.overlays += casing_image
+		var/obj/effect/decal/cleanable/ammo_casing/casing = new casing_type(ejection_turf)
 
 		var/eject_noise = casing.ejection_sfx
 		playsound(loc, eject_noise, 25, TRUE)
