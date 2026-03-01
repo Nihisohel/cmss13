@@ -61,6 +61,8 @@
 	compatible_types = list(/obj/item)
 	var/obj/item/storage/container
 	var/datum/effects/tethering/active_tether
+	var/datum/action/item_action/break_tether/unsling_item
+	var/datum/action/item_action/break_tether/unsling_storage
 
 /datum/element/drop_retrieval/storage/Attach(datum/target, obj/item/storage/new_container)
 	. = ..()
@@ -70,18 +72,36 @@
 	UnregisterSignal(target, COMSIG_MOVABLE_PRE_THROW) // necessary since we are calling parent
 	RegisterSignal(target, COMSIG_MOVABLE_MOVED, PROC_REF(check_tether))
 	RegisterSignal(container, COMSIG_MOVABLE_MOVED, PROC_REF(container_moved))
+	RegisterSignal(target, list(COMSIG_ITEM_EQUIPPED, COMSIG_ITEM_PICKUP), PROC_REF(item_equipped))
+
+	unsling_item = new(target)
+	unsling_item.storage_item = container
+	unsling_storage = new(container)
+	unsling_storage.storage_item = container
+	if(ismob(container.loc)) // really annoying but whatever
+		unsling_storage.give_to(container.loc)
 
 /datum/element/drop_retrieval/storage/Detach(datum/source, force)
 	if(active_tether)
 		UnregisterSignal(active_tether, COMSIG_PARENT_QDELETING)
 		QDEL_NULL(active_tether)
-	UnregisterSignal(source, COMSIG_MOVABLE_MOVED)
+	QDEL_NULL(unsling_item)
+	QDEL_NULL(unsling_storage)
+	UnregisterSignal(source, list(COMSIG_MOVABLE_MOVED, COMSIG_ITEM_EQUIPPED, COMSIG_ITEM_PICKUP))
 	if(container)
 		UnregisterSignal(container, COMSIG_MOVABLE_MOVED)
 	return ..()
 
 /datum/element/drop_retrieval/storage/dropped(obj/item/object, mob/user)
 	maintain_tether()
+	if(unsling_storage && unsling_storage.owner == user)
+		unsling_storage.unhide_from(user)
+
+/datum/element/drop_retrieval/storage/proc/item_equipped(datum/source, mob/user, slot)
+	SIGNAL_HANDLER // this is here to prevent duplicates of the abilities when both are present in the user
+
+	if(unsling_storage && unsling_storage.owner == user)
+		unsling_storage.hide_from(user)
 
 /datum/element/drop_retrieval/storage/proc/check_tether(atom/movable/source)
 	SIGNAL_HANDLER
@@ -164,6 +184,33 @@
 	if(ismob(item))
 		return item
 	return object
+
+/datum/action/item_action/break_tether
+	name = "Break Tether"
+	action_icon_state = "break_tether"
+	var/obj/item/storage/storage_item
+
+/datum/action/item_action/break_tether/action_activate()
+	. = ..()
+	if(!storage_item || !target)
+		return
+
+	if(!do_after(owner, 1.5 SECONDS, (INTERRUPT_ALL & (~INTERRUPT_MOVED)), BUSY_ICON_HOSTILE, status_effect = SLOW))
+		return
+
+	if(!storage_item || !target)
+		return
+
+	if(target == storage_item ? !storage_item.slung_item : storage_item.slung_item != target) // just in case
+		return
+
+	if(storage_item.loc != owner)
+		to_chat(owner, SPAN_WARNING("You forcibly detach the [storage_item.retrieval_name] from [storage_item.slung_item]."))
+	storage_item.unsling(forced = TRUE)
+
+/datum/action/item_action/break_tether/update_button_icon()
+	button.overlays.Cut()
+	button.overlays += image(icon_file, button, action_icon_state)
 
 // STORAGE - SPECIFIC RETRIEVAL END
 

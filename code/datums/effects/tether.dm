@@ -6,6 +6,7 @@
 	var/tether_icon // The icon used for the Beam proc for the tether
 	var/datum/beam/tether_beam
 	var/always_face
+	var/datum/action/human_action/tether_pull/pull_action
 
 /datum/effects/tethering/New(atom/target, range, icon, always_face)
 	..()
@@ -25,8 +26,17 @@
 /datum/effects/tethering/on_apply_effect()
 	RegisterSignal(affected_atom, COMSIG_MOVABLE_MOVED, PROC_REF(moved))
 	RegisterSignal(affected_atom, COMSIG_MOVABLE_PRE_MOVE, PROC_REF(pre_move))
+	if(ishuman(affected_atom))
+		pull_action = new(affected_atom)
+		pull_action.tethering = src
+		pull_action.give_to(affected_atom)
 
 /datum/effects/tethering/Destroy()
+	if(pull_action)
+		if(affected_atom)
+			pull_action.remove_from(affected_atom)
+		QDEL_NULL(pull_action)
+
 	if(tethered)
 		tethered.tether = null
 		qdel(tethered)
@@ -69,7 +79,7 @@
 	if(isnull(tethered))
 		return
 
-	if(source.throwing && get_dist(target, tethered.affected_atom) > range)
+	if(isitem(source) && source.throwing && get_dist(target, tethered.affected_atom) > range)
 		return COMPONENT_CANCEL_MOVE
 
 	if((ishuman(source) || isStructure(source)) && (ishuman(tethered.affected_atom) || isStructure(tethered.affected_atom)))
@@ -88,6 +98,7 @@
 	var/datum/effects/tethering/tether
 	var/resistible = FALSE
 	var/resist_time = 15 SECONDS
+	var/datum/action/human_action/tether_pull/pull_action
 
 /datum/effects/tethered/New(atom/target, resistible)
 	src.resistible = resistible
@@ -104,6 +115,10 @@
 	RegisterSignal(affected_atom, COMSIG_ITEM_PICKUP, PROC_REF(check_pickup))
 	if(resistible)
 		RegisterSignal(affected_atom, COMSIG_MOB_RESISTED, PROC_REF(resist_callback))
+	if(ishuman(affected_atom))
+		pull_action = new(affected_atom)
+		pull_action.tethered = src
+		pull_action.give_to(affected_atom)
 
 // affected is always going to be the same as affected_atom
 /datum/effects/tethered/proc/check_move(dummy, turf/target)
@@ -120,6 +135,11 @@
 		return COMPONENT_CANCEL_MOVE
 
 /datum/effects/tethered/Destroy()
+	if(pull_action)
+		if(affected_atom)
+			pull_action.remove_from(affected_atom)
+		QDEL_NULL(pull_action)
+
 	if(tether)
 		tether.tethered = null
 		qdel(tether)
@@ -147,6 +167,87 @@
 	if(get_dist(user, tether.affected_atom) > tether.range)
 		to_chat(user, SPAN_WARNING("[source] is tethered too far away to pick up!"))
 		return COMSIG_ITEM_PICKUP_CANCELLED
+
+/datum/action/human_action/tether_pull
+	name = "Pull Tether"
+	action_icon_state = "pull_tether"
+	var/datum/effects/tethering/tethering
+	var/datum/effects/tethered/tethered
+
+/datum/action/human_action/tether_pull/action_activate()
+	. = ..()
+	if(tethering)
+		tethering.pull_tether()
+	else if(tethered)
+		tethered.pull_anchor()
+
+
+/datum/effects/tethering/proc/pull_tether()
+	if(isnull(tethered))
+		return
+
+	if(isStructure(tethered.affected_atom))
+		var/obj/structure/anchored_object = tethered.affected_atom
+		if(anchored_object.anchored)
+			return
+
+	var/atom/movable/tethered_atom = tethered.affected_atom
+	var/distance = get_dist(affected_atom, tethered_atom)
+
+	if(!do_after(affected_atom, 1 SECONDS, INTERRUPT_ALL, BUSY_ICON_GENERIC))
+		return
+
+	for(var/i in 1 to distance)
+		if(!tethered || !affected_atom)
+			return
+		if(get_dist(affected_atom, tethered_atom) <= 1)
+			break
+		var/turf/target_loc = tethered_atom.loc
+		if(!do_after(affected_atom, 3 DECISECONDS, INTERRUPT_ALL, BUSY_ICON_GENERIC))
+			break
+		if(!tethered || !affected_atom || !tethered_atom)
+			return
+		if(tethered_atom.loc != target_loc)
+			to_chat(affected_atom, SPAN_WARNING("[tethered_atom] is resisting the pull!"))
+			break
+		step_towards(tethered_atom, affected_atom)
+
+/datum/effects/tethered/proc/pull_anchor()
+	if(isnull(tether))
+		return
+
+	var/atom/movable/anchored_atom = tether.affected_atom
+	if(isStructure(anchored_atom))
+		var/obj/structure/anchored_object = anchored_atom
+		if(anchored_object.anchored)
+			to_chat(affected_atom, SPAN_WARNING("Try as you might, but you can't pull [anchored_object]!"))
+			return
+
+	if(isitem(anchored_atom))
+		var/obj/item/anchored_object = anchored_atom
+		if(anchored_object.anchored)
+			to_chat(affected_atom, SPAN_WARNING("Try as you might, but you can't pull [anchored_object]!"))
+			return
+
+	var/distance = get_dist(affected_atom, anchored_atom)
+
+	if(!do_after(affected_atom, 1 SECONDS, INTERRUPT_ALL, BUSY_ICON_GENERIC))
+		return
+
+	for(var/i in 1 to distance)
+		if(!tether || !affected_atom)
+			return
+		if(get_dist(affected_atom, anchored_atom) <= 1)
+			break
+		var/turf/target_loc = anchored_atom.loc
+		if(!do_after(affected_atom, 3 DECISECONDS, INTERRUPT_ALL, BUSY_ICON_GENERIC))
+			break
+		if(!tether || !affected_atom || !anchored_atom)
+			return
+		if(anchored_atom.loc != target_loc)
+			to_chat(affected_atom, SPAN_WARNING("[anchored_atom] is resisting the pull!"))
+			break
+		step_towards(anchored_atom, affected_atom)
 
 /datum/effects/tethered/proc/resisted()
 	to_chat(affected_atom, SPAN_DANGER("You attempt to break out of your tether to [tether.affected_atom]. (This will take around [resist_time/10] seconds and you need to stand still)"))

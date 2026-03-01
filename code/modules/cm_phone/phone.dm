@@ -22,7 +22,8 @@ GLOBAL_LIST_EMPTY_TYPED(transmitters, /obj/structure/transmitter)
 
 	var/phone_type = /obj/item/phone
 
-	var/range = 3
+	///set this at most to 3 if youre using a non-rotary phone, did you know rotary phones can stretch as far as 50 ft long????
+	var/range = PHONE_RANGE_SHORT
 
 	var/enabled = TRUE
 	/// Whether or not the phone is receiving calls or not. Varies between on/off or forcibly on/off.
@@ -45,6 +46,19 @@ GLOBAL_LIST_EMPTY_TYPED(transmitters, /obj/structure/transmitter)
 
 /obj/structure/transmitter/hidden
 	do_not_disturb = PHONE_DND_FORCED
+
+/obj/structure/transmitter/get_examine_text(mob/user)
+	. = ..()
+
+	switch(range)
+		if(0 to PHONE_RANGE_SHORT)
+			. += SPAN_NOTICE("It has a short cord.")
+		if(PHONE_RANGE_ROTARY_STANDARD to PHONE_RANGE_LONG - 1)
+			. += SPAN_NOTICE("It has a medium length cord.")
+		if(PHONE_RANGE_LONG to PHONE_RANGE_HEAVY_DUTY - 1)
+			. += SPAN_NOTICE("It has a long cord.")
+		if(PHONE_RANGE_HEAVY_DUTY to INFINITY)
+			. += SPAN_NOTICE("It has a comically long cord, goddamn.")
 
 /obj/structure/transmitter/Initialize(mapload, ...)
 	. = ..()
@@ -410,6 +424,20 @@ GLOBAL_LIST_EMPTY_TYPED(transmitters, /obj/structure/transmitter)
 	var/raised = FALSE
 	var/can_be_raised = TRUE // This is for items like the scout helmet where you don't need to raise it.
 
+/obj/item/phone/get_examine_text(mob/user)
+	. = ..()
+
+	if(attached_to)
+		switch(attached_to.range)
+			if(0 to PHONE_RANGE_SHORT)
+				. += SPAN_NOTICE("It has a short cord.")
+			if(PHONE_RANGE_ROTARY_STANDARD to PHONE_RANGE_LONG - 1)
+				. += SPAN_NOTICE("It has a medium length cord.")
+			if(PHONE_RANGE_LONG to PHONE_RANGE_HEAVY_DUTY - 1)
+				. += SPAN_NOTICE("It has a long cord.")
+			if(PHONE_RANGE_HEAVY_DUTY to INFINITY)
+				. += SPAN_NOTICE("It has a comically long cord, goddamn.")
+
 /obj/item/phone/Initialize(mapload)
 	. = ..()
 	if(istype(loc, /obj/structure/transmitter))
@@ -576,20 +604,24 @@ GLOBAL_LIST_EMPTY_TYPED(transmitters, /obj/structure/transmitter)
 	name = "rotary telephone"
 	icon_state = "rotary_phone"
 	desc = "The finger plate is a little stiff."
+	range = PHONE_RANGE_ROTARY_STANDARD
 
 /obj/structure/transmitter/rotary/no_dnd
 	do_not_disturb = PHONE_DND_FORBIDDEN
+	range = PHONE_RANGE_LONG // for CIC, i guess
 
 /obj/structure/transmitter/rotary/fax_responder
 	phone_category = "Comms Relay"
 	networks_receive = list("Fax Responders")
 	pixel_x = -6
 	pixel_y = 6
+	range = PHONE_RANGE_HEAVY_DUTY // i guess
 
 /obj/structure/transmitter/touchtone
 	name = "touch-tone telephone"
 	icon_state = "rotary_phone"//placeholder
 	desc = "Ancient aliens, it's all true. I'm an expert just like you!"
+	range = PHONE_RANGE_VERYSHORT
 
 /obj/structure/transmitter/colony_net
 	networks_receive = list(FACTION_COLONIST)
@@ -599,6 +631,7 @@ GLOBAL_LIST_EMPTY_TYPED(transmitters, /obj/structure/transmitter)
 	name = "rotary telephone"
 	icon_state = "rotary_phone"
 	desc = "The finger plate is a little stiff."
+	range = PHONE_RANGE_ROTARY_STANDARD
 
 /obj/structure/transmitter/upp_net
 	networks_receive = list(FACTION_UPP)
@@ -608,6 +641,7 @@ GLOBAL_LIST_EMPTY_TYPED(transmitters, /obj/structure/transmitter)
 	name = "rotary telephone"
 	icon_state = "rotary_phone"
 	desc = "The finger plate is a little stiff."
+	range = PHONE_RANGE_ROTARY_STANDARD
 
 /obj/structure/transmitter/clf_net
 	networks_receive = list(FACTION_CLF)
@@ -617,6 +651,7 @@ GLOBAL_LIST_EMPTY_TYPED(transmitters, /obj/structure/transmitter)
 	name = "rotary telephone"
 	icon_state = "rotary_phone"
 	desc = "The finger plate is a little stiff."
+	range = PHONE_RANGE_ROTARY_STANDARD
 
 /obj/structure/transmitter/wy_net
 	networks_receive = list(FACTION_WY)
@@ -626,3 +661,4 @@ GLOBAL_LIST_EMPTY_TYPED(transmitters, /obj/structure/transmitter)
 	name = "rotary telephone"
 	icon_state = "rotary_phone"
 	desc = "The finger plate is a little stiff."
+	range = PHONE_RANGE_ROTARY_STANDARD

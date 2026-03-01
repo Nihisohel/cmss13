@@ -62,8 +62,12 @@
 
 /obj/item/storage/get_examine_text(mob/user)
 	. = ..()
-	if(allow_drop_retrieval && slung_item)
-		. += SPAN_NOTICE("\The [slung_item] is attached to the [retrieval_name].")
+	if(allow_drop_retrieval)
+		if(slung_item)
+			. += SPAN_HELPFUL("[slung_item] is attached to the [retrieval_name].")
+			. += SPAN_NOTICE("You can use the [name] in-hand to safely detach [slung_item].")
+		else
+			. += SPAN_HELPFUL("You can insert an item into the [name] to use its [retrieval_name].")
 
 /obj/item/storage/MouseDrop(obj/over_object as obj)
 	if(CAN_PICKUP(usr, src) && !HAS_TRAIT(usr, TRAIT_HAULED))
