@@ -89,8 +89,8 @@
 	var/resistible = FALSE
 	var/resist_time = 15 SECONDS
 
-/datum/effects/tethered/New(atom/target, resistable)
-	src.resistable = resistable
+/datum/effects/tethered/New(atom/target, resistible)
+	src.resistible = resistible
 	..()
 
 /datum/effects/tethered/validate_atom(atom/target)
@@ -102,7 +102,7 @@
 /datum/effects/tethered/on_apply_effect()
 	RegisterSignal(affected_atom, COMSIG_MOVABLE_PRE_MOVE, PROC_REF(check_move))
 	RegisterSignal(affected_atom, COMSIG_ITEM_PICKUP, PROC_REF(check_pickup))
-	if(resistable)
+	if(resistible)
 		RegisterSignal(affected_atom, COMSIG_MOB_RESISTED, PROC_REF(resist_callback))
 
 // affected is always going to be the same as affected_atom
@@ -126,7 +126,7 @@
 		tether = null
 	if(affected_atom)
 		UnregisterSignal(affected_atom, list(COMSIG_MOVABLE_PRE_MOVE, COMSIG_ITEM_PICKUP))
-		if (resistable)
+		if(resistible)
 			UnregisterSignal(affected_atom, COMSIG_MOB_RESISTED)
 	. = ..()
 
@@ -161,7 +161,7 @@
 	var/list/ret_list = list()
 
 	var/datum/effects/tethering/anchor = new /datum/effects/tethering(tetherer, range, icon, always_face)
-	var/datum/effects/tethered/target = new /datum/effects/tethered(tethered, resistable)
+	var/datum/effects/tethered/target = new /datum/effects/tethered(tethered, resistible)
 	anchor.set_tethered(target)
 
 	ret_list["tetherer_tether"] = anchor
@@ -169,7 +169,7 @@
 
 	if(two_way)
 		anchor = new /datum/effects/tethering(tethered, icon)
-		target = new /datum/effects/tethered(tetherer, resistable)
+		target = new /datum/effects/tethered(tetherer, resistible)
 		anchor.set_tethered(target)
 		ret_list["tetherer_tethered"] = target
 		ret_list["tethered_tether"] = anchor
